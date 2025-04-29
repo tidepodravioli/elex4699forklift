@@ -1,0 +1,9 @@
+# Ignore all build directories at any level
+**/cmake/
+**/build/
+**/bin/
+**/.vscode/
+
+# Ignore all Doxygen output directories at any level
+**/html/
+**/latex/

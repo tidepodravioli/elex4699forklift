@@ -4,9 +4,10 @@
  * @brief Represents an interface to an H-bridge connected to a motor
  * 
  */
-class RPiHMotor
+class RPiHMotor : private RPiHMotor
 {
     private:
+    int m_pin1, m_pin2;
 
     public:
     /**

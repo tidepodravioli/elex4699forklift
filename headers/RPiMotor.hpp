@@ -7,7 +7,8 @@
 class RPiMotor
 {
     private:
-
+    int m_gpioPin;
+    
     public:
     /**
      * @brief Inititializes a PIGPIO motor on the given IO pin.
