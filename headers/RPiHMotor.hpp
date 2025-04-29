@@ -2,6 +2,8 @@
 
 /**
  * @brief Represents an interface to an H-bridge connected to a motor
+ * Forwards here means a signal on pin1, while pin2 is held LOW
+ * Backwards is the reverse of this.
  * 
  */
 class RPiHMotor : private RPiHMotor
@@ -18,8 +20,23 @@ class RPiHMotor : private RPiHMotor
      */
     RPiHMotor(int pin1, int pin2);
 
-    
+    /**
+     * @brief Runs the motor at the given speed
+     * 
+     * @param speed The PWM value to write to the H-bridge (negative is reverse)
+     */
     void motorWrite(int speed);
 
+    /**
+     * @brief Runs the motor at full speed in the given direction
+     * 
+     * @param forward Whether the motor should run forward or backwards
+     */
+    void motorRun(bool forward = true);
+
+    /**
+     * @brief Stops the motor
+     * 
+     */
     void motorStop();
 };

@@ -28,6 +28,20 @@ void RPiHMotor::motorWrite(int speed)
     }
 }
 
+void RPiHMotor::motorRun(bool forward)
+{
+    if(forward)
+    {
+        gpioWrite(m_pin1, 1);
+        gpioWrite(m_pin2, 0);
+    }
+    else
+    {
+        gpioWrite(m_pin1, 0);
+        gpioWrite(m_pin2, 1);
+    }
+}
+
 void RPiHMotor::motorStop()
 {
     gpioWrite(m_pin1, 0);
