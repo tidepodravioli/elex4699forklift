@@ -18,10 +18,13 @@ class RPiCamera
     mutex * m_frameAccess;
     bool m_flagOpen = false;
 
-    void _getFrame();
+    void getFrameT();
 
     // ====== NETWORKING STUFF ======
     bool m_flagSendFrame = false;
+    bool m_flagConnected = false;
+    bool m_flagConnecting = false;
+    void startServer(string IPaddr, int port);
     void sendFrame(VideoWriter &writer);
     
 

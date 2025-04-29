@@ -6,7 +6,7 @@
  * Backwards is the reverse of this.
  * 
  */
-class RPiHMotor : private RPiHMotor
+class RPiHMotor
 {
     private:
     int m_pin1, m_pin2;
