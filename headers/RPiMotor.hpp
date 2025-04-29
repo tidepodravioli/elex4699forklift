@@ -1,0 +1,37 @@
+#include <pigpio.h>
+
+/**
+ * @brief Represents a motor connected to the RPI GPIO pins
+ * 
+ */
+class RPiMotor
+{
+    private:
+
+    public:
+    /**
+     * @brief Inititializes a PIGPIO motor on the given IO pin.
+     * 
+     * @param gpioPin GPIO pin the motor is on
+     */
+    RPiMotor(int gpioPin);
+
+    /**
+     * @brief Writes the given value to the motor.
+     * 
+     * @param speed PWM value to write to the motor
+     */
+    void motorWrite(int speed);
+
+    /**
+     * @brief Starts the motor at full speed (HIGH)
+     * 
+     */
+    void motorRun();
+
+    /**
+     * @brief Stops the motor (LOW)
+     * 
+     */
+    void motorStop();
+};
