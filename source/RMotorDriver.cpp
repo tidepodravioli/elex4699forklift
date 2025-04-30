@@ -6,14 +6,47 @@ RMotorDriver::RMotorDriver(int left1, int left2, int right1, int right2)
     m_rightMotor = new RPiHMotor(right2, right2);
 }
 
+void RMotorDriver::write(int leftSpeed, int rightSpeed, bool useOffset)
+{
+    if(useOffset)
+    {
+        m_leftMotor->motorWrite(leftSpeed + LEFT_MOTOR_SPEED_OFFSET);
+        m_rightMotor->motorWrite(rightSpeed + RIGHT_MOTOR_SPEED_OFFSET);
+    }
+    else
+    {
+        m_leftMotor->motorWrite(leftSpeed);
+        m_rightMotor->motorWrite(rightSpeed);
+    }
+}
+
+void RMotorDriver::drive(int speed)
+{
+    write(speed, speed);
+}
+
 void RMotorDriver::forward()
 {
-    m_leftMotor->motorWrite(255 + LEFT_MOTOR_SPEED_OFFSET);
-    m_rightMotor->motorWrite(255 + RIGHT_MOTOR_SPEED_OFFSET);
+   drive(TOP_SPEED_PWM);
 }
 
 void RMotorDriver::backward()
 {
-    m_leftMotor->motorWrite(255 + LEFT_MOTOR_SPEED_OFFSET);
-    m_rightMotor->motorWrite(255 + RIGHT_MOTOR_SPEED_OFFSET);
+    drive(-1 * TOP_SPEED_PWM);
+}
+
+void RMotorDriver::turnLeft(int speed)
+{
+    if(speed > 0)
+    {
+        write(-1 * speed, speed);
+    }
+}
+
+void RMotorDriver::turnRight(int speed)
+{
+    if(speed > 0)
+    {
+        write(speed, -1 * speed);
+    }
 }

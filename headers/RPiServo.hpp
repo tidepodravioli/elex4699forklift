@@ -1,8 +1,10 @@
+#pragma once
+
 #include <pigpio.h>
 
 class RPiServo
 {
-    private:
+    protected:
 
     int m_servopin;
     int m_lastDegree, m_lastus;

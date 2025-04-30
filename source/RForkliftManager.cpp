@@ -2,6 +2,8 @@
 
 void RForkliftManager::start()
 {
-    m_leftMotor = new RPiHMotor(MOTOR_L1, MOTOR_L2);
-    m_leftMotor = new RPiHMotor(MOTOR_R1, MOTOR_R2);
+    m_driver = new RMotorDriver(MOTOR_L1, MOTOR_L2, MOTOR_R1, MOTOR_R2);
+    m_forklift = new RPiForklift(FORKLIFT_SERVO);
+
+    
 }

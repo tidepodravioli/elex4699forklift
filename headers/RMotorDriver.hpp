@@ -1,8 +1,12 @@
+#pragma once
+
 #include <chrono>
 #include "RPiHMotor.hpp"
 
 #define LEFT_MOTOR_SPEED_OFFSET 0
 #define RIGHT_MOTOR_SPEED_OFFSET 0
+
+#define TOP_SPEED_PWM 255
 
 class RMotorDriver
 {
@@ -16,10 +20,10 @@ class RMotorDriver
     void forward();
 
     void backward();
+    
+    void turnLeft(int speed = TOP_SPEED_PWM);
 
-    void turnLeft();
-
-    void turnRight();
+    void turnRight(int speed = TOP_SPEED_PWM);
 
     void drive(int speed);
 

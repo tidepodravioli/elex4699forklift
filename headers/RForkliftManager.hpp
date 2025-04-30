@@ -1,12 +1,16 @@
+#pragma once
+
 #include "RPiCamera.hpp"
 #include "RPiForklift.hpp"
 #include "RMotorDriver.hpp"
 #include "RPiServo.hpp"
 
-#define MOTOR_L1 
-#define MOTOR_L2
-#define MOTOR_R1
-#define MOTOR_R2
+#define MOTOR_L1 0
+#define MOTOR_L2 0
+#define MOTOR_R1 0
+#define MOTOR_R2 0
+
+#define FORKLIFT_SERVO 0
 
 /**
  * @brief Main object class for the Forklift project
@@ -15,8 +19,8 @@
 class RForkliftManager
 {
     private:
-    RPiHMotor * m_leftMotor;
-    RPiHMotor * m_rightMotor;
+    RMotorDriver * m_driver;
+    RPiForklift * m_forklift;
 
     public:
     RForkliftManager() {}
