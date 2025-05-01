@@ -24,9 +24,7 @@ class RNetServer
 
     void stopServer();
 
-    void awaitCom(string &command);
-
-    bool getCom(string &command);
+    bool getCom(vector<string> &commands);
 
     void sendCom(string command);
 };

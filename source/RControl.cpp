@@ -21,12 +21,13 @@ void RControl::getJoystick(int &xaxis, int &yaxis)
     
 }
 
+
 void RControl::getButton(int button, bool &state)
 {
 
 }
 
-string RControl::commandBuilder(COMMAND_TYPE command, DATA_TYPE datatype, int channel, bool addEndl = true, int val)
+string RControl::commandBuilder(COMMAND_TYPE command, DATA_TYPE datatype, int channel, bool addEndl, int val)
 {
     stringstream _commandBuilder;
   switch(command)

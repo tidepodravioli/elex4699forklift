@@ -16,20 +16,16 @@ void RNetServer::stopServer()
     m_server.stop();
 }
 
-void RNetServer::awaitCom(string &command)
+bool RNetServer::getCom(vector<string> &commands)
 {
-    string _command;
-    
-    while(!getCom(_command));
+    vector<string> _commands;
+    m_server.get_cmd(_commands);
+    commands = _commands;
 
-    command = _command;
+    return !commands.empty();
 }
 
-bool RNetServer::getCom(string &command)
+void RNetServer::sendCom(string command)
 {
-    vector<string> commands;
-    m_server.get_cmd(commands);
-    command = commands[0];
-
-    return !commands[0].empty();
+    m_server.send_string(command);
 }
