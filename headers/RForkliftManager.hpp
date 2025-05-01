@@ -22,9 +22,24 @@ class RForkliftManager
     RMotorDriver * m_driver;
     RPiForklift * m_forklift;
 
+    bool m_flagRun = false;
+
     public:
     RForkliftManager() {}
 
+    /**
+     * @brief Configures physical and network interfaces to prepare for execution
+     * 
+     */
     void start();
 
+    /**
+     * @brief Get the Com object
+     * 
+     */
+    void getCom();
+
+    void update();
+
+    void react();
 };
