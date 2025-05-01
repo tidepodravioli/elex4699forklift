@@ -1,3 +1,5 @@
+#pragma once
+
 #include "RNetServer.hpp"
 
 #define COM_GET_CHAR "G" ///< Character representing a GET command on the serial bus
