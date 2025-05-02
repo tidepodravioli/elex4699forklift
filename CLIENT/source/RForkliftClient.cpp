@@ -2,14 +2,41 @@
 
 void RForkliftClient::start()
 {
+    cout << "RForkliftClient" << endl
+        << "(C) R.BANALAN & R.CHAN 2025" << endl << endl;
 
+    cout << "Press (1) to connect to the server" << endl 
+        << "or (2) for IO test." << endl << endl
+        << "(q) at any time quits the program." << endl;
+
+    while(true)
+    {
+        char option;
+        get_char(&option);
+
+        switch(option)
+        {
+            case '1':
+                gui_getSocket();
+            break;
+
+            case '2':
+                gui_IOTest();
+            break;
+
+            case 'q':
+                return;
+            break;
+
+            default:
+                cout << "Please enter a valid option..." << endl;
+            break;
+        }
+    }
 }
 
 void RForkliftClient::gui_getSocket()
 {
-    cout << "RForkliftClient" << endl
-        << "(C) R.BANALAN & R.CHAN 2025" << endl << endl;
-
     cout << "Enter server IP address : ";
     string IPaddr;
     while(!get_data(&IPaddr,regex(E4618_IPADDR_REGEX)))
@@ -29,6 +56,60 @@ void RForkliftClient::gui_getSocket()
         cout << "Please enter valid port : ";
     }
 
-    cout << "Connecting...";
+    cout << "Connecting..." << endl;
+    m_network.connect(IPaddr, port);
     
+}
+
+void RForkliftClient::gui_startClient()
+{
+
+}
+
+void RForkliftClient::gui_IOTest()
+{  
+   cout << "Enter serial port number : ";
+
+   int serialport;
+   while(!get_int(&serialport))
+   {
+        cout << "Please enter a number : ";
+   }
+
+   cout << "Connecting..." << endl;
+   m_serial.init_com(serialport);
+
+   cout << "Checking connection..." << endl;
+   if(m_serial.checkPort())
+   {
+    cout << "Connected!" << endl;
+
+    while(!_kbhit())
+    {
+        bool joypass = false;
+        CJoystickPosition analog = m_serial.get_analog(joypass);
+        if(joypass)
+        {
+            if(analog.get_simple_direction() != JOYSTICK_DIRECTION_CENTER)
+            {
+                cout << setw(10) << analog.percentX() << setw(10) << analog.percentY() << endl;
+            }
+        }
+
+        
+        bool button1 = m_serial.get_button(0);
+        bool button2 = m_serial.get_button(1);
+
+        if(button1) cout << "BUTTON 1 pressed." << endl;
+        if(button2) cout << "BUTTON 2 pressed." << endl;
+    }   
+    
+    cout << "Keypress detected. Exiting program...";
+
+   }
+   else
+   {
+    cout << "Invalid response from serial port." << endl;
+    return;
+   }
 }

@@ -1,4 +1,6 @@
-#include "../../headers/RControl.hpp"
+#pragma once
+
+#include "../../CLIENT/headers/ext/CControl.h"
 #include <vector>
 
 using namespace std;

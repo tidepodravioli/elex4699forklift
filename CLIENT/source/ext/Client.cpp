@@ -1,8 +1,14 @@
 ///////////////////////////////////////////////////////////////////
 // Prepared for BCIT ELEX4618, April 2022, by Craig Hennessey
 ///////////////////////////////////////////////////////////////////
-#include "stdafx.h"
 #include <iostream>
+
+#include <opencv2/opencv.hpp>
+#include <opencv2/calib3d.hpp>
+#include <opencv2/dnn.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/imgproc/types_c.h>
+#include <opencv2/highgui.hpp>
 
 #include "Client.h"
 

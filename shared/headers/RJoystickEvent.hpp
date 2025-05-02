@@ -11,7 +11,11 @@ class RJoystickEvent : public RControlEvent
     CJoystickPosition m_joystick;
 
     public:
-    RJoystickEvent(CJoystickPosition &val) : RControlEvent(TYPE_ANALOG, 0, { val.percentX(), val.percentY()}) {}
+    RJoystickEvent(CJoystickPosition &val) : RControlEvent(TYPE_ANALOG, 0, { val.getX(), val.getY()}) { m_joystick = val; }
+    RJoystickEvent(RControlEvent event) : RControlEvent(TYPE_ANALOG, 0, event.getValues())
+    { 
+        m_joystick = CJoystickPosition(m_data[0], m_data[1]);
+    }
 
     bool atRest();
 
