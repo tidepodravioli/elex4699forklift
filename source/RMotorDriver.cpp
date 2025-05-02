@@ -51,6 +51,18 @@ void RMotorDriver::backward()
     m_rightMotor->motorRun(false);
 }
 
+void RMotorDriver::left()
+{
+    m_leftMotor->motorRun(false);
+    m_rightMotor->motorRun();
+}
+
+void RMotorDriver::right()
+{
+    m_leftMotor->motorRun();
+    m_rightMotor->motorRun(false);
+}
+
 void RMotorDriver::stop()
 {
     drive(0);

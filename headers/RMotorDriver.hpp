@@ -37,6 +37,10 @@ class RMotorDriver
 
     void backward();
 
+    void left();
+
+    void right();
+
     void stop();
     
     void turnLeft(int speed = TOP_SPEED_PWM);
