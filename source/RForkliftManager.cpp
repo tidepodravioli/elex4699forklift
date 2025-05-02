@@ -42,7 +42,8 @@ void RForkliftManager::update()
 
         if(type == TYPE_ANALOG)
         {
-            cout << "JOYSTICK EVENT" << endl;
+            vector<int> vals = current.getValues();
+            cout << setw(10) <<  vals[0] << setw(10) << vals[1] << endl;
         }
         else if(type == TYPE_DIGITAL)
         {
