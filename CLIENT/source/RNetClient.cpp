@@ -115,3 +115,14 @@ string RNetClient::commandBuilder(COMMAND_TYPE command, DATA_TYPE datatype, int 
 
   return _commandBuilder.str();
 }
+
+bool RNetClient::checkAlive()
+{
+  m_client.tx_str(CLIENT_TX_REQ);
+  this_thread::sleep_for(chrono::milliseconds(10));
+  
+  string ack;
+  m_client.rx_str(ack);
+  
+  return ack.compare(CLIENT_RX_ACK) >= 0;
+}

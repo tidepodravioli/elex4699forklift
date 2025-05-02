@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <chrono>
 #include <regex>
 #include <string>
 #include <conio.h>
@@ -21,6 +22,8 @@ class RForkliftClient
     private:
     CControl m_serial;
     RNetClient m_network;
+
+    chrono::steady_clock::time_point m_lastEvent;
 
     bool m_flagConnected = false;
 

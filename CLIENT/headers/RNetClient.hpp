@@ -44,4 +44,6 @@ class RNetClient
 
     void sendEvent(RControlEvent event);
     void sendEvent(RJoystickEvent event);
+
+    bool checkAlive();
 };
