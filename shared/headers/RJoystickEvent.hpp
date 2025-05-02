@@ -1,4 +1,5 @@
 #include <vector>
+#include <string>
 
 #include "RControlEvent.hpp"
 #include "ext/CJoystickPosition.hpp"
@@ -28,4 +29,8 @@ class RJoystickEvent : public RControlEvent
     int percentX();
 
     int percentY();
+
+    CJoystickPosition getObj();
+
+    string getPositionName(bool simple = false);
 };
