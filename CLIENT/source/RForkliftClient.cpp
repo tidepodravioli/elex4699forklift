@@ -96,7 +96,7 @@ void RForkliftClient::gui_startClient()
    if(m_serial.checkPort())
    {
     cout << "Connected!" << endl;
-    cout << "Press any key on the keyboard to break connection" << endl;
+    cout << "Press any key on the keyboard to break the connection and return to the menu" << endl;
     cout << setw(50) << setfill('-') << "-" << endl;
 
     while(!_kbhit())

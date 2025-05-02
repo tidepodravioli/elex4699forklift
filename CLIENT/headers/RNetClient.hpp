@@ -12,6 +12,9 @@
 #define CLIENT_TX_REQ "REQ E4699FMK1\n"
 #define CLIENT_RX_ACK "ACK MK1FE4699\n"
 
+#define CLIENT_EXPECTED_HEARTBEAT "HEART MK1FE4699\n"
+#define CLIENT_PERIOD_HEARTBEAT_SEC 15
+
 using namespace std;
 
 class RNetClient
@@ -35,6 +38,16 @@ class RNetClient
     string commandBuilder(COMMAND_TYPE command, DATA_TYPE datatype, int channel, vector<int> vals = {}, bool addEndl = true);
 
 
+    //===== HEARTBEAT PROCESSING =====
+    bool m_flagCheckHB = false;
+    chrono::system_clock::time_point m_lastHeartBeat;
+    /**
+     * @brief Threaded process that received a heartbeat signal from the server
+     * 
+     */
+    void heartbeat_t();
+
+
     public:
     RNetClient(){}
 
@@ -46,4 +59,6 @@ class RNetClient
     void sendEvent(RJoystickEvent event);
 
     bool checkAlive();
+
+    bool connected();
 };

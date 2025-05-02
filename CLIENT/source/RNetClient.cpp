@@ -11,6 +11,7 @@ bool RNetClient::connect(string IPaddr, int port)
     if(checkAlive())
     {
       consoleout("Connected successfully.");
+      m_lastHeartBeat = chrono::system_clock::now();
       m_flagConnected = true;
       return true;  
     }
@@ -120,4 +121,15 @@ bool RNetClient::checkAlive()
   m_client.rx_str(ack);
   
   return ack.compare(CLIENT_RX_ACK) >= 0;
+}
+
+void RNetClient::heartbeat_t()
+{
+  chrono::system_clock::time_point now = chrono::system_clock::now();
+  if((now - m_lastHeartBeat) > chrono::seconds(2 * CLIENT_PERIOD_HEARTBEAT_SEC))
+  {
+    m_flagConnected = false;
+    consoleout("Connection lost");
+  }
+  
 }
