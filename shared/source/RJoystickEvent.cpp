@@ -19,3 +19,13 @@ int RJoystickEvent::getY()
 {
     return m_joystick.getY();
 }
+
+int RJoystickEvent::percentX()
+{
+    return m_joystick.percentX();
+}
+
+int RJoystickEvent::percentY()
+{
+    return m_joystick.percentY();
+}

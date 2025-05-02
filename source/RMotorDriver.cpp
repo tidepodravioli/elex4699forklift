@@ -1,15 +1,15 @@
 #include "../headers/RMotorDriver.hpp"
 #include <algorithm>
 
-template <typename T>
-T clamp(T val, T minVal, T maxVal) {
-    return std::max(minVal, std::min(val, maxVal));
-}
+// template <typename T>
+// T clamp(T val, T minVal, T maxVal) {
+//     return std::max(minVal, std::min(val, maxVal));
+// }
 
 RMotorDriver::RMotorDriver(int left1, int left2, int right1, int right2)
 {
     m_leftMotor = new RPiHMotor(left1, left2);
-    m_rightMotor = new RPiHMotor(right2, right2);
+    m_rightMotor = new RPiHMotor(right1, right2);
 }
 
 void RMotorDriver::write(int leftSpeed, int rightSpeed, bool useOffset)
@@ -26,6 +26,14 @@ void RMotorDriver::write(int leftSpeed, int rightSpeed, bool useOffset)
     }
 }
 
+void RMotorDriver::joystickDrive(int pX, int pY)
+{
+    int spX, spY;
+    arcadeDrive(pX, pY, spX, spY);
+    write(spX, spY);
+    cout << spX << setw(10) << spY << endl;
+}
+
 void RMotorDriver::drive(int speed)
 {
     write(speed, speed);
@@ -33,12 +41,14 @@ void RMotorDriver::drive(int speed)
 
 void RMotorDriver::forward()
 {
-   drive(TOP_SPEED_PWM);
+   m_leftMotor->motorRun();
+   m_rightMotor->motorRun();
 }
 
 void RMotorDriver::backward()
 {
-    drive(-1 * TOP_SPEED_PWM);
+    m_leftMotor->motorRun(false);
+    m_rightMotor->motorRun(false);
 }
 
 void RMotorDriver::stop()

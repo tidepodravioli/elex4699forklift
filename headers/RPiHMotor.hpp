@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RPiMotor.hpp"
+#include <iostream>
 
 /**
  * @brief Represents an interface to an H-bridge connected to a motor

@@ -42,18 +42,24 @@ void RForkliftManager::update()
 
         if(type == TYPE_ANALOG)
         {
-            vector<int> vals = current.getValues();
-            cout << setw(10) <<  vals[0] << setw(10) << vals[1] << endl;
+            cout << "JOYSTICK EVENT" << endl;
+            RJoystickEvent jcurrent(current);
+            m_driver->joystickDrive(jcurrent.percentX(), jcurrent.percentY());
         }
         else if(type == TYPE_DIGITAL)
         {
             if(origin == 1)
             {
                 cout << "FORK UP" << endl;
+                m_driver->forward();
+
+                cout << gpioGetMode(MOTOR_L1) << endl;
+                cout << gpioGetMode(MOTOR_L2) << endl;
             }
             else if (origin == 2)
             {
                 cout << "FORK DOWN" << endl;
+                m_driver->backward();
             }
         }
 

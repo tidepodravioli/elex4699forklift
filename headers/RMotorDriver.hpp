@@ -3,6 +3,8 @@
 #include <chrono>
 #include <algorithm>
 #include <cmath>
+#include <iostream>
+#include <iomanip>
 
 #include "RPiHMotor.hpp"
 
@@ -16,6 +18,8 @@
 #define RMOTORDRIVER_DEADZONE 3.0f       // Deadzone around center
 #define RMOTORDRIVER_MAX_INPUT 50.0f     // Joystick value range from center
 #define RMOTORDRIVER_MAX_OUTPUT 255.0f   // Max motor speed
+
+using namespace std;
 
 class RMotorDriver
 {

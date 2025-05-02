@@ -24,4 +24,8 @@ class RJoystickEvent : public RControlEvent
     int getX();
 
     int getY();
+
+    int percentX();
+
+    int percentY();
 };

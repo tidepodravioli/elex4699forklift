@@ -2,8 +2,6 @@
 
 RPiHMotor::RPiHMotor(int pin1, int pin2)
 {
-    gpioInitialise();
-    
     //Sets both pins as outputs
     gpioSetMode(pin1, PI_OUTPUT);
     gpioSetMode(pin2, PI_OUTPUT);
@@ -14,6 +12,8 @@ RPiHMotor::RPiHMotor(int pin1, int pin2)
 
     m_pin1 = pin1;
     m_pin2 = pin2;
+
+    std::cout << "init hmotor " << m_pin1 << " " << m_pin2 << std::endl;
 }
 
 void RPiHMotor::motorWrite(int speed)
@@ -25,7 +25,7 @@ void RPiHMotor::motorWrite(int speed)
     }
     else
     {
-        gpioPWM(m_pin2, speed);
+        gpioPWM(m_pin2, -1 * speed);
         gpioWrite(m_pin1, 0);
     }
 }

@@ -9,6 +9,7 @@
 #include "RPiServo.hpp"
 #include "RNetServer.hpp"
 #include "../shared/headers/RControlEvent.hpp"
+#include "../shared/headers/RJoystickEvent.hpp"
 
 #define MOTOR_L1 4
 #define MOTOR_L2 17
