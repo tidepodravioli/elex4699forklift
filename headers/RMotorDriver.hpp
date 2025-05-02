@@ -13,6 +13,7 @@
 #define RIGHT_MOTOR_SPEED_OFFSET 0
 
 #define TOP_SPEED_PWM 255
+#define SLOW_SPEED_PWM 150
 
 #define RMOTORDRIVER_JOYSTICK_CENTER 50.0f
 #define RMOTORDRIVER_DEADZONE 3.0f       // Deadzone around center
@@ -30,6 +31,9 @@ class RMotorDriver
     float processAxis(int raw);
     void arcadeDrive(int pX, int pY, int &leftMotor, int &rightMotor);
 
+    bool m_flagSlowMode = false;
+    int m_topSpeedPWM = TOP_SPEED_PWM;
+
     public:
     RMotorDriver(int left1, int left2, int right1, int right2);
 
@@ -42,6 +46,12 @@ class RMotorDriver
     void right();
 
     void stop();
+
+    void slowMode();
+
+    void normalMode();
+
+    bool toggleSlow();
     
     void turnLeft(int speed = TOP_SPEED_PWM);
 

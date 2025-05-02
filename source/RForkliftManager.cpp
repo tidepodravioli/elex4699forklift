@@ -44,38 +44,24 @@ void RForkliftManager::update()
         {
             cout << "JOYSTICK EVENT" << endl;
             RJoystickEvent jcurrent(current);
-            JOYSTICK_DIRECTION direction = jcurrent.getObj().get_simple_direction();
-
-            switch(direction)
-            {
-                case JOYSTICK_DIRECTION_NORTH:
-                    m_driver->forward();
-                break;
-
-                case JOYSTICK_DIRECTION_EAST:
-                    m_driver->right();
-                break;
-
-                case JOYSTICK_DIRECTION_SOUTH:
-                    m_driver->backward();
-                break;
-
-                case JOYSTICK_DIRECTION_WEST:
-                    m_driver->left();
-                break;
-            }
-        }
+            m_driver->joystickDrive(jcurrent.percentX(), jcurrent.percentY());
+        } 
         else if(type == TYPE_DIGITAL)
         {
             if(origin == 1)
             {
                 cout << "FORK UP" << endl;
-                m_driver->write(40);
+                m_forklift->write(45);
             }
             else if (origin == 2)
             {
                 cout << "FORK DOWN" << endl;
-                m_driver->write(60);
+                m_forklift->write(20);
+            }
+            else if(origin == 5)
+            {
+                cout << "SLOW MODE" << endl;
+                m_driver->toggleSlow();
             }
         }
 
@@ -83,8 +69,7 @@ void RForkliftManager::update()
     }
     else
     {
-        cout << "STOP" << endl;
-        m_driver->stop();
+
     }
 }
 

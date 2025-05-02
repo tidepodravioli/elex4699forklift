@@ -39,6 +39,28 @@ void RMotorDriver::drive(int speed)
     write(speed, speed);
 }
 
+void RMotorDriver::slowMode()
+{
+    m_flagSlowMode = true;
+    m_topSpeedPWM = SLOW_SPEED_PWM;
+}
+
+void RMotorDriver::normalMode()
+{
+    m_flagSlowMode = false;
+    m_topSpeedPWM = TOP_SPEED_PWM;
+}
+
+bool RMotorDriver::toggleSlow()
+{
+    m_flagSlowMode = !m_flagSlowMode;
+    if(m_flagSlowMode)
+        slowMode();
+    else normalMode();
+
+    return m_flagSlowMode;
+}
+
 void RMotorDriver::forward()
 {
    m_leftMotor->motorRun();
@@ -115,6 +137,6 @@ void RMotorDriver::arcadeDrive(int joyX, int joyY, int& leftMotor, int& rightMot
     right = clamp(right, -1.0f, 1.0f);
 
     // Scale to motor range
-    leftMotor = static_cast<int>(left * RMOTORDRIVER_MAX_OUTPUT);
-    rightMotor = static_cast<int>(right * RMOTORDRIVER_MAX_OUTPUT);
+    leftMotor = static_cast<int>(left * m_topSpeedPWM);
+    rightMotor = static_cast<int>(right * m_topSpeedPWM);
 }
