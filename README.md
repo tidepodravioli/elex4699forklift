@@ -2,7 +2,7 @@
 
 This repository is dedicated to the ELEX 4699 Forklift project for the four week term. It is not intended for use by anyone else in the class as that is cheating and is a no-no, per BCIT :(
 
-I see you, Derek Wilson... :(
+*I see you, Derek Wilson...* :(
 
 All PIGPIO related code assumes that gpioInitialize() has been run prior to instantiation. For projects looking to use this code, make sure that gpioInitialize() has been run and that the program is being run with root privileges.
 
