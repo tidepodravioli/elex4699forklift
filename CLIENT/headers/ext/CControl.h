@@ -12,7 +12,7 @@
 #pragma once
 
 #include "Serial.h"
-#include "CJoystickPosition.hpp"
+#include "../../../shared/headers/ext/CJoystickPosition.hpp"
 #include "../../../shared/headers/ext/CControlTypes.h"
 
 #include <iostream>
