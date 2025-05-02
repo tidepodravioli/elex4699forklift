@@ -1,3 +1,4 @@
+#pragma once
 
 #include <string>
 #include <thread>
@@ -8,8 +9,8 @@
 #include "../../shared/headers/RControlEvent.hpp"
 #include "../../shared/headers/RJoystickEvent.hpp"
 
-#define TX_REQ "REQ E4699FMK1\n"
-#define RX_ACK "ACK MK1FE4699\n"
+#define CLIENT_TX_REQ "REQ E4699FMK1\n"
+#define CLIENT_RX_ACK "ACK MK1FE4699\n"
 
 using namespace std;
 

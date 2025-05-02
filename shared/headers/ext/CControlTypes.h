@@ -1,3 +1,5 @@
+#pragma once
+
 #define CHAR_ARRAY_MAX_SIZE 32 ///< Maximum size for the serial input buffer
 #define SERIAL_PORT_DELAY 5 ///< Wait this long (in ms) before checking for a response on the serial bus again
 #define SERIAL_PORT_TIMEOUT 2000 ///< Time before the serial monitor times out
