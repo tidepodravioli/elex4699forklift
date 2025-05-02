@@ -8,22 +8,17 @@ bool RNetClient::connect(string IPaddr, int port)
     this_thread::sleep_for(chrono::milliseconds(1000));
 
     consoleout("Testing connection...");
-    m_client.tx_str(CLIENT_TX_REQ);
-
-    string response;
-    m_client.rx_str(response);
-
-    if(response.compare(CLIENT_RX_ACK) >= 0)
+    if(checkAlive())
     {
-        consoleout("Connected successfully.");
-        m_flagConnected = true;
-        return true;
+      consoleout("Connected successfully.");
+      m_flagConnected = true;
+      return true;  
     }
     else
     {
-        consoleout("Unexpected or no response.");
-        m_flagConnected = false;
-        return false;
+      consoleout("Unexpected or no response.");
+      m_flagConnected = false;
+      return false;
     }
 }
 

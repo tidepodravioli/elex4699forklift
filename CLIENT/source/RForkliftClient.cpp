@@ -2,14 +2,9 @@
 
 void RForkliftClient::start()
 {
-    cout << "RForkliftClient" << endl
-        << "(C) R.BANALAN & R.CHAN 2025" << endl << endl;\
-
     while(true)
     {
-        cout << "Press (1) to connect to the server" << endl 
-        << "or (2) for IO test." << endl << endl
-        << "(q) at any time quits the program." << endl;
+        gui_showMenu();
 
         char option;
         get_char(&option);
@@ -38,6 +33,24 @@ void RForkliftClient::start()
     }
 }
 
+void RForkliftClient::gui_showMenu()
+{
+    cout << endl << endl;
+    cout << setw(50) << setfill('=')  << "=" << endl;
+    cout << setfill(' ') << setw(32) << right << "RForkliftClient" << endl;
+    cout << setw(50) << setfill('=') << "=" << endl << endl;
+
+    cout << "(C) R.BANALAN & R.CHAN 2025" << endl;
+    cout << setw(50) << setfill('-') << "-";
+    cout << endl << endl;
+
+    cout << "Select an option:" << endl
+    << "(1) Connect to forklift server" << endl 
+    << "(2) Serial IO test." << endl << endl
+    << "(q) Quit" << endl
+    << "> ";
+}
+
 void RForkliftClient::gui_getSocket()
 {
     cout << endl << "CONNECTION TO FORKLIFT SERVER" << endl;
@@ -45,7 +58,7 @@ void RForkliftClient::gui_getSocket()
     string IPaddr;
     while(!get_data(&IPaddr,regex(E4618_IPADDR_REGEX)))
     {
-        cout << "Please enter IPv4 address : ";
+        cout << "Please enter formatted IPv4 address : ";
     }
 
     cout << "Enter target port : ";
@@ -83,55 +96,51 @@ void RForkliftClient::gui_startClient()
    if(m_serial.checkPort())
    {
     cout << "Connected!" << endl;
+    cout << "Press any key on the keyboard to break connection" << endl;
+    cout << setw(50) << setfill('-') << "-" << endl;
 
     while(!_kbhit())
     {
-        const chrono::time_point timeNow = chrono::steady_clock::now();
-
-        if(timeNow - m_lastEvent > chrono::seconds(15))
-        {
-            if(!m_network.checkAlive())
-            {
-                cout << "Invalid response from server. Assuming disconnected." << endl;
-                m_flagConnected = false;
-                return;
-            }
-            else m_lastEvent = timeNow;
-        }
-
         bool joypass = false;
         CJoystickPosition analog = m_serial.get_analog(joypass);
         if(joypass)
         {
             if(analog.get_simple_direction() != JOYSTICK_DIRECTION_CENTER)
-            {
-                RJoystickEvent joystickEvent(analog);
+                cout << "JOYSTICK x= " << analog.getX() << ", y= " << analog.getY() << endl;
+            RJoystickEvent joystickEvent(analog);
                 m_network.sendEvent(joystickEvent);
-                m_lastEvent = timeNow;
-            }
         }
 
         
         bool button1 = m_serial.get_button(0);
         bool button2 = m_serial.get_button(1);
+        bool buttonj1 = m_serial.get_button(5);
 
         if(button1)
         { 
-            cout << "Button 1 pressed" << endl;
+            cout << "BUTTON1 PRESSED" << endl;
             RControlEvent buttonEvent(TYPE_DIGITAL, 1, 1);
             m_network.sendEvent(buttonEvent);
-            m_lastEvent = timeNow;
         }
 
         if(button2) 
         {
-            cout << "Button 2 pressed" << endl;
+            cout << "BUTTON2 PRESSED" << endl;
             RControlEvent buttonEvent(TYPE_DIGITAL, 2, 1);
             m_network.sendEvent(buttonEvent);
-            m_lastEvent = timeNow;
+        }
+
+        if(buttonj1)
+        {
+            cout << "BUTTONJ1 PRESSED" << endl;
+            RControlEvent buttonEvent(TYPE_DIGITAL, 5, 1);
+            m_network.sendEvent(buttonEvent);
         }
     }   
-    cout << "Keypress detected. Exiting program...";
+    cout << "Keypress detected. Disconnecting from server." << endl;
+    m_network.disconnect();
+    m_flagConnected = false;
+
     }
    else
    {
@@ -165,20 +174,22 @@ void RForkliftClient::gui_IOTest()
         if(joypass)
         {
             if(analog.get_simple_direction() != JOYSTICK_DIRECTION_CENTER)
-            {
-                cout << setw(10) << analog.percentX() << setw(10) << analog.percentY() << endl;
-            }
+                cout << "JOYSTICK x= " << analog.getX() << ", y= " << analog.getY() << endl;
         }
 
         
         bool button1 = m_serial.get_button(0);
         bool button2 = m_serial.get_button(1);
+        bool buttonj1 = m_serial.get_button(5);
 
-        if(button1) cout << "BUTTON 1 pressed." << endl;
-        if(button2) cout << "BUTTON 2 pressed." << endl;
+        if(button1) cout << "BUTTON1 PRESSED" << endl;
+        if(button2) cout << "BUTTON2 PRESSED" << endl;
+        if(buttonj1) cout << "BUTTONJ1 PRESSED" << endl;
     }   
     
-    cout << "Keypress detected. Exiting program...";
+    cout << "Keypress detected. Returning to menu..." << endl;
+    m_serial.~CControl();
+    m_serial = CControl();
 
    }
    else

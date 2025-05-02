@@ -32,6 +32,8 @@ class RForkliftClient
 
     void gui_IOTest();
 
+    void gui_showMenu();
+
     public:
     RForkliftClient() {}
 
