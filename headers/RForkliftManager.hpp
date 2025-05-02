@@ -1,19 +1,21 @@
 #pragma once
 
 #include <vector>
+#include <pigpio.h>
 
 #include "RPiCamera.hpp"
 #include "RPiForklift.hpp"
 #include "RMotorDriver.hpp"
 #include "RPiServo.hpp"
+#include "RNetServer.hpp"
 #include "../shared/headers/RControlEvent.hpp"
 
-#define MOTOR_L1 0
-#define MOTOR_L2 0
-#define MOTOR_R1 0
-#define MOTOR_R2 0
+#define MOTOR_L1 4
+#define MOTOR_L2 17
+#define MOTOR_R1 27
+#define MOTOR_R2 22
 
-#define FORKLIFT_SERVO 0
+#define FORKLIFT_SERVO 18
 
 using namespace std;
 
@@ -26,13 +28,14 @@ class RForkliftManager
     private:
     RMotorDriver * m_driver;
     RPiForklift * m_forklift;
+    RNetServer m_server;
 
     vector<RControlEvent> m_commandQueue;
 
     bool m_flagRun = false;
 
     public:
-    RForkliftManager() {}
+    RForkliftManager();
 
     /**
      * @brief Configures physical and network interfaces to prepare for execution

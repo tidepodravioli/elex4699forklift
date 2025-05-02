@@ -2,6 +2,8 @@
 
 RPiServo::RPiServo(int gpioPin)
 {
+    gpioInitialise();
+    
     m_servopin = gpioPin;
     gpioSetMode(gpioPin, PI_OUTPUT);
 }

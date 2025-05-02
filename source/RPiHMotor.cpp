@@ -2,6 +2,8 @@
 
 RPiHMotor::RPiHMotor(int pin1, int pin2)
 {
+    gpioInitialise();
+    
     //Sets both pins as outputs
     gpioSetMode(pin1, PI_OUTPUT);
     gpioSetMode(pin2, PI_OUTPUT);

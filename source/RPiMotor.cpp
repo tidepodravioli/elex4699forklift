@@ -2,9 +2,10 @@
 
 RPiMotor::RPiMotor(int gpioPin)
 {
+    gpioInitialise();
+
     gpioSetMode(gpioPin, PI_OUTPUT);
     m_gpioPin = gpioPin;
-
 }
 
 void RPiMotor::motorWrite(int speed)
