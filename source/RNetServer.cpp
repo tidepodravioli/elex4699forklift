@@ -20,8 +20,20 @@ bool RNetServer::getCom(vector<string> &commands)
 {
     vector<string> _commands;
     m_server.get_cmd(_commands);
-    commands = _commands;
 
+    for(int index = 0; index < _commands.size();)
+    {
+        const string command = _commands[index];
+        if(command.compare(SERVER_TX_REQ) >= 0)
+        {
+            m_server.send_string(SERVER_RX_ACK);
+            _commands.erase(_commands.begin() + index);
+        }
+        else index++;
+    }
+
+    
+    commands = _commands;
     return !commands.empty();
 }
 

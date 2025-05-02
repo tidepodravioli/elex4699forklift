@@ -42,19 +42,21 @@ void RForkliftManager::update()
 
         if(type == TYPE_ANALOG)
         {
-            
+            cout << "JOYSTICK EVENT" << endl;
         }
         else if(type == TYPE_DIGITAL)
         {
-            if(origin == 0)
-            {
-                cout << "FORK DOWN" << endl;
-            }
-            else if (origin == 1)
+            if(origin == 1)
             {
                 cout << "FORK UP" << endl;
             }
+            else if (origin == 2)
+            {
+                cout << "FORK DOWN" << endl;
+            }
         }
+
+        m_commandQueue.erase(m_commandQueue.begin());
     }
     else
     {

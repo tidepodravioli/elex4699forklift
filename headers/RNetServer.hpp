@@ -9,6 +9,9 @@
 
 #define SERVER_PORT 5008
 
+#define SERVER_TX_REQ "REQ E4699FMK1\n"
+#define SERVER_RX_ACK "ACK MK1FE4699\n"
+
 
 using namespace std;
 class RNetServer
