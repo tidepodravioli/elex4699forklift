@@ -10,7 +10,12 @@ RPathMap::RPathMap(Mat &im, int div)
     {
         for(int iy = 0; iy < numcellsy; iy++)
         {
-            RPathNode cell()
+            RPathNode cell(ix, iy);
         }
     }
+}
+
+vector<RPathNode> getNeighbours(RPathNode &node)
+{
+    
 }

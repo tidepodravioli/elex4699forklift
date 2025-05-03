@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "RArUcoTag.hpp"
+#include "RPiCamera.hpp"
 
 using namespace std;
 using namespace cv;
@@ -10,9 +11,22 @@ using namespace cv;
 class RArUcoReader
 {
     private:
+    VideoCapture * m_vid;
+
+    Mat * m_frame;
 
     public:
-    RArUcoReader();
+    RArUcoReader(RPiCamera &camera);
+    RArUcoReader(Mat &image);
+    RArUcoReader(VideoCapture &vid);
 
-    static vector<RArUcoTag> getTags(Mat &im); 
+    vector<RArUcoTag> grabFromFrame();
+
+    static vector<RArUcoTag> getTags(Mat &im);
+
+    static void extract(vector<RArUcoTag> tags, vector<int> &ids, vector<vector<Point2f>> &corners);
+    
+    static void drawTags(Mat &im, vector<RArUcoTag> tags);
+
+    static void drawArrows(Mat &im, vector<RArUcoTag> tags);
 };

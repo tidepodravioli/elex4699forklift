@@ -21,5 +21,9 @@ class RPathMap
      */
     RPathMap(Mat &im, int div);
 
-    vector<RPathNode> getNeighbours();
+    vector<RPathNode> getNeighbours(RPathNode &node);
+
+    int calcg(RPathNode &startNode, RPathNode &node);
+
+    int calcf(RPathNode &targetNode, RPathNode &node)
 };

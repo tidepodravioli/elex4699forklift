@@ -10,6 +10,7 @@
 #include "RNetServer.hpp"
 #include "../shared/headers/RControlEvent.hpp"
 #include "../shared/headers/RJoystickEvent.hpp"
+#include "RArUcoReader.hpp"
 
 #define MOTOR_L1 17
 #define MOTOR_L2 4

@@ -4,75 +4,33 @@ RPiCamera::RPiCamera(int index, int apiPreference)
 {
     m_camera.open(index, apiPreference);
     m_flagOpen = m_camera.isOpened();
-
-    m_frameAccess = new mutex();
-
-    thread framegetter_t(&RPiCamera::getFrameT, this);
-    framegetter_t.detach();
-}
-
-void RPiCamera::getFrameT()
-{
-    while(m_flagOpen)
-    {
-        m_frameAccess->lock();
-        m_camera >> m_currentFrame;
-        m_frameAccess->unlock();
-
-        m_flagOpen = m_camera.isOpened();
-    }
 }
 
 
 bool RPiCamera::getFrame(Mat &frame)
 {
-    m_frameAccess->lock();
-    frame = m_currentFrame;
-    m_frameAccess->unlock();
+    if(m_flagOpen)
+    {
+        Mat _frame;
+        m_camera >> _frame;
 
-    return !frame.empty();
+        if(!_frame.empty())
+        {
+            frame = _frame;
+            return true;
+        }
+        else return false;
+    }
+    else return false;
 }
 
-bool RPiCamera::startStream(string IPaddr, int port)
+bool RPiCamera::isOpened()
 {
-    m_flagConnecting = true;
-
-    thread server_t(&RPiCamera::startServer, this, IPaddr, port);
-    server_t.detach();
-
-    while(m_flagConnecting);
-    return m_flagConnected;
+    m_flagOpen = m_camera.isOpened();
+    return m_flagOpen;
 }
 
-void RPiCamera::startServer(string IPaddr, int port)
+void RPiCamera::getVidCapObj(VideoCapture &obj)
 {
-    stringstream pipeline("appsrc ! videoconvert ! x264enc tune=zerolatency bitrate=500 speed-preset=ultrafast ! rtph264pay config-interval=1 pt=96 ! udpsink "); 
-    pipeline << "host=";
-    pipeline << IPaddr;
-    pipeline << " port=";
-    pipeline << port;
-    
-    VideoWriter writer(pipeline.str(), CAP_GSTREAMER, 0, 30, Size(640, 480), true);
-    if(writer.isOpened())
-    {
-        m_flagSendFrame = true;
-        m_flagConnected = true;
-        m_flagConnecting = false;
-
-        sendFrame(writer);
-    }
-    else 
-    {
-        m_flagConnected = false;
-        m_flagConnecting = false;
-        cout << "RPiCamera : network writer not opened.";
-    }
-}
-
-void RPiCamera::sendFrame(VideoWriter &writer)
-{
-    while(m_flagSendFrame)
-    {
-        writer.write(m_currentFrame);
-    }
+    obj = m_camera;
 }
