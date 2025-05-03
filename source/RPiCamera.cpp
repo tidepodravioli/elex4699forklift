@@ -30,7 +30,7 @@ bool RPiCamera::isOpened()
     return m_flagOpen;
 }
 
-void RPiCamera::getVidCapObj(VideoCapture &obj)
+VideoCapture* RPiCamera::getVidCapPtr()
 {
-    obj = m_camera;
+    return &m_camera;
 }

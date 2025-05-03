@@ -35,5 +35,5 @@ class RPiCamera
 
     bool isOpened();
 
-    void getVidCapObj(VideoCapture &obj);
+    VideoCapture* getVidCapPtr();
 };

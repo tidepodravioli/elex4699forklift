@@ -11,9 +11,10 @@ using namespace cv;
 class RArUcoReader
 {
     private:
-    VideoCapture * m_vid;
+    VideoCapture * m_vid = nullptr;
+    Mat * m_frame = nullptr;
 
-    Mat * m_frame;
+    vector<RArUcoTag> m_tags;
 
     public:
     RArUcoReader(RPiCamera &camera);
