@@ -26,12 +26,13 @@ void RVidStream::startServer_t(string IPaddr, int port)
         m_flagConnecting = false;
 
         m_writer = &writer;
+        if(m_debug) cout << "RPiCamera : Network writer opened successfully." << endl;
     }
     else 
     {
         m_flagConnected = false;
         m_flagConnecting = false;
-        if(m_debug) cout << "RPiCamera : network writer not opened." << endl;
+        if(m_debug) cout << "RPiCamera : Network writer not opened." << endl;
     }
 }
 
@@ -55,10 +56,9 @@ bool RVidStream::stream(VideoCapture &source)
 
 bool RVidStream::stream(RPiCamera &camera)
 {
-    VideoCapture _camera;
-    camera.getVidCapObj(_camera);
+    VideoCapture * _camera = camera.getVidCapPtr();
 
-    return stream(_camera);
+    return stream(*_camera);
 }
 
 
