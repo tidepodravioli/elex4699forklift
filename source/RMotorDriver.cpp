@@ -54,8 +54,7 @@ void RMotorDriver::normalMode()
 bool RMotorDriver::toggleSlow()
 {
     m_flagSlowMode = !m_flagSlowMode;
-    if(m_flagSlowMode)
-        slowMode();
+    if(m_flagSlowMode) slowMode();
     else normalMode();
 
     return m_flagSlowMode;

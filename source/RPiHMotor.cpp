@@ -12,8 +12,6 @@ RPiHMotor::RPiHMotor(int pin1, int pin2)
 
     m_pin1 = pin1;
     m_pin2 = pin2;
-
-    std::cout << "init hmotor " << m_pin1 << " " << m_pin2 << std::endl;
 }
 
 void RPiHMotor::motorWrite(int speed)
