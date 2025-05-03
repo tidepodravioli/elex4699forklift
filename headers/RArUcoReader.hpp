@@ -15,4 +15,4 @@ class RArUcoReader
     RArUcoReader();
 
     static vector<RArUcoTag> getTags(Mat &im); 
-}
+};
