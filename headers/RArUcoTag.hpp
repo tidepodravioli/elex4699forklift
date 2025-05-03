@@ -16,5 +16,4 @@ class RArUcoTag
     int getID();
 
     Point2i getCenter();
-    
 }
