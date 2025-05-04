@@ -17,4 +17,6 @@ add_executable(vidservertest "./main.cpp" "./source/RCameraServer.cpp" "../../..
 target_link_libraries(vidservertest PRIVATE ${OpenCV_LIBS})
 target_include_directories(vidservertest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${OpenCV_INCLUDE_DIRS})
 
-
+set(THREADS_PREFER_THREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(vidservertest PRIVATE Threads::Threads)

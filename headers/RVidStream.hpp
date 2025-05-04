@@ -24,7 +24,9 @@ class RVidStream
     VideoWriter * m_writer;
 
     void startServer_t(string IPaddr, int port);
-    void stream_t(VideoCapture &source);
+    void stream_t(VideoCapture * source);
+
+    string getPipeline(string IPaddr, int port);
 
     public:
     RVidStream(bool debug = true);

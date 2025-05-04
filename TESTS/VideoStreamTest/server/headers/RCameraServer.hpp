@@ -3,8 +3,8 @@
 #include "../../../../headers/RPiCamera.hpp"
 #include "../../../../headers/RVidStream.hpp"
 
-#define IP_ADDR_SERVER "74.49.148.251"
-#define PORT_SERVER 14606
+#define IP_ADDR_SERVER "192.168.1.76"
+#define PORT_SERVER 5808
 
 class RCameraServer
 {

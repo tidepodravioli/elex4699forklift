@@ -1,8 +1,15 @@
 #include "../headers/RVidStream.hpp"
 
+RVidStream::RVidStream(bool debug)
+{
+    m_debug = debug;
+}
+
 bool RVidStream::target(string IPaddr, int port)
 {
     m_flagConnecting = true;
+
+    cout << getPipeline(IPaddr, port) << endl;
 
     thread server_t(&RVidStream::startServer_t, this, IPaddr, port);
     server_t.detach();
@@ -13,13 +20,8 @@ bool RVidStream::target(string IPaddr, int port)
 
 void RVidStream::startServer_t(string IPaddr, int port)
 {
-    stringstream pipeline("appsrc ! videoconvert ! x264enc tune=zerolatency bitrate=500 speed-preset=ultrafast ! rtph264pay config-interval=1 pt=96 ! udpsink "); 
-    pipeline << "host=";
-    pipeline << IPaddr;
-    pipeline << " port=";
-    pipeline << port;
-
-    VideoWriter writer(pipeline.str(), CAP_GSTREAMER, 0, 30, Size(640, 480));
+    const string pipeline = getPipeline(IPaddr, port);
+    VideoWriter writer(pipeline, CAP_GSTREAMER, 0, 30, Size(640, 480));
     if(writer.isOpened())
     {
         m_flagConnected = true;
@@ -46,7 +48,7 @@ bool RVidStream::stream(VideoCapture &source)
     if(source.isOpened() && m_flagConnected)
     {
         m_flagStream = true;
-        thread streamer_t(&RVidStream::stream_t, this, source);
+        thread streamer_t(&RVidStream::stream_t, this, &source);
         streamer_t.detach();
 
         return true;
@@ -63,12 +65,12 @@ bool RVidStream::stream(RPiCamera &camera)
 
 
 
-void RVidStream::stream_t(VideoCapture &source)
+void RVidStream::stream_t(VideoCapture * source)
 {
     while(m_flagStream)
     {
         Mat frame;
-        source >> frame;
+        *source >> frame;
 
         if(!frame.empty())
         {
@@ -80,4 +82,16 @@ void RVidStream::stream_t(VideoCapture &source)
 void RVidStream::stopStream()
 {
     m_flagStream = false;
+}
+
+string RVidStream::getPipeline(string IPaddr, int port)
+{
+    stringstream pipeline;
+    pipeline << "appsrc ! videoconvert ! x264enc tune=zerolatency bitrate=500 speed-preset=ultrafast ! rtph264pay config-interval=1 pt=96 ! udpsink "; 
+    pipeline << "host=";
+    pipeline << IPaddr;
+    pipeline << " port=";
+    pipeline << port;
+
+    return pipeline.str();
 }

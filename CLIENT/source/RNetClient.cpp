@@ -76,41 +76,6 @@ string RNetClient::commandBuilder(COMMAND_TYPE command, DATA_TYPE datatype, int 
   return _commandBuilder.str();
 }
 
-string RNetClient::commandBuilder(COMMAND_TYPE command, DATA_TYPE datatype, int channel, vector<int> vals, bool addEndl)
-{
-    stringstream _commandBuilder;
-  switch(command)
-  {
-    case COMMAND_GET:
-      _commandBuilder << COM_GET_CHAR;
-      break;
-    case COMMAND_SET:
-      _commandBuilder << COM_SET_CHAR;
-      break;
-    case COMMAND_ACK:
-      _commandBuilder << COM_ACK_CHAR;
-      break;
-  }
-  _commandBuilder << CHAR_SPACE;
-
-  _commandBuilder  << (int)datatype << CHAR_SPACE;
-
-  _commandBuilder << channel;
-
-  if(!vals.empty())
-  {
-    for(int val : vals)
-    {
-        _commandBuilder << CHAR_SPACE << val;
-    }
-  }
-    
-
-  if(addEndl)
-    _commandBuilder << endl;
-
-  return _commandBuilder.str();
-}
 
 bool RNetClient::checkAlive()
 {

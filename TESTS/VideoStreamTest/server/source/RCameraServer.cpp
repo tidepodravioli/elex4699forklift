@@ -8,7 +8,7 @@ RCameraServer::RCameraServer()
 void RCameraServer::start()
 {
     RPiCamera camera;
-    RVidStream streamer;
+    RVidStream streamer(true);
 
     streamer.target(IP_ADDR_SERVER, PORT_SERVER);
     streamer.stream(camera);
