@@ -22,6 +22,10 @@ void RForkliftClient::start()
                 gui_IOTest();
             break;
 
+            case '3':
+                gui_UITest();
+            break;
+
             case 'q':
                 return;
             break;
@@ -46,7 +50,8 @@ void RForkliftClient::gui_showMenu()
 
     cout << "Select an option:" << endl
     << "(1) Connect to forklift server" << endl 
-    << "(2) Serial IO test." << endl << endl
+    << "(2) Serial IO test." << endl
+    << "(3) UI test." << endl << endl
     << "(q) Quit" << endl
     << "> ";
 }
@@ -101,6 +106,10 @@ void RForkliftClient::gui_startClient()
 
     while(!_kbhit())
     {
+        //draw UI
+        m_ui.drawArena();
+        //m_ui.drawUI();
+
         bool joypass = false;
         CJoystickPosition analog = m_serial.get_analog(joypass);
         if(joypass)
@@ -111,7 +120,7 @@ void RForkliftClient::gui_startClient()
                 m_network.sendEvent(joystickEvent);
         }
 
-        
+
         bool button1 = m_serial.get_button(0);
         bool button2 = m_serial.get_button(1);
         bool buttonj1 = m_serial.get_button(5);
@@ -197,4 +206,16 @@ void RForkliftClient::gui_IOTest()
     cout << "Invalid response from serial port." << endl;
     return;
    }
+}
+void RForkliftClient::gui_UITest()
+{
+    while(!_kbhit())
+    {
+        //draw UI
+        m_ui.drawArena();
+    }
+
+    cout << "Keypress detected. Returning to menu..." << endl;
+    m_ui.~RDraw();
+    m_ui = RDraw();
 }
