@@ -17,6 +17,7 @@ class RArUcoReader
     vector<RArUcoTag> m_tags;
 
     public:
+    RArUcoReader(RPiCamera &camera);
     RArUcoReader(Mat &image);
     RArUcoReader(VideoCapture &vid);
 

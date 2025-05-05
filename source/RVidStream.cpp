@@ -43,6 +43,13 @@ bool RVidStream::stream(VideoCapture &source)
     else return false;
 }
 
+bool RVidStream::stream(RPiCamera &camera)
+{
+    VideoCapture * _camera = camera.getVidCapPtr();
+
+    return stream(*_camera);
+}
+
 
 
 void RVidStream::stream_t(VideoCapture &source)
