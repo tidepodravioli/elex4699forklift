@@ -37,8 +37,8 @@ bool RVidReceiver::getFrame(Mat &im)
 {
     if(m_flagConnected)
     {
-        *m_camera >> im;
-        return im.empty();
+        m_camera->read(im);
+        return !im.empty();
     }
     else return false;
 }
