@@ -9,7 +9,7 @@
 using namespace cv;
 using namespace std;
 
-class RPiCamera : VideoCapture
+class RPiCamera : public VideoCapture
 {
     private:
     public:
