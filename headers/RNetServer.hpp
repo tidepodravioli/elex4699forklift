@@ -4,7 +4,7 @@
 #include <thread>
 #include <vector>
 
-#include "ext/server.h"
+#include "../shared/headers/ext/server.h"
 #include "../shared/headers/RControlEvent.hpp"
 
 #define SERVER_PORT 5008

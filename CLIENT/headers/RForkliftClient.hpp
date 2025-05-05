@@ -14,13 +14,12 @@
 
 #define E4618_IPADDR_REGEX "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)(\\.(?!$)|$)){4}$"
 
-
 using namespace std;
 using namespace raf_cin;
 
 class RForkliftClient
 {
-    private:
+private:
     CControl m_serial;
     RNetClient m_network;
     RDraw m_ui;
@@ -37,10 +36,8 @@ class RForkliftClient
 
     void gui_showMenu();
 
-    public:
+public:
     RForkliftClient() {}
 
     void start();
-
-    
 };

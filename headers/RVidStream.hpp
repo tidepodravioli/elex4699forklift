@@ -7,6 +7,14 @@
 
 #include "RPiCamera.hpp"
 
+#define ARUCO_TAG_CAMERA 24
+#define ARUCO_TAG_PKG1 5
+#define ARUCO_TAG_PKG2 6
+#define ARUCO_TAG_TRK1 1
+#define ARUCO_TAG_TRK2 2
+#define ARUCO_TAG_TRK3 3
+#define ARUCO_TAG_TRK4 4
+
 using namespace std;
 using namespace cv;
 
@@ -23,8 +31,9 @@ class RVidStream
 
     VideoWriter * m_writer;
 
-    void startServer_t(string IPaddr, int port);
     void stream_t(VideoCapture &source);
+
+    string getPipeline(string IPaddr, int port);
 
     public:
     RVidStream(bool debug = true);
@@ -32,7 +41,6 @@ class RVidStream
     bool target(string IPaddr, int port);
 
     bool stream(VideoCapture &source);
-    bool stream(RPiCamera &camera);
     void stopStream();
     
     void sendFrame(Mat &frame);

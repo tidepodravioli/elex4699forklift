@@ -46,6 +46,7 @@ void RNetClient::consoleout(const string message)
     cout << "RNetClient : " << message << endl;
 }
 
+// for single int val
 string RNetClient::commandBuilder(COMMAND_TYPE command, DATA_TYPE datatype, int channel, int val, bool addEndl)
 {
     stringstream _commandBuilder;
@@ -76,6 +77,7 @@ string RNetClient::commandBuilder(COMMAND_TYPE command, DATA_TYPE datatype, int 
   return _commandBuilder.str();
 }
 
+// for vector int val
 string RNetClient::commandBuilder(COMMAND_TYPE command, DATA_TYPE datatype, int channel, vector<int> vals, bool addEndl)
 {
     stringstream _commandBuilder;
@@ -101,11 +103,10 @@ string RNetClient::commandBuilder(COMMAND_TYPE command, DATA_TYPE datatype, int 
   {
     for(int val : vals)
     {
-        _commandBuilder << CHAR_SPACE << val;
+      _commandBuilder << CHAR_SPACE << val;
     }
   }
-    
-
+  
   if(addEndl)
     _commandBuilder << endl;
 

@@ -4,9 +4,12 @@ vector<RArUcoTag> RArUcoReader::getTags(Mat &im)
 {
     vector<int> ids;
     vector<vector<Point2f> > corners;
-    
-    Ptr<aruco::Dictionary> dictionary = aruco::getPredefinedDictionary(aruco::DICT_6X6_250);
-    aruco::detectMarkers(im, dictionary, corners, ids);
+
+    #ifdef NEW_OPENCV_CONF
+    m_detector->detectMarkers(im, corners, ids);
+    #else
+    aruco::detectMarkers(im, m_dictionary, corners, ids);
+    #endif
 
     vector<RArUcoTag> tags;
     if (ids.size() > 0)
@@ -24,19 +27,32 @@ vector<RArUcoTag> RArUcoReader::getTags(Mat &im)
     return tags;
 }
 
-RArUcoReader::RArUcoReader(RPiCamera &camera)
+RArUcoReader::RArUcoReader()
 {
-    m_vid = camera.getVidCapPtr();
+    config();
 }
 
 RArUcoReader::RArUcoReader(Mat &image)
 {
     m_frame = &image;
+    config();
 }
 
 RArUcoReader::RArUcoReader(VideoCapture &vid)
 {
     m_vid = &vid;
+    config();
+}
+
+void RArUcoReader::config()
+{
+    #ifdef NEW_OPENCV_CONF
+        m_detectorParams = cv::aruco::DetectorParameters();
+        m_dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250);
+        m_detector = new aruco::ArucoDetector(m_dictionary, m_detectorParams);
+    #else
+        m_dictionary = aruco::getPredefinedDictionary(aruco::DICT_6X6_250);
+    #endif
 }
 
 vector<RArUcoTag> RArUcoReader::grabFromFrame()
