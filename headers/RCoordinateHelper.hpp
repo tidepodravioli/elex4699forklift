@@ -35,4 +35,6 @@ class RCoordinateHelper
     float getRobotAngle();
 
     float getPointAngle(Point2i destination);
+
+    
 };
