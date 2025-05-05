@@ -39,3 +39,8 @@ float RCoordinateHelper::getRobotAngle()
 {
 
 }
+
+float RCoordinateHelper::getPointAngle(Point2i destination)
+{
+    
+}

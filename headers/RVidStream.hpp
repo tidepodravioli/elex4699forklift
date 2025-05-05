@@ -7,6 +7,14 @@
 
 #include "RPiCamera.hpp"
 
+#define ARUCO_TAG_CAMERA 24
+#define ARUCO_TAG_PKG1 5
+#define ARUCO_TAG_PKG2 6
+#define ARUCO_TAG_TRK1 1
+#define ARUCO_TAG_TRK2 2
+#define ARUCO_TAG_TRK3 3
+#define ARUCO_TAG_TRK4 4
+
 using namespace std;
 using namespace cv;
 

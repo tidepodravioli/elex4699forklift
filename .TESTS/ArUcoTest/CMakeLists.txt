@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.12)
 project(arucotest)
 
+# comment this line out if using an older version of OpenCV
+add_compile_definitions(NEW_OPENCV_CONF)
+
 find_package(OpenCV REQUIRED)
 
 include_directories(${OpenCV_INCLUDE_DIRS} "./headers" "../../../headers")

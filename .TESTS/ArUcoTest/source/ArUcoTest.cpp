@@ -9,7 +9,8 @@ void ArUcoTest::start()
 {
     cout << "ArUcoTest starting." << endl;
     
-    RPiCamera camera;
+    RPiCamera camera(0, CAP_DSHOW);
+    RArUcoReader reader;
 
     if(camera.isOpened())
     {
@@ -18,7 +19,7 @@ void ArUcoTest::start()
             Mat frame;
             if(camera.read(frame))
             {   
-                vector<RArUcoTag> tags = RArUcoReader::getTags(frame);
+                vector<RArUcoTag> tags = reader.getTags(frame);
                 RArUcoReader::drawTags(frame, tags);
                 RArUcoReader::drawArrows(frame, tags);
 

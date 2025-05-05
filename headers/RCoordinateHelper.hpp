@@ -4,7 +4,7 @@
 #include "RArUcoTag.hpp"
 #include "RPointVect.h"
 
-#define ROBOT_ARUCO_ID 868
+#define ROBOT_ARUCO_ID 188
 
 using namespace cv;
 
