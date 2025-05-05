@@ -33,7 +33,6 @@ class RVidStream
     bool target(string IPaddr, int port);
 
     bool stream(VideoCapture &source);
-    bool stream(RPiCamera &camera);
     void stopStream();
     
     void sendFrame(Mat &frame);
