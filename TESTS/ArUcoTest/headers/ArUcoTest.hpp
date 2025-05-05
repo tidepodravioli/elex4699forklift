@@ -8,7 +8,6 @@
 #include "../../../headers/RPiCamera.hpp"
 
 
-
 using namespace std;
 using namespace cv;
 

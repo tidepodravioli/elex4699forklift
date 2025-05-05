@@ -1,3 +1,5 @@
+#pragma once
+
 #include <opencv2/opencv.hpp>
 #include <opencv2/aruco.hpp>
 #include <vector>
@@ -8,6 +10,12 @@
 using namespace std;
 using namespace cv;
 
+#ifdef NEW_OPENCV_CONF
+#pragma message("NEW_OPEN_CV will be used for RArUcoReader")
+#else
+#pragma message("NEW_OPEN_CV will NOT be used for RArUcoReader")
+#endif
+
 class RArUcoReader
 {
     private:
@@ -16,13 +24,25 @@ class RArUcoReader
 
     vector<RArUcoTag> m_tags;
 
+    #ifdef NEW_OPENCV_CONF
+    aruco::DetectorParameters m_detectorParams;
+    aruco::Dictionary m_dictionary;
+    aruco::ArucoDetector * m_detector;
+    #else
+    Ptr<aruco::Dictionary> m_dictionary;
+    #endif
+
+    void config();
+
     public:
+    RArUcoReader();
     RArUcoReader(Mat &image);
     RArUcoReader(VideoCapture &vid);
 
     vector<RArUcoTag> grabFromFrame();
 
-    static vector<RArUcoTag> getTags(Mat &im);
+    //vector<RArUcoTag> getTags();
+    vector<RArUcoTag> getTags(Mat &im);
 
     static void extract(vector<RArUcoTag> tags, vector<int> &ids, vector<vector<Point2f>> &corners);
     
