@@ -16,7 +16,7 @@ void ArUcoTest::start()
         do
         {
             Mat frame;
-            if(camera.getFrame(frame))
+            if(camera.read(frame))
             {   
                 vector<RArUcoTag> tags = RArUcoReader::getTags(frame);
                 RArUcoReader::drawTags(frame, tags);

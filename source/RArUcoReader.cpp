@@ -24,11 +24,6 @@ vector<RArUcoTag> RArUcoReader::getTags(Mat &im)
     return tags;
 }
 
-RArUcoReader::RArUcoReader(RPiCamera &camera)
-{
-    m_vid = camera.getVidCapPtr();
-}
-
 RArUcoReader::RArUcoReader(Mat &image)
 {
     m_frame = &image;

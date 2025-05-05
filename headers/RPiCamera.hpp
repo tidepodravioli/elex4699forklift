@@ -9,31 +9,14 @@
 using namespace cv;
 using namespace std;
 
-class RPiCamera
+class RPiCamera : VideoCapture
 {
-    private:
-    VideoCapture m_camera;
-    Mat m_currentFrame;
-    bool m_flagOpen = false;
-    
+    private:    
 
     public:
     /**
      * @brief Construct a new RPiCamera object
      * 
      */
-    RPiCamera(int index = 0, int apiPreference = CAP_V4L2);
-
-    /**
-     * @brief Gets the current frame of the camera
-     * 
-     * @param frame The frame as a cv::Mat
-     * @return true if the frame isn't empty
-     * @return false otherwise
-     */
-    bool getFrame(Mat &frame);
-
-    bool isOpened();
-
-    VideoCapture* getVidCapPtr();
+    RPiCamera(int index = 0, int apiPreference = CAP_V4L2) : VideoCapture(index, apiPreference) {}
 };
