@@ -38,8 +38,9 @@ void RCoordinateHelper::getFrame_t()
 
 bool RCoordinateHelper::getFrame(Mat &im)
 {
-    tx_str(m_commandGet);
-    rx_im(im);
+    m_mutexCurrentFrame->lock();
+    im = m_currentFrame.clone();
+    m_mutexCurrentFrame->unlock();
 
     return !im.empty();
 }
