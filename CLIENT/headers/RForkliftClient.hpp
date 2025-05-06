@@ -10,6 +10,7 @@
 #include "ext/CControl.h"
 
 #include "RNetClient.hpp"
+#include "RDraw.hpp"
 
 #define E4618_IPADDR_REGEX "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)(\\.(?!$)|$)){4}$"
 
@@ -21,6 +22,7 @@ class RForkliftClient
 private:
     CControl m_serial;
     RNetClient m_network;
+    RDraw m_ui;
 
     chrono::steady_clock::time_point m_lastEvent;
 
@@ -30,6 +32,7 @@ private:
     void gui_startClient();
 
     void gui_IOTest();
+    void gui_UITest();
 
     void gui_showMenu();
 

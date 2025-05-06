@@ -1,3 +1,4 @@
+#define CVUI_IMPLEMENTATION
 #include "headers/RForkliftClient.hpp"
 
 int main()
