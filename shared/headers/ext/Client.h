@@ -6,7 +6,16 @@
 #include <string>
 #include <opencv2/opencv.hpp>
 
-#define WIN4618
+// SET MACROS AND COMPILE USING CMAKELISTS!!
+#if defined(WIN4618)
+#pragma comment("Using WIN4618 for CClient")
+#elif defined(PI4618)
+#pragma comment("Using PI4618 for CClient")
+#else
+#pragma comment("MAKE SURE TO DEFINE EITHER WIN4618 OR PI4618! COMPILE WILL FAIL!")
+#endif
+
+//#define WIN4618
 //#define PI4618
 
 #ifdef WIN4618

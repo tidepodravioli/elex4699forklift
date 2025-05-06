@@ -5,6 +5,8 @@
 cmake_minimum_required(VERSION 3.12)
 project(forkliftserver)
 
+add_compile_definitions(PI4618)
+
 set(OpenCV_STATIC ON)
 set(OpenCV_RUNTIME vc16)
 find_package(OpenCV REQUIRED)
