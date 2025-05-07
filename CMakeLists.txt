@@ -19,7 +19,6 @@ include_directories(${CURSES_INCLUDE_DIR})
 include_directories(${OpenCV_INCLUDE_DIRS} "./headers" "./headers/ext" "./shared/headers" "./shared/headers/ext")
 link_directories(${OpenCV_LIB_DIR})
 
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
