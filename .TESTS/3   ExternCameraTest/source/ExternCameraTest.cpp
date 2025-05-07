@@ -7,8 +7,9 @@ ExternCameraTest::ExternCameraTest()
 
 void ExternCameraTest::start()
 {
+    //do not use
     RExternCamera camera;
-    camera.connect("192.168.0.100", 5008, 1);
+    camera.connect("192.168.0.101", 4008, 0);
 
     std::this_thread::sleep_for(std::chrono::seconds(3));
 
@@ -58,7 +59,7 @@ void ExternCameraTest::frame_t()
 
     while(!flagExit)
     {
-        client.tx_str("G 1");
+        client.tx_str("G 2");
         
         frame_m->lock();
         client.rx_im(frame);

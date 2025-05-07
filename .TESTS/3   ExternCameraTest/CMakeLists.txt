@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 project(externcameratest)
 
 add_compile_definitions(NEW_OPENCV_CONF)
+add_compile_definitions(WIN4618)
 
 set(OpenCV_RUNTIME vc17)
 find_package(OpenCV REQUIRED)
