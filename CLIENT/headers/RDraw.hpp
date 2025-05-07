@@ -50,8 +50,8 @@ class RDraw
         bool drawArena();
         bool drawUI();
 
-        vector<vector<bool>> getGrid() {return m_path;};
+        vector<vector<bool>> getPath() {return m_path;};
         vector<vector<bool>> getObstacles() {return m_obstacles;};
-        void setGrid(vector<vector<bool>> grid) {m_path = grid;};
+        void setPath(vector<vector<bool>> grid) {m_path = grid;};
         void setObstacles(vector<vector<bool>> obstacles) {m_obstacles = obstacles;};
 };
