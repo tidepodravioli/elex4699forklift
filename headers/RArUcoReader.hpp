@@ -11,9 +11,9 @@ using namespace std;
 using namespace cv;
 
 #ifdef NEW_OPENCV_CONF
-#pragma message("NEW_OPEN_CV will be used for RArUcoReader")
+#pragma message("NEW_OPENCV will be used for RArUcoReader")
 #else
-#pragma message("NEW_OPEN_CV will NOT be used for RArUcoReader")
+#pragma message("NEW_OPENCV will NOT be used for RArUcoReader")
 #endif
 
 class RArUcoReader

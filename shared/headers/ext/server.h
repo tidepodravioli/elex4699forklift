@@ -4,7 +4,15 @@
 #pragma once
 
 //#define WIN4618
-#define PI4618
+//#define PI4618
+
+#if defined(WIN4618)
+#pragma comment("Using WIN4618 for CServer")
+#elif defined(PI4618)
+#pragma comment("Using PI4618 for CServer")
+#else
+#pragma comment("CServer : MAKE SURE TO DEFINE EITHER WIN4618 OR PI4618! COMPILE WILL FAIL!")
+#endif
 
 #include <iostream>
 #include <string>

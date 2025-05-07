@@ -10,7 +10,7 @@
 #include <opencv2/imgproc/types_c.h>
 #include <opencv2/highgui.hpp>
 
-#include "Client.h"
+#include "../../headers/ext/Client.h"
 
 #ifdef WIN4618
 #pragma comment(lib, "ws2_32.lib")

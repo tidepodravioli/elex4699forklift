@@ -1,13 +1,23 @@
 #include <opencv2/opencv.hpp>
+#include <string>
+#include <thread>
+#include <mutex>
+#include <chrono>
+#include <sstream>
+#include <vector>
+#include <math.h>
 
+#include "../shared/headers/ext/Client.h"
 #include "RArUcoReader.hpp"
 #include "RArUcoTag.hpp"
 #include "RPointVect.h"
 
 #define ROBOT_ARUCO_ID 188
+#define OVERHEAD_CAMERA_CHANNEL 1
+#define FRAME_GETTER_TIMEOUT_MS 20
 
 using namespace cv;
-
+using namespace std;
 
 /**
  * @brief Interface to the overhead bird's eye view camera that
@@ -15,21 +25,34 @@ using namespace cv;
  * relative angle of the robot to a point on the map
  * 
  */
-class RCoordinateHelper
+class RCoordinateHelper : public CClient
 {
     private:
-    VideoCapture * m_camera = nullptr;
-    Mat * m_currentFrame = nullptr;
+    Mat m_currentFrame;
 
-    RArUcoTag * m_robot;
+    RArUcoReader m_aruco;
+    RPointVect m_robot;
+
+    CClient m_camera;
+
+    int m_channel;
+
+    string m_commandGet = "";
+
+    bool m_flagGetFrame = false;
+    mutex * m_mutexCurrentFrame;
+    void getFrame_t();
 
     public:
-    RCoordinateHelper(VideoCapture &camera);
-    RCoordinateHelper(Mat &init_frame);
+    RCoordinateHelper(int cameraChannel = OVERHEAD_CAMERA_CHANNEL);
 
-    void nextFrame(Mat &frame);
+    void startFrameGetter();
 
-    bool update();
+    void stopFrameGetter();
+    
+    void refreshRobot();
+
+    bool getFrame(Mat &im);
 
     RPointVect locateRobot();
     float getRobotAngle();
