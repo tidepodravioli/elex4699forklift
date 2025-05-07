@@ -1,6 +1,6 @@
 #include "../headers/RCoordinateHelper.hpp"
 
-RCoordinateHelper::RCoordinateHelper(int cameraChannel)
+RCoordinateHelper::RCoordinateHelper(int cameraChannel) : CClient()
 {
     m_channel = cameraChannel;
     stringstream command;
@@ -11,11 +11,14 @@ RCoordinateHelper::RCoordinateHelper(int cameraChannel)
 
 void RCoordinateHelper::startFrameGetter()
 {
-    m_flagGetFrame = true;
-    m_mutexCurrentFrame = new mutex();
-
-    thread frameget_t(&RCoordinateHelper::getFrame_t, this);
-    frameget_t.detach();
+    if(!m_flagGetFrame)
+    {
+        m_flagGetFrame = true;
+        m_mutexCurrentFrame = new mutex();
+    
+        thread frameget_t(&RCoordinateHelper::getFrame_t, this);
+        frameget_t.detach();
+    }
 }
 
 void RCoordinateHelper::stopFrameGetter()
@@ -58,14 +61,21 @@ void RCoordinateHelper::refreshRobot()
         {
             m_robot.coord = tag.getCenter();
             m_robot.angle = tag.getAngle();
-            break;
+            m_flagRobotFound = true;
+            return;
         }
+        else m_flagRobotFound = false;
     }
 }
 
 RPointVect RCoordinateHelper::locateRobot()
 {
     return m_robot;
+}
+
+bool RCoordinateHelper::robotFound()
+{
+    return m_flagRobotFound;
 }
 
 float RCoordinateHelper::getRobotAngle()
@@ -80,4 +90,9 @@ float RCoordinateHelper::getPointAngle(Point2i destination)
     const float run = (float)destination.x - m_robot.coord.x;
 
     return atan2(rise, run);
+}
+
+Point2i RCoordinateHelper::getRobotCoords()
+{
+    return Point2i(m_robot.coord.x, m_robot.coord.y);
 }

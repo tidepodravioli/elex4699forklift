@@ -30,6 +30,7 @@ class RCoordinateHelper : public CClient
     private:
     Mat m_currentFrame;
 
+    bool m_flagRobotFound = false;
     RArUcoReader m_aruco;
     RPointVect m_robot;
 
@@ -55,9 +56,14 @@ class RCoordinateHelper : public CClient
     bool getFrame(Mat &im);
 
     RPointVect locateRobot();
+
+    bool robotFound();
+
     float getRobotAngle();
 
     float getPointAngle(Point2i destination);
+
+    Point2i getRobotCoords();
 
     
 };
