@@ -213,6 +213,7 @@ void RForkliftClient::gui_UITest()
     {
         //draw UI
         m_ui.drawArena();
+        m_ui.drawUI();
     }
 
     cout << "Keypress detected. Returning to menu..." << endl;
