@@ -45,16 +45,47 @@ class RCoordinateHelper : public CClient
     void getFrame_t();
 
     public:
-    RCoordinateHelper(int cameraChannel = OVERHEAD_CAMERA_CHANNEL);
+    /**
+     * @brief Creates an RCoordinateHelper using the given camera channel
+     * 
+     * @param cameraChannel Channel to find camera on
+     * @param refresh Whether or not to call refreshRobot() before getting the robots position
+     * @param startGetter Whether or not to call startFrameGetter() on construction
+     */
+    RCoordinateHelper(int cameraChannel = OVERHEAD_CAMERA_CHANNEL, bool refresh = false, bool startGetter = true);
 
+    /**
+     * @brief Starts getting live frames from the camera
+     * 
+     */
     void startFrameGetter();
 
+    /**
+     * @brief Stops getting frames from the camera
+     * 
+     */
     void stopFrameGetter();
     
+    /**
+     * @brief Refreshes the position and angle of the robot on screen
+     * 
+     */
     void refreshRobot();
 
+    /**
+     * @brief Gets a frame of the overhead camera for evaluation
+     * 
+     * @param im The cv::Mat to store the frame on
+     * @return true if the frame isn't empty,
+     * @return false otherwise
+     */
     bool getFrame(Mat &im);
 
+    /**
+     * @brief 
+     * 
+     * @return RPointVect 
+     */
     RPointVect locateRobot();
 
     bool robotFound();

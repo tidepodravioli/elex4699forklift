@@ -22,7 +22,7 @@ void RAutoPilot::driveToPoint(Point2i point)
             return;
         }
 
-        float desiredAngle = std::atan2(toTarget.y, toTarget.x);
+        float desiredAngle = m_helper->getPointAngle(point);
 
         float angleError = desiredAngle - heading;
         while (angleError > M_PI) angleError -= 2 * M_PI;

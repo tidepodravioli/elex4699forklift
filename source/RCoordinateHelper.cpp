@@ -31,6 +31,7 @@ void RCoordinateHelper::getFrame_t()
     while(m_flagGetFrame)
     {
         tx_str(m_commandGet);
+        
         m_mutexCurrentFrame->lock();
         rx_im(m_currentFrame);
         m_mutexCurrentFrame->unlock();
