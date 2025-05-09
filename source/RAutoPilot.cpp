@@ -11,26 +11,33 @@ RAutoPilot::RAutoPilot(RMotorDriver &driver, RCoordinateHelper &helper) : RMotor
 void RAutoPilot::driveToPoint(Point2i point)
 {
     while (true) {
+        //Get robot's current position and angle
         Point2i pos = m_helper->getRobotCoords();
-        float heading = m_helper->getRobotAngle() * 3.14159f / 180.0f; // In radians
+        float heading = m_helper->getRobotAngle() * M_PI / 180.0f; // In radians
 
-        cv::Point2i toTarget = point - pos;
-        float distance = std::sqrt(toTarget.x * toTarget.x + toTarget.y * toTarget.y);
+        cv::Point2i toTarget = point - pos; //vector from current position to the destination
+        float distance = std::sqrt(toTarget.x * toTarget.x + toTarget.y * toTarget.y); // sqrt(x^2 + y^2)
 
+        //if the robot's distance from the point is within this threshold
         if (distance < POINT_DISTANCE_THRESHOLD) {
-            m_driver->stop();
+            m_driver->stop(); //the destination can be considered to have been reached
             return;
         }
 
-        float desiredAngle = m_helper->getPointAngle(point);
+        //otherwise, continue
 
-        float angleError = desiredAngle - heading;
+        float desiredAngle = m_helper->getPointAngle(point) * M_PI / 180.0f; //the angle that the line between the robot's position and the destination makes with the x-axis
+
+        float angleError = desiredAngle - heading; //how far off we are from the wanted angle
+
+        //normalize the angleError between -180 and +180 degrees (-pi to pi radians)
         while (angleError > M_PI) angleError -= 2 * M_PI;
         while (angleError < -M_PI) angleError += 2 * M_PI;
 
+
         if (std::abs(angleError) > 1.0f) {
             float turnSpeed = std::clamp(angleError * ANGLE_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-            m_driver->write(-turnSpeed, turnSpeed);
+            m_driver->write(turnSpeed, -turnSpeed);
         } else {
             float correction = angleError * ANGLE_GAIN;
             float left = std::clamp(MAX_AUTO_SPEED - correction, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);

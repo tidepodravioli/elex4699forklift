@@ -7,7 +7,7 @@
 #include "RMotorDriver.hpp"
 
 #define MAX_AUTO_SPEED 200.0f
-#define ANGLE_GAIN 2.0f
+#define ANGLE_GAIN 60.0f
 #define POINT_DISTANCE_THRESHOLD 5.0f
 #define DRIVE_CORRECTION_COOLDOWN 50
 

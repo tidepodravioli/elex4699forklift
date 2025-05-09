@@ -18,4 +18,6 @@ class RAutoFork
     bool importCalibration(string fileName = CAMERA_CALIBRATION);
 
     float getDistanceClosestTag(Mat &im);
+
+    
 };
