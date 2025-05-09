@@ -26,15 +26,20 @@ Point2f RArUcoTag::getCenter()
     return center;
 }
 
-float RArUcoTag::getAngle()
+float RArUcoTag::getAngle_r()
 {
     if (m_corners.size() < 2) return 0.0f;
 
     cv::Point2f vec = m_corners[1] - m_corners[0];  // vector from corner 0 to 1
     float angleRad = std::atan2(vec.y, vec.x);  // radians
-    float angleDeg = angleRad * 180.0f / CV_PI;
+    
+    return angleRad;
+}
 
-    return angleDeg;
+float RArUcoTag::getAngle_d()
+{
+    float angleRad = getAngle_r();
+    float angleDeg = angleRad * 180.0f / CV_PI;
 }
 
 void RArUcoTag::drawOrientationArrow(Mat &image)
@@ -45,7 +50,7 @@ void RArUcoTag::drawOrientationArrow(Mat &image)
     float length = 40.0f;
 
     // Convert angle to radians for trig
-    float angleRad = getAngle() * CV_PI / 180.0f;
+    float angleRad = getAngle_d() * CV_PI / 180.0f;
 
     // Compute end point of arrow
     cv::Point2f end = center + cv::Point2f(
@@ -69,7 +74,7 @@ void RArUcoTag::drawOrientationArrow(RArUcoTag tag, Mat& image) {
     float length = 40.0f;
 
     // Convert angle to radians for trig
-    float angleRad = tag.getAngle() * CV_PI / 180.0f;
+    float angleRad = tag.getAngle_d() * CV_PI / 180.0f;
 
     // Compute end point of arrow
     cv::Point2f end = center + cv::Point2f(

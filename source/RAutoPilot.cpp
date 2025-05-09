@@ -13,7 +13,7 @@ void RAutoPilot::driveToPoint(Point2i point)
     while (true) {
         //Get robot's current position and angle
         Point2i pos = m_helper->getRobotCoords();
-        float heading = m_helper->getRobotAngle() * M_PI / 180.0f; // In radians
+        float heading = m_helper->getRobotAngle_r(); // In radians
 
         cv::Point2i toTarget = point - pos; //vector from current position to the destination
         float distance = std::sqrt(toTarget.x * toTarget.x + toTarget.y * toTarget.y); // sqrt(x^2 + y^2)
@@ -26,7 +26,7 @@ void RAutoPilot::driveToPoint(Point2i point)
 
         //otherwise, continue
 
-        float desiredAngle = m_helper->getPointAngle(point) * M_PI / 180.0f; //the angle that the line between the robot's position and the destination makes with the x-axis
+        float desiredAngle = m_helper->getPointAngle_r(point); //the angle that the line between the robot's position and the destination makes with the x-axis
 
         float angleError = desiredAngle - heading; //how far off we are from the wanted angle
 

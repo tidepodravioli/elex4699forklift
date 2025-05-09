@@ -8,6 +8,7 @@
 #include "stdio.h"
 
 #include "ForkliftConstants.h"
+#include "RArUcoTag3.hpp"
 
 using namespace cv;
 using namespace std;
@@ -15,16 +16,22 @@ using namespace std;
 class RPiCamera : public VideoCapture
 {
     private:
+    Mat m_cameraMatrix, m_distCoeffs;
+
+    cv::Ptr<cv::aruco::Dictionary> m_dictionary;
+
     public:
     /**
      * @brief Construct a new RPiCamera object
      * 
      */
-    RPiCamera(int index = 0, int apiPreference = CAP_V4L2) : VideoCapture(index, apiPreference) {}
+    RPiCamera(int index = 0, int apiPreference = CAP_V4L2);
 
     bool importCalibration(string filename = CAMERA_CALIBRATION);
 
-    float getDistanceClosestTag();
+    bool getClosestTag(RArUcoTag3D &tag);
 
-    Vec3d getTranslationClosestTag();
+    bool getDistanceClosestTag(float &distance);
+
+    bool getTranslationClosestTag(Vec3d &trans);
 };
