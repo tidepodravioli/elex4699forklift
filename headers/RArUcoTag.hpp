@@ -6,6 +6,10 @@
 using namespace cv;
 using namespace std;
 
+/**
+ * @brief Represents an ArUco Tag with its data and position
+ * 
+ */
 class RArUcoTag
 {
     private:
@@ -13,19 +17,66 @@ class RArUcoTag
     vector<Point2f> m_corners;
 
     public:
+    /**
+     * @brief Creates a representation of an ArUco tag with the given tag ID and corner points.
+     * (These are parameters returned by OpenCV's aruco detection library)
+     * 
+     * @param tagID The ID associated with the tag
+     * @param corners The locations of each corner of the tag relative to its origin Mat
+     */
     RArUcoTag(int tagID, vector<Point2f> corners);
 
+    /**
+     * @brief Gets the ID of this tag
+     * 
+     * @return int The tag ID
+     */
     int getID();
 
+    /**
+     * @brief Gets the locations of the corners of the tag
+     * 
+     * @return vector<Point2f> The corners of the tag, as a vector of Point2f's (sub-pixel coordinates)
+     */
     vector<Point2f> getCorners();
 
+    /**
+     * @brief Calculates the center of the tag using the locations of the corners
+     * 
+     * @return Point2f The location of the center of the tag
+     */
     Point2f getCenter();
 
+    /**
+     * @brief Calculates the orientation of the tag as an angle.
+     * This angle is flipped relative to regular cartesian coordinates.
+     * For example, straight up on the image is -90deg, straight down is +90deg
+     * 
+     * @return float The orientation of the tag in degrees
+     */
     float getAngle();
 
+    /**
+     * @brief Draws an orientation arrow at the location of this tag on the given image
+     * 
+     * @param image The image to draw the arrow on
+     */
     void drawOrientationArrow(Mat &image);
 
+    /**
+     * @brief Returns the tag ID and corner locations of the given tag
+     * 
+     * @param tag The tag to get the ID and corners from
+     * @param id Where to return the tag ID
+     * @param corners Where to return the corner points
+     */
     static void extract(RArUcoTag tag, int &id, vector<Point2f> &corners);
 
+    /**
+     * @brief Draws an orientation arrow at the location of the given tag
+     * 
+     * @param tag The tag to draw on the image
+     * @param image The image to draw the tag on
+     */
     static void drawOrientationArrow(RArUcoTag tag,  Mat &image);
 };

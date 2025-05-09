@@ -9,16 +9,7 @@
 #include "RPiHMotor.hpp"
 
 
-#define LEFT_MOTOR_SPEED_OFFSET 0
-#define RIGHT_MOTOR_SPEED_OFFSET 0
-
-#define TOP_SPEED_PWM 255
-#define SLOW_SPEED_PWM 150
-
-#define RMOTORDRIVER_JOYSTICK_CENTER 50.0f
-#define RMOTORDRIVER_DEADZONE 3.0f       // Deadzone around center
-#define RMOTORDRIVER_MAX_INPUT 50.0f     // Joystick value range from center
-#define RMOTORDRIVER_MAX_OUTPUT 255.0f   // Max motor speed
+#include "ForkliftConstants.h"
 
 using namespace std;
 

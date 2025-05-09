@@ -16,6 +16,10 @@ using namespace cv;
 #pragma message("NEW_OPENCV will NOT be used for RArUcoReader")
 #endif
 
+/**
+ * @brief Provides an interface to continuously get ArUco tags from a video stream.
+ * 
+ */
 class RArUcoReader
 {
     private:

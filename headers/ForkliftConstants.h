@@ -1,0 +1,31 @@
+
+
+#define ROBOT_ARUCO_ID 188
+#define OVERHEAD_CAMERA_CHANNEL 1
+#define FRAME_GETTER_TIMEOUT_MS 20
+
+#define OVERHEAD_CAMERA_CHANNEL 1
+
+//
+#define MOTOR_L1 17
+#define MOTOR_L2 4
+#define MOTOR_R1 22
+#define MOTOR_R2 27
+
+#define FORKLIFT_SERVO 23
+
+#define LEFT_MOTOR_SPEED_OFFSET 0
+#define RIGHT_MOTOR_SPEED_OFFSET 0
+
+#define TOP_SPEED_PWM 255
+#define SLOW_SPEED_PWM 150
+
+#define RMOTORDRIVER_JOYSTICK_CENTER 50.0f
+#define RMOTORDRIVER_DEADZONE 3.0f       // Deadzone around center
+#define RMOTORDRIVER_MAX_INPUT 50.0f     // Joystick value range from center
+#define RMOTORDRIVER_MAX_OUTPUT 255.0f   // Max motor speed
+
+#define SERVER_PORT 5008
+
+#define SERVER_TX_REQ "REQ E4699FMK1\n"
+#define SERVER_RX_ACK "ACK MK1FE4699\n"

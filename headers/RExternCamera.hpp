@@ -8,7 +8,7 @@
 
 #include "../shared/headers/ext/Client.h"
 
-#define OVERHEAD_CAMERA_CHANNEL 1
+#include "ForkliftConstants.h"
 
 using namespace std;
 using namespace cv;

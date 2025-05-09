@@ -12,12 +12,7 @@
 #include "../shared/headers/RJoystickEvent.hpp"
 #include "RArUcoReader.hpp"
 
-#define MOTOR_L1 17
-#define MOTOR_L2 4
-#define MOTOR_R1 22
-#define MOTOR_R2 27
-
-#define FORKLIFT_SERVO 23
+#include "ForkliftConstants.h"
 
 using namespace std;
 

@@ -12,9 +12,7 @@
 #include "RArUcoTag.hpp"
 #include "RPointVect.h"
 
-#define ROBOT_ARUCO_ID 188
-#define OVERHEAD_CAMERA_CHANNEL 1
-#define FRAME_GETTER_TIMEOUT_MS 20
+#include "ForkliftConstants.h"
 
 using namespace cv;
 using namespace std;
