@@ -4,7 +4,6 @@ RAutoPilot::RAutoPilot(RMotorDriver &driver, RCoordinateHelper &helper) : RMotor
 {
     m_driver = &driver;
     m_helper = &helper;
-
 }
 
 void RAutoPilot::driveToPoint(Point2i point)
