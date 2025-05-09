@@ -13,15 +13,15 @@ bool RCameraCalibration::calibrate()
         SQUARES_X, SQUARES_Y, SQUARE_LENGTH, MARKER_LENGTH, dictionary);
 
     // ---- OPEN CAMERA ----
-    cv::VideoCapture cap(0);
+    cv::VideoCapture cap(0, cv::CAP_V4L2);
     if (!cap.isOpened()) {
         std::cerr << "Could not open camera." << std::endl;
         return false;
     }
 
-    std::vector<std::vector<std::vector<cv::Point2f>>> allCorners;
-    std::vector<std::vector<int>> allIds;
+    std::vector<std::vector<cv::Point2f>> allCorners;
     std::vector<cv::Mat> allImgs;
+    std::vector<int> numMarkers;
 
     int collectedFrames = 0;
 
@@ -44,9 +44,10 @@ bool RCameraCalibration::calibrate()
 
         if (key == 27 && collectedFrames >= 5) break;  // ESC
         else if (key == ' ' && !ids.empty()) {
-            allCorners.push_back(corners);
-            allIds.push_back(ids);
+            allCorners.insert(allCorners.end(), corners.begin(), corners.end());
             allImgs.push_back(image.clone());
+            numMarkers.push_back(ids.size());
+
             collectedFrames++;
             std::cout << "Captured frame " << collectedFrames << "/" << REQUIRED_FRAMES << std::endl;
         }
@@ -61,11 +62,11 @@ bool RCameraCalibration::calibrate()
     std::cout << "Calibrating..." << std::endl;
 
     cv::Mat cameraMatrix, distCoeffs;
-    std::vector<cv::Mat> rvecs, tvecs;
+    cv::Mat rvecs, tvecs;
 
-    const int numSquares = board->getGridSize().height * board->getGridSize().width;
+    const std::vector<int> allIds = CALIB_IDS;
     double rms = cv::aruco::calibrateCameraAruco(
-        allCorners, allIds, numSquares, board, cv::Size(allImgs[0].cols, allImgs[0].rows),
+        allCorners, allIds, numMarkers, board, cv::Size(allImgs[0].cols, allImgs[0].rows),
         cameraMatrix, distCoeffs, rvecs, tvecs);
 
     std::cout << "Calibration RMS error: " << rms << std::endl;
@@ -73,12 +74,12 @@ bool RCameraCalibration::calibrate()
     std::cout << "Distortion Coefficients:\n" << distCoeffs << std::endl;
 
     // ---- SAVE TO FILE ----
-    cv::FileStorage fs("calibration.yaml", cv::FileStorage::WRITE);
+    cv::FileStorage fs("../calibration.yaml", cv::FileStorage::WRITE);
     fs << "camera_matrix" << cameraMatrix;
     fs << "dist_coeffs" << distCoeffs;
     fs.release();
 
     std::cout << "Saved calibration to calibration.yaml\n";
 
-    return 0;
+    return true;
 }

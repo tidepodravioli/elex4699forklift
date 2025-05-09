@@ -7,6 +7,7 @@
 #define MARKER_LENGTH 0.040f  // in meters
 #define DICTIONARY_ID  cv::aruco::DICT_6X6_250
 #define REQUIRED_FRAMES 15
+#define CALIB_IDS {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19}
 
 class RCameraCalibration
 {
