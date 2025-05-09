@@ -48,3 +48,17 @@ void RAutoPilot::driveToPoint(Point2i point)
         std::this_thread::sleep_for(std::chrono::milliseconds(DRIVE_CORRECTION_COOLDOWN));
     }
 }
+
+void RAutoPilot::orientRobot(float angle)
+{
+    while(true)
+    {
+        float heading = m_helper->getRobotAngle_r();
+        float angleError = angle - heading;
+
+        while (angleError > M_PI) angleError -= 2 * M_PI;
+        while (angleError < -M_PI) angleError += 2 * M_PI;
+
+        
+    }
+}
