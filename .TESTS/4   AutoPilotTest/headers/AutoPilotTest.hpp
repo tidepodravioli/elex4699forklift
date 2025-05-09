@@ -6,12 +6,12 @@
 #include "../../headers/RMotorDriver.hpp"
 #include "../../CLIENT/headers/ext/getstuff.h"
 
-#define MOTOR_L1 17
-#define MOTOR_L2 4
-#define MOTOR_R1 22
-#define MOTOR_R2 27
+#define MOTOR_L1 4
+#define MOTOR_L2 17
+#define MOTOR_R1 27
+#define MOTOR_R2 22
 
-#define IP_ADDR "192.168.0.100"
+#define IP_ADDR "192.168.0.101"
 #define PORT 5008
 
 using namespace std;

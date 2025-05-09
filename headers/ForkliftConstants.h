@@ -19,12 +19,14 @@
 
 
 //
-#define MOTOR_L1 17
-#define MOTOR_L2 4
-#define MOTOR_R1 22
-#define MOTOR_R2 27
+#define MOTOR_L1 4
+#define MOTOR_L2 17
+#define MOTOR_R1 27
+#define MOTOR_R2 22
+#define TOP_SPEED_PWM 255
+#define SLOW_SPEED_PWM 150
 
-#define FORKLIFT_SERVO 14
+#define FORKLIFT_SERVO 18
 #define FORKLIFT_1_DOWN 20
 #define FORKLIFT_1_UP 45
 #define FORKLIFT_2_UP 150
@@ -33,8 +35,7 @@
 #define LEFT_MOTOR_SPEED_OFFSET 0
 #define RIGHT_MOTOR_SPEED_OFFSET 0
 
-#define TOP_SPEED_PWM 255
-#define SLOW_SPEED_PWM 150
+
 
 #define RMOTORDRIVER_JOYSTICK_CENTER 50.0f
 #define RMOTORDRIVER_DEADZONE 3.0f       // Deadzone around center
