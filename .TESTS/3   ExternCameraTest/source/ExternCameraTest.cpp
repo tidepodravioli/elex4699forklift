@@ -44,6 +44,10 @@ void ExternCameraTest::startalt()
         if(!copy.empty())
         {
             std::vector<RArUcoTag> tags = reader.getTags(copy);
+            for(RArUcoTag tag : tags)
+            {
+                std::cout << "Heading : " << tag.getAngle_r() << endl;
+            }
             reader.drawTags(copy, tags);
             cv::imshow("TEST", copy);
         }
@@ -59,7 +63,7 @@ void ExternCameraTest::frame_t()
 
     while(!flagExit)
     {
-        client.tx_str("G 2");
+        client.tx_str("G 1");
         
         frame_m->lock();
         client.rx_im(frame);
