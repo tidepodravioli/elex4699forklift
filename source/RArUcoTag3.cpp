@@ -15,3 +15,8 @@ Vec3d RArUcoTag3::getTrans()
 {
     return m_trans;
 }
+
+float RArUcoTag3::getDistanceFromCamera()
+{
+    return cv::norm(m_trans);
+}

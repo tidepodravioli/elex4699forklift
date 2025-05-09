@@ -16,4 +16,5 @@ class RArUcoTag3 : public RArUcoTag
 
     Vec3d getTrans();
 
+    float getDistanceFromCamera();
 };

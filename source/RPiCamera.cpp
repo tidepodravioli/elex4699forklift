@@ -20,7 +20,7 @@ bool RPiCamera::importCalibration(string filename)
     return true;
 }
 
-bool RPiCamera::getClosestTag(RArUcoTag3D &tag)
+vector<RArUcoTag3> RPiCamera::getClosestTags(bool &valid)
 {
     Mat frame;
     read(frame);
@@ -33,57 +33,41 @@ bool RPiCamera::getClosestTag(RArUcoTag3D &tag)
 
     // If no markers detected, return a large number (indicating no markers in the frame)
     if (ids.empty()) {
-        return -1;
+        valid = false;
+        return {};
     }
 
     // Step 2: Estimate pose for each detected marker
     std::vector<cv::Vec3d> rvecs, tvecs;
-    cv::aruco::estimatePoseSingleMarkers(corners, 0.065f, m_cameraMatrix, m_distCoeffs, rvecs, tvecs); // Assuming marker length of 0.1 meters (adjust if needed)
+    cv::aruco::estimatePoseSingleMarkers(corners, ARUCO_TAG_SIZE, m_cameraMatrix, m_distCoeffs, rvecs, tvecs); // Assuming marker length of 0.1 meters (adjust if needed)
 
-    // Step 3: Calculate the distance to each marker
-    double minDistance = std::numeric_limits<double>::max();  // Initialize with a large number
+    vector<RArUcoTag3> tags;
 
-    for (size_t i = 0; i < tvecs.size(); ++i) {
+    for (int i = 0; i < tvecs.size(); ++i) {
         // Compute the Euclidean distance to the marker from the camera
         double distance = cv::norm(tvecs[i]);  // Euclidean distance from the camera to the marker
-        if (distance < minDistance) {
-            minDistance = distance;  // Update if this marker is closer
+        
+        for(int j = 0; j < tags.size(); j++)
+        {
+            RArUcoTag3 tag(ids[i], corners[i], tvecs[i], rvecs[i]);
+            if(distance <= tags[j].getDistanceFromCamera())
+            {
+                tags.insert(tags.begin() + j, tag);
+                break;
+            }
+            else
+            {
+                tags.push_back(tag);
+                break;
+            }
         }
     }
 
-    return minDistance;  // Return the distance to the closest marker
+    valid = true;
+    return tags;
 }
 
 bool RPiCamera::getDistanceClosestTag(float &distance)
 {
-    Mat frame;
-    read(frame);
-
-    std::vector<int> ids;
-    std::vector<std::vector<cv::Point2f>> corners;
-
-    // Step 1: Detect markers in the frame
-    cv::aruco::detectMarkers(frame, m_dictionary, corners, ids);
-
-    // If no markers detected, return a large number (indicating no markers in the frame)
-    if (ids.empty()) {
-        return -1;
-    }
-
-    // Step 2: Estimate pose for each detected marker
-    std::vector<cv::Vec3d> rvecs, tvecs;
-    cv::aruco::estimatePoseSingleMarkers(corners, 0.065f, m_cameraMatrix, m_distCoeffs, rvecs, tvecs); // Assuming marker length of 0.1 meters (adjust if needed)
-
-    // Step 3: Calculate the distance to each marker
-    double minDistance = std::numeric_limits<double>::max();  // Initialize with a large number
-
-    for (size_t i = 0; i < tvecs.size(); ++i) {
-        // Compute the Euclidean distance to the marker from the camera
-        double distance = cv::norm(tvecs[i]);  // Euclidean distance from the camera to the marker
-        if (distance < minDistance) {
-            minDistance = distance;  // Update if this marker is closer
-        }
-    }
-
-    return minDistance;  // Return the distance to the closest marker
+    
 }

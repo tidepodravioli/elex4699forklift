@@ -29,7 +29,7 @@ class RPiCamera : public VideoCapture
 
     bool importCalibration(string filename = CAMERA_CALIBRATION);
 
-    bool getClosestTag(RArUcoTag3D &tag);
+    vector<RArUcoTag3> getClosestTags(bool &valid);
 
     bool getDistanceClosestTag(float &distance);
 
