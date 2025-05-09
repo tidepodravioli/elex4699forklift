@@ -10,6 +10,7 @@
 #include "../shared/headers/ext/Client.h"
 #include "RArUcoReader.hpp"
 #include "RArUcoTag.hpp"
+#include "RArUcoTag3.hpp"
 #include "RPointVect.h"
 
 #include "ForkliftConstants.h"
@@ -42,15 +43,16 @@ class RCoordinateHelper : public CClient
     mutex * m_mutexCurrentFrame;
     void getFrame_t();
 
+    bool m_flagRefresh;
+
     public:
     /**
      * @brief Creates an RCoordinateHelper using the given camera channel
      * 
      * @param cameraChannel Channel to find camera on
      * @param refresh Whether or not to call refreshRobot() before getting the robots position
-     * @param startGetter Whether or not to call startFrameGetter() on construction
      */
-    RCoordinateHelper(int cameraChannel = OVERHEAD_CAMERA_CHANNEL, bool refresh = false, bool startGetter = true);
+    RCoordinateHelper(int cameraChannel = OVERHEAD_CAMERA_CHANNEL, bool refresh = false);
 
     /**
      * @brief Starts getting live frames from the camera
@@ -88,11 +90,15 @@ class RCoordinateHelper : public CClient
 
     bool robotFound();
 
-    float getRobotAngle();
+    float getRobotAngle_r();
 
-    float getPointAngle(Point2i destination);
+    float getPointAngle_r(Point2i destination);
+
+    float getRobotAngle_d();
+
+    float getPointAngle_d(Point2i destination);
 
     Point2i getRobotCoords();
 
-    
+    Point2i getTagCoords(RArUcoTag3 tag);
 };

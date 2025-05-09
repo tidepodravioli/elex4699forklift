@@ -25,7 +25,7 @@ void ArUcoTest::start()
                     if(tag.getID() == 188)
                     {
                         tag.drawOrientationArrow(frame);
-                        cout << "COORDS : " << tag.getCenter() << " , ANGLE : " << tag.getAngle() << endl; 
+                        cout << "COORDS : " << tag.getCenter() << " , ANGLE : " << tag.getAngle_d() << endl; 
                         break;
                     }
                 }

@@ -2,15 +2,24 @@
 
 #include <vector>
 #include <pigpio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <chrono>
 
-#include "RPiCamera.hpp"
+#include "../shared/headers/RControlEvent.hpp"
+#include "../shared/headers/RJoystickEvent.hpp"
+
+
 #include "RPiForklift.hpp"
 #include "RMotorDriver.hpp"
 #include "RPiServo.hpp"
 #include "RNetServer.hpp"
-#include "../shared/headers/RControlEvent.hpp"
-#include "../shared/headers/RJoystickEvent.hpp"
+
+#include "RPiCamera.hpp"
+#include "RAutoPilot.hpp"
+#include "RAutoFork.hpp"
 #include "RArUcoReader.hpp"
+
 
 #include "ForkliftConstants.h"
 
@@ -25,11 +34,19 @@ class RForkliftManager
     private:
     RMotorDriver * m_driver;
     RPiForklift * m_forklift;
+
+    RPiCamera m_camera;
+    RAutoPilot * m_autopilot;
+    RAutoFork * m_autofork;
+    RCoordinateHelper * m_helper;
+
     RNetServer m_server;
 
     vector<RControlEvent> m_commandQueue;
 
     bool m_flagRun = false;
+    bool m_flagManual = false;
+    bool m_flagAutoAvailable = true;
 
     public:
     RForkliftManager();
@@ -39,6 +56,12 @@ class RForkliftManager
      * 
      */
     void start();
+
+    /**
+     * @brief Initializes server services
+     * 
+     */
+    bool init();
 
     /**
      * @brief Loads the command queue in from the buffer
@@ -56,5 +79,5 @@ class RForkliftManager
      * @brief Based on the command, do something
      * 
      */
-    void react();
+    void automode();
 };

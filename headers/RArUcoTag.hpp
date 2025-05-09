@@ -50,11 +50,20 @@ class RArUcoTag
     /**
      * @brief Calculates the orientation of the tag as an angle.
      * This angle is flipped relative to regular cartesian coordinates.
+     * For example, straight up on the image is -PI radians, straight down is +PI radians
+     * 
+     * @return float The orientation of the tag in radians
+     */
+    float getAngle_r();
+
+    /**
+     * @brief Calculates the orientation of the tag as an angle.
+     * This angle is flipped relative to regular cartesian coordinates.
      * For example, straight up on the image is -90deg, straight down is +90deg
      * 
      * @return float The orientation of the tag in degrees
      */
-    float getAngle();
+    float getAngle_d();
 
     /**
      * @brief Draws an orientation arrow at the location of this tag on the given image

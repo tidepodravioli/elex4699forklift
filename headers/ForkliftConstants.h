@@ -5,7 +5,10 @@
 #define FRAME_GETTER_TIMEOUT_MS 20
 
 #define OVERHEAD_CAMERA_CHANNEL 1
+#define ARENA_WIDTH 1.6383f
+#define ARENA_HEIGHT 1.6383f
 
+#define ARUCO_TAG_SIZE 0.04f
 #define ARUCO_TAG_CAMERA 24
 #define ARUCO_TAG_PKG1 5
 #define ARUCO_TAG_PKG2 6
@@ -16,27 +19,35 @@
 
 
 //
-#define MOTOR_L1 17
-#define MOTOR_L2 4
-#define MOTOR_R1 22
-#define MOTOR_R2 27
+#define MOTOR_L1 4
+#define MOTOR_L2 17
+#define MOTOR_R1 27
+#define MOTOR_R2 22
+#define TOP_SPEED_PWM 255
+#define SLOW_SPEED_PWM 150
 
-#define FORKLIFT_SERVO 14
+#define FORKLIFT_SERVO 18
+#define FORKLIFT_1_DOWN 20
+#define FORKLIFT_1_UP 45
+#define FORKLIFT_2_UP 150
+#define FORKLIFT_BACKUP_TIME 2
 
 #define LEFT_MOTOR_SPEED_OFFSET 0
 #define RIGHT_MOTOR_SPEED_OFFSET 0
 
-#define TOP_SPEED_PWM 255
-#define SLOW_SPEED_PWM 150
+
 
 #define RMOTORDRIVER_JOYSTICK_CENTER 50.0f
 #define RMOTORDRIVER_DEADZONE 3.0f       // Deadzone around center
 #define RMOTORDRIVER_MAX_INPUT 50.0f     // Joystick value range from center
 #define RMOTORDRIVER_MAX_OUTPUT 255.0f   // Max motor speed
 
-#define SERVER_PORT 5008
+#define SERVER_PORT 5080
 
 #define SERVER_TX_REQ "REQ E4699FMK1\n"
 #define SERVER_RX_ACK "ACK MK1FE4699\n"
 
 #define CAMERA_CALIBRATION "./calibration.yaml"
+
+#define ARENA_CAMERA_IP "192.168.0.101"
+#define ARENA_CAMERA_PORT 5008

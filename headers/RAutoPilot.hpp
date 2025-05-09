@@ -23,6 +23,8 @@ class RAutoPilot : public RMotorDriver
     RAutoPilot(RMotorDriver &driver, RCoordinateHelper &helper);
 
     void driveToPoint(Point2i point);
-    
-    //void goToDestination(Point2i destination);
+
+    void orientRobot(float angle);
+
+    void drivePath(vector<Point2i> path);
 };

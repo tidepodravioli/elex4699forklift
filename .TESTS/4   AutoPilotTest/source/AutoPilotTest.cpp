@@ -8,8 +8,8 @@ AutoPilotTest::AutoPilotTest()
 void AutoPilotTest::start()
 {
     RMotorDriver driver(MOTOR_L1, MOTOR_L2, MOTOR_R1, MOTOR_R2);
-    RCoordinateHelper helper;
     
+    RCoordinateHelper helper;
     helper.connect_socket(IP_ADDR, PORT);
     
     RAutoPilot pilot(driver, helper);
