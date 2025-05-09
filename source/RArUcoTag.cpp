@@ -40,6 +40,8 @@ float RArUcoTag::getAngle_d()
 {
     float angleRad = getAngle_r();
     float angleDeg = angleRad * 180.0f / CV_PI;
+
+    return angleDeg;
 }
 
 void RArUcoTag::drawOrientationArrow(Mat &image)

@@ -69,5 +69,26 @@ vector<RArUcoTag3> RPiCamera::getClosestTags(bool &valid)
 
 bool RPiCamera::getDistanceClosestTag(float &distance)
 {
-    
+    bool valid = false;
+    vector<RArUcoTag3> tags = getClosestTags(valid);
+
+    if(tags.size() > 0)
+    {
+        distance = tags[0].getDistanceFromCamera();
+    }
+
+    return valid;
+}
+
+bool RPiCamera::getTranslationClosestTag(Vec3d &trans)
+{
+    bool valid = false;
+    vector<RArUcoTag3> tags = getClosestTags(valid);
+
+    if(tags.size() > 0)
+    {
+        trans = tags[0].getTrans();
+    }
+
+    return valid;
 }

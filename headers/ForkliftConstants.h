@@ -37,9 +37,12 @@
 #define RMOTORDRIVER_MAX_INPUT 50.0f     // Joystick value range from center
 #define RMOTORDRIVER_MAX_OUTPUT 255.0f   // Max motor speed
 
-#define SERVER_PORT 5008
+#define SERVER_PORT 5080
 
 #define SERVER_TX_REQ "REQ E4699FMK1\n"
 #define SERVER_RX_ACK "ACK MK1FE4699\n"
 
 #define CAMERA_CALIBRATION "./calibration.yaml"
+
+#define ARENA_CAMERA_IP "192.168.0.101"
+#define ARENA_CAMERA_PORT 5008

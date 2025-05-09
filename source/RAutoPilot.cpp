@@ -1,6 +1,5 @@
 #include "../headers/RAutoPilot.hpp"
 
-
 RAutoPilot::RAutoPilot(RMotorDriver &driver, RCoordinateHelper &helper) : RMotorDriver(driver)
 {
     m_driver = &driver;
@@ -37,12 +36,12 @@ void RAutoPilot::driveToPoint(Point2i point)
 
         if (std::abs(angleError) > 1.0f) {
             float turnSpeed = std::clamp(angleError * ANGLE_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-            m_driver->write(turnSpeed, -turnSpeed);
+            write(turnSpeed, -turnSpeed);
         } else {
             float correction = angleError * ANGLE_GAIN;
             float left = std::clamp(MAX_AUTO_SPEED - correction, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             float right = std::clamp(MAX_AUTO_SPEED + correction, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-            m_driver->write(left, right);
+            write(left, right);
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(DRIVE_CORRECTION_COOLDOWN));
@@ -59,6 +58,19 @@ void RAutoPilot::orientRobot(float angle)
         while (angleError > M_PI) angleError -= 2 * M_PI;
         while (angleError < -M_PI) angleError += 2 * M_PI;
 
-        
+        if(std::abs(angleError) > 0.15f)
+        {
+            float turnSpeed = std::clamp(angleError * ANGLE_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+            write(turnSpeed, -turnSpeed);
+        }
+        else return;
+    }
+}
+
+void RAutoPilot::drivePath(vector<Point2i> path)
+{
+    for(Point2i point : path)
+    {
+        driveToPoint(point);
     }
 }
