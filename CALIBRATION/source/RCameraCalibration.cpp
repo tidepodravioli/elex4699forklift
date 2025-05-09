@@ -10,7 +10,7 @@ bool RCameraCalibration::calibrate()
     // ---- CREATE BOARD ----
     cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(DICTIONARY_ID);
     cv::Ptr<cv::aruco::GridBoard> board = cv::aruco::GridBoard::create(
-        SQUARES_X, SQUARES_Y, SQUARE_LENGTH, MARKER_LENGTH, dictionary);
+        SQUARES_X, SQUARES_Y, MARKER_LENGTH, MARKER_DIST, dictionary);
 
     // ---- OPEN CAMERA ----
     cv::VideoCapture cap(0, cv::CAP_V4L2);

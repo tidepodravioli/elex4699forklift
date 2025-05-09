@@ -14,9 +14,12 @@ using namespace cv;
 class ArUcoTest
 {
     private:
+    Mat m_cameraMatrix, m_distCoeffs;
 
     public:
     ArUcoTest();
 
     void start();
+    bool importCalibration(string fileName);
+    double getDistanceToClosestMarker(cv::Mat& frame, cv::Ptr<cv::aruco::Dictionary> dictionary);
 };
