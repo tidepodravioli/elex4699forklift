@@ -2,7 +2,6 @@
 
 RAutoPilot::RAutoPilot(RMotorDriver &driver, RCoordinateHelper &helper) : RMotorDriver(driver)
 {
-    m_driver = &driver;
     m_helper = &helper;
 }
 
@@ -47,7 +46,7 @@ void RAutoPilot::driveToPoint(Point2i point)
     }
 }
 
-void RAutoPilot::orientRobot(float angle)
+void RAutoPilot::orientRobot_r(float angle)
 {
     while(true)
     {
@@ -64,6 +63,12 @@ void RAutoPilot::orientRobot(float angle)
         }
         else return;
     }
+}
+
+void RAutoPilot::orientRobot_d(float angle)
+{
+    const float rad = M_PI / 180.0f;
+    orientRobot_r(rad);
 }
 
 void RAutoPilot::drivePath(vector<Point2i> path)

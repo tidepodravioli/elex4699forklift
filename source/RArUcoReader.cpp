@@ -61,7 +61,7 @@ vector<RArUcoTag> RArUcoReader::grabFromFrame()
     {
         return getTags(*m_frame);
     }
-    else
+    else if(m_vid != nullptr)
     {
         if(m_vid->isOpened())
         {
@@ -74,8 +74,7 @@ vector<RArUcoTag> RArUcoReader::grabFromFrame()
             }
         }
     }
-
-    return {};
+    else return {};
 }
 
 void RArUcoReader::extract(vector<RArUcoTag> tags, vector<int> &ids, vector<vector<Point2f>> &corners)

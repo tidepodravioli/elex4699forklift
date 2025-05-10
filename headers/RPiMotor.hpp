@@ -4,7 +4,9 @@
 
 /**
  * @brief Represents a motor connected to the RPI GPIO pins
- * 
+ * @details RPiMotor uses the PIGPIO library to directly drive a
+ * motor that is connected directly to the GPIO pins. It writes
+ * PWM values to the pin to vary the speed.
  */
 class RPiMotor
 {

@@ -2,6 +2,12 @@
 
 #include <pigpio.h>
 
+/**
+ * @brief Provides an interface to control a servo connected to the GPIO pins
+ * @details RPiServo uses the PIGPIO library to interface with a servo via PWM.
+ * It provides methods to write in either degrees or in microseconds, and a 
+ * way to check what the last write was in both units as well.
+ */
 class RPiServo
 {
     protected:

@@ -52,7 +52,7 @@ void RArUcoTag::drawOrientationArrow(Mat &image)
     float length = 40.0f;
 
     // Convert angle to radians for trig
-    float angleRad = getAngle_d() * CV_PI / 180.0f;
+    float angleRad = getAngle_r();
 
     // Compute end point of arrow
     cv::Point2f end = center + cv::Point2f(

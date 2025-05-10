@@ -1,3 +1,5 @@
+#pragma once
+
 #include <opencv2/opencv.hpp>
 #include <chrono>
 #include <algorithm>
@@ -13,18 +15,51 @@
 
 using namespace cv;
 
+/**
+ * @brief Provides automatic driving of the robot based on a destination or a desired heading
+ * @details RAutoPilot uses RCoordinateHelper as a means of driving to points on the map. It 
+ * uses the location of the robot, as given by the helper, to determine a straight-ish path to
+ * a destination point.
+ */
 class RAutoPilot : public RMotorDriver
 {
     private:
-    RMotorDriver * m_driver;
-    RCoordinateHelper * m_helper;
+    RCoordinateHelper * m_helper; ///< Provides the positional information of the robot on the map
 
     public:
+    /**
+     * @brief Construct a new RAutoPilot object
+     * 
+     * @param driver The driver object to manipulate (MUST BE INITIALIZED)
+     * @param helper The coordinate provider (MUST BE INITALIZED AND READY)
+     */
     RAutoPilot(RMotorDriver &driver, RCoordinateHelper &helper);
 
+    /**
+     * @brief Drives the robot to a given point of the coordinate grid
+     * 
+     * @param point The point on the coordinate grid to drive to (relative to the x-y origin of the Mat)
+     */
     void driveToPoint(Point2i point);
 
-    void orientRobot(float angle);
+    /**
+     * @brief Orients the robot to match the given angle without translating
+     * 
+     * @param angle The angle to match (in radians)
+     */
+    void orientRobot_r(float angle);
 
+    /**
+     * @brief Orients the robot to match the given angle without translating
+     * 
+     * @param angle The angle to match (in degrees)
+     */
+    void orientRobot_d(float angle);
+
+    /**
+     * @brief Drives to every point in the given path
+     * 
+     * @param path Collection of points to drive to
+     */
     void drivePath(vector<Point2i> path);
 };

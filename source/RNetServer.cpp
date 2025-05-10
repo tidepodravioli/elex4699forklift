@@ -8,25 +8,25 @@ void RNetServer::startServer(int port)
 
 void RNetServer::server_start(int port)
 {
-    m_server.start(port);
+    start(port);
 }
 
 void RNetServer::stopServer()
 {
-    m_server.stop();
+    stop();
 }
 
 bool RNetServer::getCom(vector<string> &commands)
 {
     vector<string> _commands;
-    m_server.get_cmd(_commands);
+    get_cmd(_commands);
 
     for(int index = 0; index < _commands.size();)
     {
         const string command = _commands[index];
         if(command.compare(SERVER_TX_REQ) >= 0)
         {
-            m_server.send_string(SERVER_RX_ACK);
+            send_string(SERVER_RX_ACK);
             _commands.erase(_commands.begin() + index);
         }
         else index++;
@@ -60,5 +60,5 @@ bool RNetServer::getCom(vector<RControlEvent> &events)
 
 void RNetServer::sendCom(string command)
 {
-    m_server.send_string(command);
+    send_string(command);
 }

@@ -4,8 +4,10 @@
 
 /**
  * @brief Represents an interface to an H-bridge connected to a motor
- * Forwards here means a signal on pin1, while pin2 is held LOW
- * Backwards is the reverse of this.
+ * @details RPiHMotor uses the PIGPIO library to connect to an H-bridge's input
+ * pins. It writes PWM values on one of the pins to vary the speed. Forwards 
+ * here means a signal on pin1, while pin2 is held LOW. Backwards is the 
+ * reverse of this.
  * 
  */
 class RPiHMotor

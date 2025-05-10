@@ -15,11 +15,21 @@ enum LIFT_POSITION
     UP2
 };
 
+/**
+ * @brief Represents a forklift object controlled by a servo
+ * @details RPiForklift inherits from RPiServo to control the up and down
+ * motion of the forklift.
+ */
 class RPiForklift : public RPiServo
 {
   private:
 
   public:
+  /**
+   * @brief Construct a new RPiForklift object
+   * 
+   * @param gpioPin The pin the servo is connected to
+   */
   RPiForklift(int gpioPin) : RPiServo(gpioPin) {}
 
   /**

@@ -8,7 +8,14 @@ using namespace std;
 
 /**
  * @brief Represents an ArUco Tag with its data and position
+ * @details RArUcoTag provides a means to calculate and determine
+ * positional and rotational of a tag in 2D space. It is not meant
+ * to be instantiated outside of a reader, as the parameters
+ * needed to create one are inherent of the tag's actual position
+ * in the real world.
  * 
+ * It also provides some static functions that use existing RArUcoTags
+ * to perform operations.
  */
 class RArUcoTag
 {
@@ -22,7 +29,7 @@ class RArUcoTag
      * (These are parameters returned by OpenCV's aruco detection library)
      * 
      * @param tagID The ID associated with the tag
-     * @param corners The locations of each corner of the tag relative to its origin Mat
+     * @param corners The locations of each corner of the tag relative to its original Mat
      */
     RArUcoTag(int tagID, vector<Point2f> corners);
 
