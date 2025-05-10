@@ -13,11 +13,16 @@ void RAutoPilot::driveToPoint(Point2i point)
         Point2i pos = m_helper->getRobotCoords();
         float heading = m_helper->getRobotAngle_r(); // In radians
 
+        cout << "Heading : " << heading << endl;
+
+        cout << "Robot at : " << pos << endl;
+
         cv::Point2i toTarget = point - pos; //vector from current position to the destination
         float distance = std::sqrt(toTarget.x * toTarget.x + toTarget.y * toTarget.y); // sqrt(x^2 + y^2)
 
         //if the robot's distance from the point is within this threshold
         if (distance < POINT_DISTANCE_THRESHOLD) {
+            cout << "destination reached" << endl;
             m_driver->stop(); //the destination can be considered to have been reached
             return;
         }
@@ -25,6 +30,8 @@ void RAutoPilot::driveToPoint(Point2i point)
         //otherwise, continue
 
         float desiredAngle = m_helper->getPointAngle_r(point); //the angle that the line between the robot's position and the destination makes with the x-axis
+
+        cout << "Desired angle : " << desiredAngle << endl;
 
         float angleError = desiredAngle - heading; //how far off we are from the wanted angle
 
@@ -34,9 +41,11 @@ void RAutoPilot::driveToPoint(Point2i point)
 
 
         if (std::abs(angleError) > 1.0f) {
+            cout << "correcting heading" << endl;
             float turnSpeed = std::clamp(angleError * ANGLE_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             write(turnSpeed, -turnSpeed);
         } else {
+            cout << "moving straight" << endl;
             float correction = angleError * ANGLE_GAIN;
             float left = std::clamp(MAX_AUTO_SPEED - correction, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             float right = std::clamp(MAX_AUTO_SPEED + correction, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);

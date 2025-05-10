@@ -17,7 +17,7 @@ link_directories(${OpenCV_LIB_DIR})
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_executable(autopilottest "./main.cpp" "./source/AutoPilotTest.cpp" "../../../source/RAutoPilot.cpp" "../../../source/RCoordinateHelper.cpp" "../../../source/RMotorDriver.cpp" "../../CLIENT/source/ext/getstuff.cpp" "../../../source/RArUcoReader.cpp" "../../../source/RArUcoTag.cpp"  "../../../shared/source/ext/Client.cpp" "../../../source/RPiHMotor.cpp") 
+add_executable(autopilottest "./main.cpp" "./source/AutoPilotTest.cpp" "../../../source/RAutoPilot.cpp" "../../../source/RCoordinateHelper.cpp" "../../../source/RMotorDriver.cpp" "../../CLIENT/source/ext/getstuff.cpp" "../../../source/RArUcoReader.cpp" "../../../source/RArUcoTag.cpp" "../../../source/RArUcoTag3.cpp"  "../../../shared/source/ext/Client.cpp" "../../../source/RPiHMotor.cpp") 
 
 target_link_libraries(autopilottest PRIVATE ${OpenCV_LIBS} ${PIGPIO_LIB} ${PIGPIOD_IF2_LIB})
 target_include_directories(autopilottest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${OpenCV_INCLUDE_DIRS})

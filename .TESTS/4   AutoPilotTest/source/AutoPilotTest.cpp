@@ -3,19 +3,32 @@
 AutoPilotTest::AutoPilotTest()
 {
     gpioInitialise();
+    cout << "Gpio initialized" << endl;
+    
 }
 
 void AutoPilotTest::start()
 {
     RMotorDriver driver(MOTOR_L1, MOTOR_L2, MOTOR_R1, MOTOR_R2);
     
-    RCoordinateHelper helper;
+    RCoordinateHelper helper(1, true);
     helper.connect_socket(IP_ADDR, PORT);
+    this_thread::sleep_for(chrono::milliseconds(100));
+    helper.startFrameGetter();
+
+    /* while(true)
+    {
+      helper.refreshRobot();
+      cout << "Robot at : " << helper.getRobotCoords() << endl;
+    } */
     
     RAutoPilot pilot(driver, helper);
 
     while(true)
     {
+        helper.refreshRobot();
+        cout << "Robot at : " << helper.getRobotCoords() << endl;
+
         cout << "Enter coordinates : ";
         string command;
         while(!raf_cin::get_data(&command, regex("^\\d{1,3} \\d{1,3}$")))
@@ -26,8 +39,8 @@ void AutoPilotTest::start()
         vector<string> parts = delimitString(command, ' ');
         Point2i point(stoi(parts[0]), stoi(parts[1]));
 
-        
-        cout << "In transit" << endl;
+        cout << "Heading to " << point << endl;
+        cout << "In transit..." << endl;
         pilot.driveToPoint(point);
         cout << "At destination!" << endl;
     }

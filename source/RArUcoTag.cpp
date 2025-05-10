@@ -30,7 +30,7 @@ float RArUcoTag::getAngle_r()
 {
     if (m_corners.size() < 2) return 0.0f;
 
-    cv::Point2f vec = m_corners[1] - m_corners[0];  // vector from corner 0 to 1
+    cv::Point2f vec = m_corners[0] - m_corners[1];  // vector from corner 0 to 1
     float angleRad = std::atan2(vec.y, vec.x);  // radians
     
     return angleRad;

@@ -11,6 +11,11 @@ RCoordinateHelper::RCoordinateHelper(int cameraChannel, bool refresh) : CClient(
     m_flagRefresh = refresh;
 }
 
+RCoordinateHelper::~RCoordinateHelper()
+{
+    close_socket();
+}
+
 void RCoordinateHelper::startFrameGetter()
 {
     if(!m_flagGetFrame)
@@ -57,19 +62,25 @@ void RCoordinateHelper::refreshRobot()
     Mat frame = m_currentFrame.clone();
     m_mutexCurrentFrame->unlock();
 
-    vector<RArUcoTag> tags = m_aruco.getTags(frame);
-    for(RArUcoTag tag : tags)
+    if(!frame.empty())
     {
-        if(tag.getID() == ROBOT_ARUCO_ID)
+        vector<RArUcoTag> tags = m_aruco.getTags(frame);
+        for(RArUcoTag tag : tags)
         {
-            m_robot.coord = tag.getCenter();
-            m_robot.angle = tag.getAngle_r();
-            m_flagRobotFound = true;
-            return;
+            if(tag.getID() == ROBOT_ARUCO_ID)
+            {
+                m_robot.coord = tag.getCenter();
+                m_robot.angle = tag.getAngle_r();
+                m_flagRobotFound = true;
+                return;
+            }
+            else m_flagRobotFound = false;
         }
-        else m_flagRobotFound = false;
     }
+    else m_flagRobotFound = false;
 }
+
+    
 
 RPointVect RCoordinateHelper::locateRobot()
 {

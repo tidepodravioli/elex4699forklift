@@ -1,3 +1,4 @@
+#pragma once
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <thread>
@@ -53,6 +54,7 @@ class RCoordinateHelper : public CClient
      * @param refresh Whether or not to call refreshRobot() before getting the robots position
      */
     RCoordinateHelper(int cameraChannel = OVERHEAD_CAMERA_CHANNEL, bool refresh = false);
+    ~RCoordinateHelper();
 
     /**
      * @brief Starts getting live frames from the camera

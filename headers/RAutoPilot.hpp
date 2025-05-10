@@ -1,3 +1,4 @@
+#pragma once
 #include <opencv2/opencv.hpp>
 #include <chrono>
 #include <algorithm>
@@ -6,10 +7,10 @@
 #include "RCoordinateHelper.hpp"
 #include "RMotorDriver.hpp"
 
-#define MAX_AUTO_SPEED 200.0f
-#define ANGLE_GAIN 60.0f
-#define POINT_DISTANCE_THRESHOLD 5.0f
-#define DRIVE_CORRECTION_COOLDOWN 50
+#define MAX_AUTO_SPEED 150.0f
+#define ANGLE_GAIN 80.0f
+#define POINT_DISTANCE_THRESHOLD 100.0f
+#define DRIVE_CORRECTION_COOLDOWN 20
 
 using namespace cv;
 

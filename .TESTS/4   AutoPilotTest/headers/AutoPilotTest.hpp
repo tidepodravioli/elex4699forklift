@@ -1,13 +1,14 @@
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <vector>
+#include <chrono>
 
 #include "../../headers/RAutoPilot.hpp"
 #include "../../headers/RMotorDriver.hpp"
 #include "../../CLIENT/headers/ext/getstuff.h"
 
-#define MOTOR_L1 4
-#define MOTOR_L2 17
+#define MOTOR_L1 17
+#define MOTOR_L2 4
 #define MOTOR_R1 27
 #define MOTOR_R2 22
 
