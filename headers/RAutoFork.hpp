@@ -24,10 +24,11 @@ class RAutoFork
     Point2i m_packageCoords;
     vector<Point2i> m_dropOffCoords = {Point2i(0, 0), Point2i(0, 0), Point2i(0, 0)};
     std::chrono::seconds m_backupTime = std::chrono::seconds(FORKLIFT_BACKUP_TIME);
-
+    vector<RArUcoTag3> m_tags;
+    bool valid;
 
     public:
-    RAutoFork(&RPiCamera &camera, &RAutoPilot &autopilot, &RCoordinateHelper &helper, &RPiForklift &forklift);
+    RAutoFork(RPiCamera &camera, RAutoPilot &autopilot, RCoordinateHelper &helper, RPiForklift &forklift);
 
     void approachPackage();
 

@@ -8,10 +8,10 @@
 #include "RCoordinateHelper.hpp"
 #include "RMotorDriver.hpp"
 
-#define MAX_AUTO_SPEED 200.0f
-#define ANGLE_GAIN 60.0f
-#define POINT_DISTANCE_THRESHOLD 5.0f
-#define DRIVE_CORRECTION_COOLDOWN 50
+#define MAX_AUTO_SPEED 150.0f
+#define ANGLE_GAIN 80.0f
+#define POINT_DISTANCE_THRESHOLD 100.0f
+#define DRIVE_CORRECTION_COOLDOWN 20
 
 using namespace cv;
 
@@ -28,7 +28,9 @@ class RAutoPilot : public RMotorDriver
 
     public:
     /**
-     * @brief Construct a new RAutoPilot object
+     * @brief 
+     * 
+     */
      * 
      * @param driver The driver object to manipulate (MUST BE INITIALIZED)
      * @param helper The coordinate provider (MUST BE INITALIZED AND READY)

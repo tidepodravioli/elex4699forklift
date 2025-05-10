@@ -1,6 +1,6 @@
 #include "../headers/RAutoFork.hpp"
 
-RAutoFork::RAutoFork(&RPiCamera &camera, &RAutoPilot &autopilot, &RCoordinateHelper &helper, &RPiForklift &forklift) {
+RAutoFork::RAutoFork(RPiCamera &camera, RAutoPilot &autopilot, RCoordinateHelper &helper, RPiForklift &forklift) {
     m_camera = &camera;
     m_autopilot = &autopilot;
     m_helper = &helper;
@@ -9,7 +9,8 @@ RAutoFork::RAutoFork(&RPiCamera &camera, &RAutoPilot &autopilot, &RCoordinateHel
 
 void RAutoFork::approachPackage()
 {
-    m_closest_tag = m_camera->getClosestTags().at(0);
+    m_tags = m_camera->getClosestTags(valid);
+    m_closest_tag = m_tags.at(0);
     m_packageCoords = m_helper->getTagCoords(m_closest_tag);
     m_autopilot->driveToPoint(m_packageCoords);
 }
@@ -45,7 +46,7 @@ void RAutoFork::reset()
 {
     // Do a little dance (just for today)
     auto start = std::chrono::steady_clock::now();
-    while (std::chrono::steady_clock::now() - start < 1) {
+    while (std::chrono::steady_clock::now() - start < m_backupTime) {
         m_autopilot->write(255, -255);
     }
 

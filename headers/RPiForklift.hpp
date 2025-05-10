@@ -37,5 +37,5 @@ class RPiForklift : public RPiServo
    * 
    * @param position 
    */
-  void writePosition(LIFT_POSITION position);
+  void writePosition(int position);
 };
