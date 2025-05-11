@@ -2,6 +2,7 @@
 
 void RNetServer::startServer(int port)
 {
+    // starts listening on the given port
     thread server_t(&RNetServer::server_start, this, port);
     server_t.detach();
 }
