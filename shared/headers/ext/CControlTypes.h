@@ -35,13 +35,15 @@
 
 using namespace std;
 
+#ifdef USE_CCONTROL_TYPES
 /**
  * @brief Type of command being sent/received
  * 
  */
-enum COMMAND_TYPE {COMMAND_GET, COMMAND_SET, COMMAND_ACK, COMMAND_HEART};
+enum COMMAND_TYPE {COMMAND_INVALID = -1, COMMAND_GET, COMMAND_SET, COMMAND_ACK};
 /**
  * @brief Type of data being sent/received
  * 
  */
 enum DATA_TYPE {TYPE_INVALID = -1, TYPE_DIGITAL, TYPE_SERVO, TYPE_COMMAND}; 
+#endif

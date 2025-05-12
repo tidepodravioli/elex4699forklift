@@ -15,11 +15,6 @@
 #include "RMotorDriver.hpp"
 #include "RPiServo.hpp"
 #include "RNetServer.hpp"
-
-#include "RPiCamera.hpp"
-#include "RAutoPilot.hpp"
-#include "RAutoFork.hpp"
-#include "RArUcoReader.hpp"
 #include "RVidStream.hpp"
 
 
@@ -40,10 +35,6 @@ class RForkliftManager
 
     VideoCapture m_camera;
     RVidStream * m_stream;
-
-    RAutoPilot * m_autopilot;
-    RAutoFork * m_autofork;
-    RCoordinateHelper * m_helper;
 
     RNetServer m_server;
 
