@@ -34,4 +34,6 @@ class RNetServer : public CServer
     bool getCom(vector<RControlEvent> &events);
 
     void sendCom(string command);
+
+    void sendCom(RControlEvent event);
 };

@@ -20,16 +20,8 @@ void RForkliftManager::start()
         
         while(m_flagRun)
         {
-            if(m_flagManual)
-            {
-                getCom();
-                update();
-            }
-            else
-            {
-                automode();
-            }
-            
+            getCom();
+            update();
         }
     }
 
@@ -56,20 +48,14 @@ bool RForkliftManager::init()
 
     cout << "Manual mode services initialized! Checking automatic services..." << endl;
     cout << "Checking front camera..." << endl;
+    
+    m_camera = VideoCapture(0, CAP_V4L2);
     if(!m_camera.isOpened())
     {
         cout << "Error opening front camera! Auto mode will be unavailable." << endl;
         m_flagAutoAvailable = false;
         return true;
     }
-
-    cout << "Checking overhead camera..." << endl;
-    m_helper = new RCoordinateHelper();
-    m_helper->connect_socket(ARENA_CAMERA_IP, ARENA_CAMERA_PORT);
-    this_thread::sleep_for(chrono::milliseconds(100));
-    m_helper->startFrameGetter();
-    m_helper->refreshRobot();
-    if(!m_helper->robotFound())
     {
         cout << "Could not find robot on the arena! Auto mode will be unavailable." << endl;
         m_flagAutoAvailable = false;
@@ -94,16 +80,11 @@ void RForkliftManager::update()
     if(!m_commandQueue.empty())
     {
         RControlEvent current = m_commandQueue[0];
+
         const DATA_TYPE type = current.getType();
         const int origin = current.getOrigin();
 
-        if(type == TYPE_ANALOG)
-        {
-            cout << "JOYSTICK EVENT" << endl;
-            RJoystickEvent jcurrent(current);
-            m_driver->joystickDrive(jcurrent.percentX(), jcurrent.percentY());
-        } 
-        else if(type == TYPE_DIGITAL)
+        if(type == TYPE_DIGITAL)
         {
             if(origin == 1)
             {
@@ -120,6 +101,35 @@ void RForkliftManager::update()
                 cout << "SLOW MODE" << endl;
                 m_driver->toggleSlow();
             }
+        }
+        else if(type == TYPE_ANALOG)
+        {
+            cout << "JOYSTICK EVENT" << endl;
+            RJoystickEvent jcurrent(current);
+            m_driver->joystickDrive(jcurrent.percentX(), jcurrent.percentY());
+        }
+        else if(type == TYPE_COMMAND)
+        {
+            if (origin == 0)
+            {
+
+            }
+            else if (origin == 1)
+            {
+
+            }
+            else if (origin == 2)
+            {
+                vector<string> data = current.getValues();
+                
+                const string IPaddr = data[0];
+                const int port = stoi(data[1]);
+
+                m_stream = RVidStream();
+                m_stream->target(IPaddr, port);
+                m_stream->stream(m_camera);
+            }
+
         }
 
         m_commandQueue.erase(m_commandQueue.begin());

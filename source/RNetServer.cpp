@@ -21,18 +21,6 @@ bool RNetServer::getCom(vector<string> &commands)
 {
     vector<string> _commands;
     get_cmd(_commands);
-
-    for(int index = 0; index < _commands.size();)
-    {
-        const string command = _commands[index];
-        if(command.compare(SERVER_TX_REQ) >= 0)
-        {
-            send_string(SERVER_RX_ACK);
-            _commands.erase(_commands.begin() + index);
-        }
-        else index++;
-    }
-
     
     commands = _commands;
     return !commands.empty();
@@ -46,7 +34,7 @@ bool RNetServer::getCom(vector<RControlEvent> &events)
     {
         for(string command : commands)
         {
-            _events.push_back(RControlEvent(command));
+            _events.push_back(RControlEvent::parse(command));
         }
 
         events = _events;

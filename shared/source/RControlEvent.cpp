@@ -1,40 +1,53 @@
 #include "../headers/RControlEvent.hpp"
 
-RControlEvent::RControlEvent(DATA_TYPE type, int origin, int value)
+RControlEvent::RControlEvent()
 {
-    m_type = type;
-    m_origin = origin;
-    m_data.push_back(value);
+    m_com = COMMAND_INVALID;
+    m_type = TYPE_INVALID;
+    m_origin = -1;
+    m_data = {};
 }
 
-RControlEvent::RControlEvent(DATA_TYPE type, int origin, vector<int> values)
+RControlEvent::RControlEvent(EVENT_COMMAND_TYPE com, EVENT_DATA_TYPE type, int origin, int value)
 {
+    m_com = com;
     m_type = type;
     m_origin = origin;
-    m_data = values;
-}
-
-RControlEvent::RControlEvent(string packet)
-{
-    vector<string> parts = delimitString(packet, ' ');
-
-    m_type = str_to_type(parts[1]);
-    m_origin = stoi(parts[2]);
     
-    if(parts.size() > 4)
+    char * strval = new char[1000];
+    itoa(value, strval, 10);
+    m_data.push_back(strval);
+}
+
+RControlEvent::RControlEvent(EVENT_COMMAND_TYPE com, EVENT_DATA_TYPE type, int origin, vector<int> values)
+{
+    m_com = com;
+    m_type = type;
+    m_origin = origin;
+    
+    for(int i : values)
     {
-        for(int i = 3; i < parts.size(); i++)
-        {
-            m_data.push_back(stoi(parts[i]));
-        }
-    }
-    else
-    {
-        m_data = {stoi(parts[3])};
+        char * strval = new char[1000];
+        itoa(i, strval, 10);
+        m_data.push_back(strval);
     }
 }
 
-DATA_TYPE RControlEvent::getType()
+RControlEvent::RControlEvent(EVENT_COMMAND_TYPE com, EVENT_DATA_TYPE type, int origin, vector<string> values)
+{
+    m_com = com;
+    m_type = type;
+    m_origin = origin;
+    
+    m_data.insert(m_data.begin(), values.begin(), values.end());
+}
+
+EVENT_COMMAND_TYPE RControlEvent::getCom()
+{
+    return m_com;
+}
+
+EVENT_DATA_TYPE RControlEvent::getType()
 {
     return m_type;
 }
@@ -46,12 +59,95 @@ int RControlEvent::getOrigin()
 
 int RControlEvent::getValue()
 {
-    return m_data[0];
+    int result = -1;
+    try
+    {
+        result = stoi(m_data[0]);
+        return result;
+    }
+    catch(const std::exception& e)
+    {
+        return result;
+    }
+        
 }
 
-vector<int> RControlEvent::getValues()
+vector<string> RControlEvent::getValues()
 {
     return m_data;
+}
+
+string RControlEvent::asCommand(bool newline)
+{
+    return commandBuilder(m_com, m_type, m_origin, m_data, newline);
+}
+
+string RControlEvent::commandBuilder(EVENT_COMMAND_TYPE command, EVENT_DATA_TYPE datatype, int channel, vector<string> vals, bool addEndl)
+{
+    stringstream _commandBuilder;
+  switch(command)
+  {
+    case COMMAND_GET:
+      _commandBuilder << COM_GET_CHAR;
+      break;
+    case COMMAND_SET:
+      _commandBuilder << COM_SET_CHAR;
+      break;
+    case COMMAND_ACK:
+      _commandBuilder << COM_ACK_CHAR;
+      break;
+  }
+  _commandBuilder << CHAR_SPACE;
+
+  _commandBuilder  << (int)datatype << CHAR_SPACE;
+
+  _commandBuilder << channel;
+
+  if(!vals.empty())
+  {
+    for(string val : vals)
+    {
+      _commandBuilder << CHAR_SPACE << val;
+    }
+  }
+  
+  if(addEndl)
+    _commandBuilder << endl;
+
+  return _commandBuilder.str();
+}
+
+RControlEvent RControlEvent::parse(string command)
+{
+    try
+    {
+        vector<string> parts = delimitString(command, ' ');
+
+        //PARSE COMMAND TYPE
+        const char c_com =  parts[0][0];
+        EVENT_COMMAND_TYPE com = str_to_com(c_com);
+
+        //PARSE DATA TYPE
+        EVENT_DATA_TYPE typ = str_to_type(parts[1]);
+
+        //PARSE ORIGIN
+        int origin = stoi(parts[2]);
+
+        //PARSE DATA
+        vector<string> data;
+
+        if(parts.size() > 3)
+        {
+            data.insert(data.begin(), parts.begin() + 2, parts.end());
+        }
+
+        return RControlEvent(com, typ, origin, data);
+    }
+    catch(const std::exception& e)
+    {
+        return RControlEvent();
+    }
+    
 }
 
 vector<string> RControlEvent::delimitString(std::string input, char delimiter)
@@ -74,8 +170,29 @@ vector<string> RControlEvent::delimitString(std::string input, char delimiter)
     return parts;
 }
 
+EVENT_COMMAND_TYPE RControlEvent::str_to_com(char com)
+{
+    switch(com)
+    {
+        case 'G':
+        return COMMAND_GET;
+        break;
 
-DATA_TYPE RControlEvent::str_to_type(string type)
+        case 'S':
+        return COMMAND_SET;
+        break;
+
+        case 'A':
+        return COMMAND_ACK;
+        break;
+
+        default:
+        return COMMAND_INVALID;
+        break;
+    }
+}
+
+EVENT_DATA_TYPE RControlEvent::str_to_type(string type)
 {
     int typeint = stoi(type);
 
@@ -90,7 +207,7 @@ DATA_TYPE RControlEvent::str_to_type(string type)
         break;
 
         case 2:
-        return TYPE_SERVO;
+        return TYPE_COMMAND;
         break;
 
         default:

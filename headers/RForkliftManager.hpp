@@ -1,5 +1,6 @@
 #pragma once
 
+#include <opencv2/opencv.hpp>
 #include <vector>
 #include <pigpio.h>
 #include <unistd.h>
@@ -19,11 +20,13 @@
 #include "RAutoPilot.hpp"
 #include "RAutoFork.hpp"
 #include "RArUcoReader.hpp"
+#include "RVidStream.hpp"
 
 
 #include "ForkliftConstants.h"
 
 using namespace std;
+using namespace cv;
 
 /**
  * @brief Main object class for the Forklift project
@@ -35,7 +38,9 @@ class RForkliftManager
     RMotorDriver * m_driver;
     RPiForklift * m_forklift;
 
-    RPiCamera m_camera;
+    VideoCapture m_camera;
+    RVidStream * m_stream;
+
     RAutoPilot * m_autopilot;
     RAutoFork * m_autofork;
     RCoordinateHelper * m_helper;
@@ -45,7 +50,6 @@ class RForkliftManager
     vector<RControlEvent> m_commandQueue;
 
     bool m_flagRun = false;
-    bool m_flagManual = false;
     bool m_flagAutoAvailable = true;
 
     public:

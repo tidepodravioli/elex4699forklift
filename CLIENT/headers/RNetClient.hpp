@@ -17,35 +17,12 @@
 
 using namespace std;
 
-class RNetClient
+class RNetClient : private CClient
 {
 private:
     bool m_flagConnected = false;
-    CClient m_client;
     void consoleout(const string message);
-
-    /**
-     * @brief Builds a ready-to-send command to send to the microcontroller
-     *
-     * @param command The type of command to send (GET, SET, or ACK)
-     * @param datatype The type of data wanted
-     * @param channel The destination channel to write to
-     * @param addEndl Whether or not to add a line feed character to the end of the command string
-     * @param val The value to be sent, -1 if sending a GET
-     * @return string
-     */
-    string commandBuilder(COMMAND_TYPE command, DATA_TYPE datatype, int channel, int val = -1, bool addEndl = true);
-    string commandBuilder(COMMAND_TYPE command, DATA_TYPE datatype, int channel, vector<int> vals = {}, bool addEndl = true);
-
-    //===== HEARTBEAT PROCESSING =====
-    bool m_flagCheckHB = false;
-    chrono::system_clock::time_point m_lastHeartBeat;
-    /**
-     * @brief Threaded process that received a heartbeat signal from the server
-     *
-     */
-    void heartbeat_t();
-
+    
 public:
     RNetClient() {}
 
@@ -54,7 +31,6 @@ public:
     void disconnect();
 
     void sendEvent(RControlEvent event);
-    void sendEvent(RJoystickEvent event);
 
     bool checkAlive();
 

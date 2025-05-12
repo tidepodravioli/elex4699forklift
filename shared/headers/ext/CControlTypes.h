@@ -39,9 +39,9 @@ using namespace std;
  * @brief Type of command being sent/received
  * 
  */
-enum COMMAND_TYPE {COMMAND_GET, COMMAND_SET, COMMAND_ACK};
+enum COMMAND_TYPE {COMMAND_GET, COMMAND_SET, COMMAND_ACK, COMMAND_HEART};
 /**
  * @brief Type of data being sent/received
  * 
  */
-enum DATA_TYPE {TYPE_INVALID = -1, TYPE_DIGITAL, TYPE_ANALOG, TYPE_SERVO}; 
+enum DATA_TYPE {TYPE_INVALID = -1, TYPE_DIGITAL, TYPE_SERVO, TYPE_COMMAND}; 
