@@ -8,6 +8,7 @@
 #include "stdio.h"
 
 #include "../../shared/headers/ForkliftConstants.h"
+#include "RArUcoReader.hpp"
 #include "RArUcoTag3.hpp"
 
 using namespace cv;
@@ -25,7 +26,7 @@ class RPiCamera : public VideoCapture
     private:
     Mat m_cameraMatrix, m_distCoeffs;
 
-    cv::Ptr<cv::aruco::Dictionary> m_dictionary;
+    RArUcoReader m_reader;
 
     public:
     /**
