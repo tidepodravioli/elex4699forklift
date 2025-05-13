@@ -2,7 +2,7 @@
 
 RPiCamera::RPiCamera(int index, int apiPreference) : VideoCapture(index, apiPreference)
 {
-    m_dictionary = aruco::getPredefinedDictionary(aruco::DICT_6X6_250);
+
 }
 
 bool RPiCamera::importCalibration(string filename)
@@ -29,7 +29,8 @@ vector<RArUcoTag3> RPiCamera::getClosestTags(bool &valid)
     std::vector<std::vector<cv::Point2f>> corners;
 
     // Step 1: Detect markers in the frame
-    cv::aruco::detectMarkers(frame, m_dictionary, corners, ids);
+    
+    m_reader.getTags(frame, corners, ids);
 
     // If no markers detected, return a large number (indicating no markers in the frame)
     if (ids.empty()) {

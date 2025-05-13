@@ -27,6 +27,15 @@ vector<RArUcoTag> RArUcoReader::getTags(Mat &im)
     return tags;
 }
 
+void RArUcoReader::getTags(Mat &im, vector<vector<Point2f>> &corners, vector<int> &ids)
+{
+    #ifdef NEW_OPENCV_CONF
+    m_detector->detectMarkers(im, corners, ids);
+    #else
+    aruco::detectMarkers(im, m_dictionary, corners, ids);
+    #endif
+}
+
 RArUcoReader::RArUcoReader()
 {
     config();

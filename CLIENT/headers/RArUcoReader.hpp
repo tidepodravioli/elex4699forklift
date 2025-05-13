@@ -86,6 +86,8 @@ class RArUcoReader
      */
     vector<RArUcoTag> getTags(Mat &im);
 
+    void getTags(Mat &im, vector<vector<Point2f>> &corners, vector<int> &ids);
+
     /**
      * @brief Extracts the data from a collection of tags
      * 
