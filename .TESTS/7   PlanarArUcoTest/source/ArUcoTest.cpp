@@ -7,36 +7,34 @@ ArUcoTest::ArUcoTest()
 
 void ArUcoTest::start()
 {
-    cout << "ArUcoTest starting." << endl;
-    importCalibration("../calibration.yaml");
-    
-    RPiCamera camera(0, CAP_V4L2);
-    RArUcoReader reader;
+    RCoordinateHelper helper(1, true);
+    helper.connect_socket("192.168.1.101", 5008);
+    helper.startFrameGetter();
 
-    if(camera.isOpened())
+    RPiCamera camera;
+    bool calib = camera.importCalibration("../calibration.yaml");
+    if(calib) cout << "Calibration successful!" << endl;
+
+    while(true)
     {
-        do
-        {
-            Mat frame;
-            if(camera.read(frame))
-            {   
-                if(!frame.empty()){
-                    flip(frame, frame, -1);
-                    vector<RArUcoTag> tags = reader.getTags(frame);
-                    RArUcoReader::drawTags(frame, tags);
-                    //RArUcoReader::drawArrows(frame, tags);
+        const Point2i coords = helper.getRobotCoords();
+        const float angle = helper.getRobotAngle_r();
 
+        Vec3d trans;
+        camera.getTranslationClosestTag(trans);
 
-                    double minDistance = getDistanceToClosestMarker(frame, aruco::getPredefinedDictionary(aruco::DICT_6X6_250));
-                    cout << minDistance << endl;
-                    imshow("ArUcoTest", frame);
-                }
-            }
-            else cout << "Empty frame" << endl;
-        }
-        while(waitKey(20) != 'q');
+        const float prop_angle = M_PI - angle;
+
+        const double x0 = coords.x + trans[2] * cos(prop_angle) + trans[0] * sin(prop_angle);
+        const double y0 = coords.y + trans[2] * sin(prop_angle) - trans[0] * cos(prop_angle);
+
+        Mat image;
+        helper.getFrame(image);
+        circle(image, Point2d(x0, y0), 20, Scalar(0,0,255));
+
+        imshow("TEST", image);
+        waitKey(1);
     }
-    else cout << "Error init camera" << endl;
 }
 
 bool ArUcoTest::importCalibration(string fileName)

@@ -8,13 +8,13 @@
 #include <vector>
 #include <math.h>
 
-#include "../shared/headers/ext/Client.h"
+#include "../../shared/headers/ext/Client.h"
 #include "RArUcoReader.hpp"
 #include "RArUcoTag.hpp"
 #include "RArUcoTag3.hpp"
 #include "RPointVect.h"
 
-#include "ForkliftConstants.h"
+#include "../../shared/headers/ForkliftConstants.h"
 
 using namespace cv;
 using namespace std;
