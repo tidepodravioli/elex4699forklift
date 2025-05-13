@@ -1,5 +1,10 @@
 #include "../headers/RNetServer.hpp"
 
+RNetServer::RNetServer()
+{
+    
+}
+
 void RNetServer::startServer(int port)
 {
     // starts listening on the given port

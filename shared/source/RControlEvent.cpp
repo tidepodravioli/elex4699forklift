@@ -14,9 +14,7 @@ RControlEvent::RControlEvent(EVENT_COMMAND_TYPE com, EVENT_DATA_TYPE type, int o
     m_type = type;
     m_origin = origin;
     
-    char * strval = new char[1000];
-    itoa(value, strval, 10);
-    m_data.push_back(strval);
+    m_data.push_back(to_string(value));
 }
 
 RControlEvent::RControlEvent(EVENT_COMMAND_TYPE com, EVENT_DATA_TYPE type, int origin, vector<int> values)
@@ -27,9 +25,7 @@ RControlEvent::RControlEvent(EVENT_COMMAND_TYPE com, EVENT_DATA_TYPE type, int o
     
     for(int i : values)
     {
-        char * strval = new char[1000];
-        itoa(i, strval, 10);
-        m_data.push_back(strval);
+        m_data.push_back(to_string(i));
     }
 }
 

@@ -81,7 +81,7 @@ void RForkliftManager::update()
     {
         RControlEvent current = m_commandQueue[0];
 
-        const DATA_TYPE type = current.getType();
+        const EVENT_DATA_TYPE type = current.getType();
         const int origin = current.getOrigin();
 
         if(type == TYPE_DIGITAL)
@@ -125,7 +125,7 @@ void RForkliftManager::update()
                 const string IPaddr = data[0];
                 const int port = stoi(data[1]);
 
-                m_stream = RVidStream();
+                m_stream = new RVidStream();
                 m_stream->target(IPaddr, port);
                 m_stream->stream(m_camera);
             }

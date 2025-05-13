@@ -1,5 +1,6 @@
 #include <vector>
 #include <string>
+#include <stdlib.h>
 
 #include "RControlEvent.hpp"
 #include "ext/CJoystickPosition.hpp"
@@ -15,8 +16,9 @@ class RJoystickEvent : public RControlEvent
     RJoystickEvent(CJoystickPosition &val) : RControlEvent(COMMAND_SET, TYPE_ANALOG, 0, { val.getX(), val.getY()}) { m_joystick = val; }
     RJoystickEvent(RControlEvent event) : RControlEvent(COMMAND_SET, TYPE_ANALOG, 0, event.getValues())
     { 
-        int x = 
-        m_joystick = CJoystickPosition(m_data[0], m_data[1]);
+        int x = stoi(m_data[0]);
+        int y = stoi(m_data[1]);
+        m_joystick = CJoystickPosition(x, y);
     }
 
     bool atRest();

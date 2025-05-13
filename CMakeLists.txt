@@ -8,7 +8,7 @@ project(forkliftserver)
 add_compile_definitions(PI4618)
 
 set(OpenCV_STATIC ON)
-set(OpenCV_RUNTIME vc16)
+set(OpenCV_RUNTIME vc17)
 find_package(OpenCV REQUIRED)
 
 find_library(PIGPIO_LIB NAMES pigpio REQUIRED)

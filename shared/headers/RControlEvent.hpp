@@ -5,6 +5,7 @@
 #include <string>
 #include <sstream>
 #include <stdlib.h>
+#include <iostream>
 
 /**
  * @brief Type of command being sent/received
