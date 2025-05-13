@@ -128,21 +128,21 @@ void RForkliftClient::gui_startClient()
         if(button1)
         { 
             cout << "BUTTON1 PRESSED" << endl;
-            RControlEvent buttonEvent(TYPE_DIGITAL, 1, 1);
+            RControlEvent buttonEvent(ETYPE_DIGITAL, 1, 1);
             m_network.sendEvent(buttonEvent);
         }
 
         if(button2) 
         {
             cout << "BUTTON2 PRESSED" << endl;
-            RControlEvent buttonEvent(TYPE_DIGITAL, 2, 1);
+            RControlEvent buttonEvent(ETYPE_DIGITAL, 2, 1);
             m_network.sendEvent(buttonEvent);
         }
 
         if(buttonj1)
         {
             cout << "BUTTONJ1 PRESSED" << endl;
-            RControlEvent buttonEvent(TYPE_DIGITAL, 5, 1);
+            RControlEvent buttonEvent(ETYPE_DIGITAL, 5, 1);
             m_network.sendEvent(buttonEvent);
         }
     }   

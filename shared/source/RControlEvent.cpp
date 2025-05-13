@@ -2,8 +2,8 @@
 
 RControlEvent::RControlEvent()
 {
-    m_com = COMMAND_INVALID;
-    m_type = TYPE_INVALID;
+    m_com = ECOMMAND_INVALID;
+    m_type = ETYPE_INVALID;
     m_origin = -1;
     m_data = {};
 }
@@ -83,13 +83,13 @@ string RControlEvent::commandBuilder(EVENT_COMMAND_TYPE command, EVENT_DATA_TYPE
     stringstream _commandBuilder;
   switch(command)
   {
-    case COMMAND_GET:
+    case ECOMMAND_GET:
       _commandBuilder << COM_GET_CHAR;
       break;
-    case COMMAND_SET:
+    case ECOMMAND_SET:
       _commandBuilder << COM_SET_CHAR;
       break;
-    case COMMAND_ACK:
+    case ECOMMAND_ACK:
       _commandBuilder << COM_ACK_CHAR;
       break;
   }
@@ -171,19 +171,19 @@ EVENT_COMMAND_TYPE RControlEvent::str_to_com(char com)
     switch(com)
     {
         case 'G':
-        return COMMAND_GET;
+        return ECOMMAND_GET;
         break;
 
         case 'S':
-        return COMMAND_SET;
+        return ECOMMAND_SET;
         break;
 
         case 'A':
-        return COMMAND_ACK;
+        return ECOMMAND_ACK;
         break;
 
         default:
-        return COMMAND_INVALID;
+        return ECOMMAND_INVALID;
         break;
     }
 }
@@ -195,19 +195,19 @@ EVENT_DATA_TYPE RControlEvent::str_to_type(string type)
     switch(typeint)
     {
         case 0:
-        return TYPE_DIGITAL;
+        return ETYPE_DIGITAL;
         break;
 
         case 1:
-        return TYPE_ANALOG;
+        return ETYPE_ANALOG;
         break;
 
         case 2:
-        return TYPE_COMMAND;
+        return ETYPE_COMMAND;
         break;
 
         default:
-        return TYPE_INVALID;
+        return ETYPE_INVALID;
         break;
     }
 }

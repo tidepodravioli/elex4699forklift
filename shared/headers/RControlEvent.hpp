@@ -11,12 +11,12 @@
  * @brief Type of command being sent/received
  * 
  */
-enum EVENT_COMMAND_TYPE {COMMAND_INVALID = -1, COMMAND_GET, COMMAND_SET, COMMAND_ACK};
+enum EVENT_COMMAND_TYPE {ECOMMAND_INVALID = -1, ECOMMAND_GET, ECOMMAND_SET, ECOMMAND_ACK};
 /**
  * @brief Type of data being sent/received
  * 
  */
-enum EVENT_DATA_TYPE {TYPE_INVALID = -1, TYPE_DIGITAL, TYPE_ANALOG, TYPE_COMMAND}; 
+enum EVENT_DATA_TYPE {ETYPE_INVALID = -1, ETYPE_DIGITAL, ETYPE_ANALOG, ETYPE_COMMAND}; 
 
 using namespace std;
 

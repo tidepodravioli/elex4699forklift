@@ -13,8 +13,8 @@ class RJoystickEvent : public RControlEvent
     CJoystickPosition m_joystick;
 
     public:
-    RJoystickEvent(CJoystickPosition &val) : RControlEvent(COMMAND_SET, TYPE_ANALOG, 0, { val.getX(), val.getY()}) { m_joystick = val; }
-    RJoystickEvent(RControlEvent event) : RControlEvent(COMMAND_SET, TYPE_ANALOG, 0, event.getValues())
+    RJoystickEvent(CJoystickPosition &val) : RControlEvent(ECOMMAND_SET, ETYPE_ANALOG, 0, { val.getX(), val.getY()}) { m_joystick = val; }
+    RJoystickEvent(RControlEvent event) : RControlEvent(ECOMMAND_SET, ETYPE_ANALOG, 0, event.getValues())
     { 
         int x = stoi(m_data[0]);
         int y = stoi(m_data[1]);

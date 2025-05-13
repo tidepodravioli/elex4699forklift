@@ -81,10 +81,25 @@ void RForkliftManager::update()
     {
         RControlEvent current = m_commandQueue[0];
 
+        const EVENT_COMMAND_TYPE com = current.getCom();
         const EVENT_DATA_TYPE type = current.getType();
         const int origin = current.getOrigin();
 
-        if(type == TYPE_DIGITAL)
+        if(com == ECOMMAND_SET)
+        {
+
+        }
+        else if(com == ECOMMAND_GET)
+        {
+            if(type == ETYPE_COMMAND)
+            {
+                if(origin == 0)
+                {
+                    RControlEvent 
+                }
+            }
+        }
+        if(type == ETYPE_DIGITAL)
         {
             if(origin == 1)
             {
@@ -102,13 +117,13 @@ void RForkliftManager::update()
                 m_driver->toggleSlow();
             }
         }
-        else if(type == TYPE_ANALOG)
+        else if(type == ETYPE_ANALOG)
         {
             cout << "JOYSTICK EVENT" << endl;
             RJoystickEvent jcurrent(current);
             m_driver->joystickDrive(jcurrent.percentX(), jcurrent.percentY());
         }
-        else if(type == TYPE_COMMAND)
+        else if(type == ETYPE_COMMAND)
         {
             if (origin == 0)
             {

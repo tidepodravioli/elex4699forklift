@@ -5,6 +5,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(elex4699forklift_client)
 
+
 find_package(OpenCV REQUIRED)
 
 include_directories(${OpenCV_INCLUDE_DIRS} "./headers" "./headers/ext" "../shared/headers" "../shared/headers/ext")
