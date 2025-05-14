@@ -7,14 +7,14 @@ add_compile_definitions(PI4618)
 
 find_package(OpenCV REQUIRED)
 
-include_directories(${OpenCV_INCLUDE_DIRS} "./headers" "../../../headers" "../../../CLIENT/headers" "../../../ext/headers")
+include_directories(${OpenCV_INCLUDE_DIRS} "./headers" "../../headers" "../../CLIENT/headers" "../../ext/headers")
 link_directories(${OpenCV_LIB_DIR})
 
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_executable(arucotest "./main.cpp" "./source/ArUcoTest.cpp" "../../../CLIENT/source/RArUcoReader.cpp" "../../../CLIENT/source/RArUcoTag.cpp" "../../../CLIENT/source/RArUcoReader.cpp" "../../../CLIENT/source/RPiCamera.cpp" "../../../CLIENT/source/RCoordinateHelper.cpp" "../../../CLIENT/source/RArUcoTag3.cpp""../../../shared/source/ext/Client.cpp" ) 
+add_executable(arucotest "./main.cpp" "./source/ArUcoTest.cpp" "../../CLIENT/source/RArUcoReader.cpp" "../../CLIENT/source/RArUcoTag.cpp" "../../CLIENT/source/RArUcoReader.cpp" "../../CLIENT/source/RPiCamera.cpp" "../../CLIENT/source/RCoordinateHelper.cpp" "../../CLIENT/source/RArUcoTag3.cpp" "../../shared/source/ext/Client.cpp" ) 
 
 target_link_libraries(arucotest PRIVATE ${OpenCV_LIBS})
 target_include_directories(arucotest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${OpenCV_INCLUDE_DIRS})

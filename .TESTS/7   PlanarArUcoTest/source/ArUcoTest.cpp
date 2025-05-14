@@ -11,8 +11,8 @@ void ArUcoTest::start()
     helper.connect_socket("192.168.1.101", 5008);
     helper.startFrameGetter();
 
-    RPiCamera camera;
-    bool calib = camera.importCalibration("../calibration.yaml");
+    RPiCamera camera(0, CAP_V4L2);
+    bool calib = camera.importCalibration("calibration.yaml");
     if(calib) cout << "Calibration successful!" << endl;
 
     while(true)

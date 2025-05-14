@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "RArUcoTag.hpp"
-#include "RPiCamera.hpp"
 
 using namespace std;
 using namespace cv;
