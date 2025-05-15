@@ -9,7 +9,7 @@ void RVidReceiver::listen(int port)
 {
     const string pipeline = getPipeline(port);
 
-    m_camera = new VideoCapture(pipeline, CAP_GSTREAMER);
+    m_camera = new cv::VideoCapture(pipeline, cv::CAP_GSTREAMER);
 
     if(m_camera->isOpened())
     {
@@ -33,7 +33,7 @@ string RVidReceiver::getPipeline(int port)
     return pipeline.str();
 }
 
-bool RVidReceiver::getFrame(Mat &im)
+bool RVidReceiver::getFrame(cv::Mat &im)
 {
     if(m_flagConnected)
     {

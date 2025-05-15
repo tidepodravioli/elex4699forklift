@@ -13,7 +13,7 @@ class RAutoFork
     private:
     RPiCamera * m_camera;
     RCoordinateHelper * m_helper;
-    Vec3d m_closest_tag_translation;
+    cv::Vec3d m_closest_tag_translation;
     double m_closest_tag_angle;
     std::chrono::seconds m_backupTime = std::chrono::seconds(FORKLIFT_BACKUP_TIME);
     bool valid;

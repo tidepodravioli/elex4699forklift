@@ -19,9 +19,9 @@
 #include <mutex>
 #include <vector>
 
-#ifdef PI4618
+//#ifdef PI4618
 #include <opencv2/opencv.hpp>
-#endif
+//#endif
 
 class CServer
 {

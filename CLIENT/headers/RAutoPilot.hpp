@@ -1,19 +1,20 @@
 #pragma once
 
+#define _USE_MATH_DEFINES
+
 #include <opencv2/opencv.hpp>
 #include <chrono>
 #include <algorithm>
 #include <cmath>
 
 #include "RCoordinateHelper.hpp"
-#include "RMotorDriver.hpp"
+#include "RMotorWriter.hpp"
 
 #define MAX_AUTO_SPEED 150.0f
 #define ANGLE_GAIN 80.0f
 #define POINT_DISTANCE_THRESHOLD 100.0f
 #define DRIVE_CORRECTION_COOLDOWN 20
 
-using namespace cv;
 
 /**
  * @brief Provides automatic driving of the robot based on a destination or a desired heading
@@ -21,7 +22,8 @@ using namespace cv;
  * uses the location of the robot, as given by the helper, to determine a straight-ish path to
  * a destination point.
  */
-class RAutoPilot : public RMotorDriver
+
+class RAutoPilot : public RMotorWriter
 {
     private:
     RCoordinateHelper * m_helper; ///< Provides the positional information of the robot on the map
@@ -29,20 +31,17 @@ class RAutoPilot : public RMotorDriver
     public:
     /**
      * @brief 
-     * 
-     */
-     * 
      * @param driver The driver object to manipulate (MUST BE INITIALIZED)
      * @param helper The coordinate provider (MUST BE INITALIZED AND READY)
      */
-    RAutoPilot(RMotorDriver &driver, RCoordinateHelper &helper);
+    RAutoPilot(RMotorWriter &driver, RCoordinateHelper &helper);
 
     /**
      * @brief Drives the robot to a given point of the coordinate grid
      * 
      * @param point The point on the coordinate grid to drive to (relative to the x-y origin of the Mat)
      */
-    void driveToPoint(Point2i point);
+    void driveToPoint(cv::Point2i point);
 
     /**
      * @brief Orients the robot to match the given angle without translating
@@ -63,5 +62,5 @@ class RAutoPilot : public RMotorDriver
      * 
      * @param path Collection of points to drive to
      */
-    void drivePath(vector<Point2i> path);
+    void drivePath(std::vector<cv::Point2i> path);
 };

@@ -24,7 +24,7 @@ bool RNetClient::connect(string IPaddr, int port)
 
 void RNetClient::disconnect()
 {
-    m_client.close_socket();
+    close_socket();
 }
 
 void RNetClient::sendEvent(RControlEvent event)

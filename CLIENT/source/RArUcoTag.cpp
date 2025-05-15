@@ -1,6 +1,6 @@
 #include "../headers/RArUcoTag.hpp"
 
-RArUcoTag::RArUcoTag(int tagID, vector<Point2f> corners)
+RArUcoTag::RArUcoTag(int tagID, vector<cv::Point2f> corners)
 {
     m_tagID = tagID;
     m_corners = corners;
@@ -11,12 +11,12 @@ int RArUcoTag::getID()
     return m_tagID;
 }
 
-vector<Point2f> RArUcoTag::getCorners()
+vector<cv::Point2f> RArUcoTag::getCorners()
 {
     return m_corners;
 }
 
-Point2f RArUcoTag::getCenter()
+cv::Point2f RArUcoTag::getCenter()
 {
     cv::Point2f center(0, 0);
     for (const auto& pt : m_corners) {
@@ -44,7 +44,7 @@ float RArUcoTag::getAngle_d()
     return angleDeg;
 }
 
-void RArUcoTag::drawOrientationArrow(Mat &image)
+void RArUcoTag::drawOrientationArrow(cv::Mat &image)
 {
     cv::Point2f center = getCenter();
 
@@ -63,13 +63,13 @@ void RArUcoTag::drawOrientationArrow(Mat &image)
     cv::arrowedLine(image, center, end, cv::Scalar(255, 0, 0), 2, cv::LINE_AA);
 }
 
-void RArUcoTag::extract(RArUcoTag tag, int &id, vector<Point2f> &corners)
+void RArUcoTag::extract(RArUcoTag tag, int &id, vector<cv::Point2f> &corners)
 {
     id = tag.getID();
     corners = tag.getCorners();
 }
 
-void RArUcoTag::drawOrientationArrow(RArUcoTag tag, Mat& image) {
+void RArUcoTag::drawOrientationArrow(RArUcoTag tag, cv::Mat& image) {
     cv::Point2f center = tag.getCenter();
 
     // Arrow length in pixels (adjust as needed)

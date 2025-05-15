@@ -1,15 +1,15 @@
 #include "../headers/RAutoPilot.hpp"
 
-RAutoPilot::RAutoPilot(RMotorDriver &driver, RCoordinateHelper &helper) : RMotorDriver(driver)
+RAutoPilot::RAutoPilot(RMotorWriter &driver, RCoordinateHelper &helper) : RMotorWriter(driver)
 {
     m_helper = &helper;
 }
 
-void RAutoPilot::driveToPoint(Point2i point)
+void RAutoPilot::driveToPoint(cv::Point2i point)
 {
     while (true) {
         //Get robot's current position and angle
-        Point2i pos = m_helper->getRobotCoords();
+        cv::Point2i pos = m_helper->getRobotCoords();
         float heading = m_helper->getRobotAngle_r(); // In radians
 
         cout << "Heading : " << heading << endl;
@@ -22,7 +22,7 @@ void RAutoPilot::driveToPoint(Point2i point)
         //if the robot's distance from the point is within this threshold
         if (distance < POINT_DISTANCE_THRESHOLD) {
             cout << "destination reached" << endl;
-            m_driver->stop(); //the destination can be considered to have been reached
+            stop(); //the destination can be considered to have been reached
             return;
         }
 
@@ -80,9 +80,9 @@ void RAutoPilot::orientRobot_d(float angle)
     orientRobot_r(rad);
 }
 
-void RAutoPilot::drivePath(vector<Point2i> path)
+void RAutoPilot::drivePath(vector<cv::Point2i> path)
 {
-    for(Point2i point : path)
+    for(cv::Point2i point : path)
     {
         driveToPoint(point);
     }

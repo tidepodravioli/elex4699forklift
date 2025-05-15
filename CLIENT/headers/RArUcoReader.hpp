@@ -7,7 +7,6 @@
 #include "RArUcoTag.hpp"
 
 using namespace std;
-using namespace cv;
 
 #ifdef NEW_OPENCV_CONF
 #pragma message("NEW_OPENCV will be used for RArUcoReader")
@@ -34,17 +33,17 @@ using namespace cv;
 class RArUcoReader
 {
     private:
-    VideoCapture * m_vid = nullptr;
-    Mat * m_frame = nullptr;
+    cv::VideoCapture * m_vid = nullptr;
+    cv::Mat * m_frame = nullptr;
 
     vector<RArUcoTag> m_tags;
 
     #ifdef NEW_OPENCV_CONF
-    aruco::DetectorParameters m_detectorParams;
-    aruco::Dictionary m_dictionary;
-    aruco::ArucoDetector * m_detector;
+    cv::aruco::DetectorParameters m_detectorParams;
+    cv::aruco::Dictionary m_dictionary;
+    cv::aruco::ArucoDetector * m_detector;
     #else
-    Ptr<aruco::Dictionary> m_dictionary;
+    cv::Ptr<cv::aruco::Dictionary> m_dictionary;
     #endif
 
     void config();
@@ -61,14 +60,14 @@ class RArUcoReader
      * 
      * @param image The image to read from
      */
-    RArUcoReader(Mat &image);
+    RArUcoReader(cv::Mat &image);
 
     /**
      * @brief Constructs a new RArUcoReader that reads from a video stream
      * 
      * @param vid Video stream to read from
      */
-    RArUcoReader(VideoCapture &vid);
+    RArUcoReader(cv::VideoCapture &vid);
 
     /**
      * @brief Reads tags from the Mat given in the constructor, or the next frame of the given VideoCapture
@@ -83,9 +82,9 @@ class RArUcoReader
      * @param im The image to read the tags from
      * @return vector<RArUcoTag> The tags read from the frame
      */
-    vector<RArUcoTag> getTags(Mat &im);
+    vector<RArUcoTag> getTags(cv::Mat &im);
 
-    void getTags(Mat &im, vector<vector<Point2f>> &corners, vector<int> &ids);
+    void _getTags(cv::Mat &im, vector<vector<cv::Point2f>> &corners, vector<int> &ids);
 
     /**
      * @brief Extracts the data from a collection of tags
@@ -94,7 +93,7 @@ class RArUcoReader
      * @param ids The ids of each tag
      * @param corners The locations of the corners of each tag
      */
-    static void extract(vector<RArUcoTag> tags, vector<int> &ids, vector<vector<Point2f>> &corners);
+    static void extract(vector<RArUcoTag> tags, vector<int> &ids, vector<vector<cv::Point2f>> &corners);
     
     /**
      * @brief Draws the given tags on an image
@@ -102,7 +101,7 @@ class RArUcoReader
      * @param im The image to draw the tags on
      * @param tags The tags to draw on the image
      */
-    static void drawTags(Mat &im, vector<RArUcoTag> tags);
+    static void drawTags(cv::Mat &im, vector<RArUcoTag> tags);
 
     /**
      * @brief Draws arrows showing which way a collection of tags is pointing
@@ -110,5 +109,5 @@ class RArUcoReader
      * @param im The image to draw the arrows on
      * @param tags The tags to draw the arrows for
      */
-    static void drawArrows(Mat &im, vector<RArUcoTag> tags);
+    static void drawArrows(cv::Mat &im, vector<RArUcoTag> tags);
 };

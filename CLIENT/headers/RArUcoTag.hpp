@@ -3,7 +3,6 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
-using namespace cv;
 using namespace std;
 
 /**
@@ -21,7 +20,7 @@ class RArUcoTag
 {
     private:
     int m_tagID;
-    vector<Point2f> m_corners;
+    vector<cv::Point2f> m_corners;
 
     public:
     /**
@@ -31,7 +30,7 @@ class RArUcoTag
      * @param tagID The ID associated with the tag
      * @param corners The locations of each corner of the tag relative to its original Mat
      */
-    RArUcoTag(int tagID, vector<Point2f> corners);
+    RArUcoTag(int tagID, vector<cv::Point2f> corners);
 
     /**
      * @brief Gets the ID of this tag
@@ -43,16 +42,16 @@ class RArUcoTag
     /**
      * @brief Gets the locations of the corners of the tag
      * 
-     * @return vector<Point2f> The corners of the tag, as a vector of Point2f's (sub-pixel coordinates)
+     * @return vector<cv::Point2f> The corners of the tag, as a vector of Point2f's (sub-pixel coordinates)
      */
-    vector<Point2f> getCorners();
+    vector<cv::Point2f> getCorners();
 
     /**
      * @brief Calculates the center of the tag using the locations of the corners
      * 
-     * @return Point2f The location of the center of the tag
+     * @return cv::Point2f The location of the center of the tag
      */
-    Point2f getCenter();
+    cv::Point2f getCenter();
 
     /**
      * @brief Calculates the orientation of the tag as an angle.
@@ -77,7 +76,7 @@ class RArUcoTag
      * 
      * @param image The image to draw the arrow on
      */
-    void drawOrientationArrow(Mat &image);
+    void drawOrientationArrow(cv::Mat &image);
 
     /**
      * @brief Returns the tag ID and corner locations of the given tag
@@ -86,7 +85,7 @@ class RArUcoTag
      * @param id Where to return the tag ID
      * @param corners Where to return the corner points
      */
-    static void extract(RArUcoTag tag, int &id, vector<Point2f> &corners);
+    static void extract(RArUcoTag tag, int &id, vector<cv::Point2f> &corners);
 
     /**
      * @brief Draws an orientation arrow at the location of the given tag
@@ -94,5 +93,5 @@ class RArUcoTag
      * @param tag The tag to draw on the image
      * @param image The image to draw the tag on
      */
-    static void drawOrientationArrow(RArUcoTag tag,  Mat &image);
+    static void drawOrientationArrow(RArUcoTag tag,  cv::Mat &image);
 };

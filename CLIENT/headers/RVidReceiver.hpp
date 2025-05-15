@@ -3,7 +3,6 @@
 #include <sstream>
 
 using namespace std;
-using namespace cv;
 
 class RVidReceiver
 {
@@ -12,7 +11,7 @@ class RVidReceiver
 
     bool m_debug;
 
-    VideoCapture * m_camera;
+    cv::VideoCapture * m_camera;
 
     string getPipeline(int port);
 
@@ -21,5 +20,5 @@ class RVidReceiver
 
     void listen(int port);
 
-    bool getFrame(Mat &im);
+    bool getFrame(cv::Mat &im);
 };

@@ -11,7 +11,6 @@
 #include "RArUcoReader.hpp"
 #include "RArUcoTag3.hpp"
 
-using namespace cv;
 using namespace std;
 
 /**
@@ -21,10 +20,10 @@ using namespace std;
  * information and tag reading.
  * 
  */
-class RPiCamera : public VideoCapture
+class RPiCamera : public cv::VideoCapture
 {
     private:
-    Mat m_cameraMatrix, m_distCoeffs;
+    cv::Mat m_cameraMatrix, m_distCoeffs;
 
     RArUcoReader m_reader;
 
@@ -35,7 +34,7 @@ class RPiCamera : public VideoCapture
      * @param index The index the camera is associated with
      * @param apiPreference The API to use to connect to the camera
      */
-    RPiCamera(int index = 0, int apiPreference = CAP_V4L2);
+    RPiCamera(int index = 0, int apiPreference = cv::CAP_V4L2);
 
     /**
      * @brief Imports a prepared camera calibration (needed for depth and ArUco tag detection)
@@ -70,5 +69,5 @@ class RPiCamera : public VideoCapture
      * @return true if a tag was found
      * @return false if a tag wasn't found
      */
-    bool getTranslationClosestTag(Vec3d &trans);
+    bool getTranslationClosestTag(cv::Vec3d &trans);
 };

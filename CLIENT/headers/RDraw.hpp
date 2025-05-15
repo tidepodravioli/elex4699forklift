@@ -1,9 +1,7 @@
-#include "cvui.h"
 #include <vector>
+#include <opencv2/opencv.hpp>
 
 using namespace std;
-using namespace cv;
-using namespace cvui;
 
 class RDraw
 {
@@ -11,22 +9,22 @@ class RDraw
         //Parameters
         int m_arena_height, m_arena_width;
         int m_cell_height, m_cell_width;
-        Mat m_arena, m_grid, m_settings;
+        cv::Mat m_arena, m_grid, m_settings;
 
         //Grid Configuration
         int m_grid_rows = 25;
         int m_grid_cols = 25;
-        Scalar m_overlay_color = Scalar(200, 200, 200); // Light Gray
-        Scalar m_grid_line_color = Scalar(100, 100, 100); // Gray
-        Scalar m_path_color = Scalar(0, 255, 0); // Green
-        Scalar m_obstacles_color = Scalar(0, 0, 255); // Red
+        cv::Scalar m_overlay_color = cv::Scalar(200, 200, 200); // Light Gray
+        cv::Scalar m_grid_line_color = cv::Scalar(100, 100, 100); // Gray
+        cv::Scalar m_path_color = cv::Scalar(0, 255, 0); // Green
+        cv::Scalar m_obstacles_color = cv::Scalar(0, 0, 255); // Red
         int m_highlight_thickness = -1; // Filled
         int m_grid_thickness = 1; // Thickness of grid lines
         bool m_edit_obstacles = false; // Edit mode for obstacles
         bool m_edit_path = false; // Edit mode for path
 
         //Grid Dimensions
-        Point m_grid_origin = Point(0, 0); // Top-left corner of the grid
+        cv::Point m_grid_origin = cv::Point(0, 0); // Top-left corner of the grid
 
         //UI
         int m_settings_width = 200; // Width of the UI panel
@@ -35,7 +33,6 @@ class RDraw
         int m_spacing = 30; // Spacing between UI elements
         bool m_auto = false; // Auto mode toggle
         bool m_fast = false; // Fast mode toggle
-
 
         //Path
         vector<vector<bool>> m_path;

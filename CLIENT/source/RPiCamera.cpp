@@ -22,7 +22,7 @@ bool RPiCamera::importCalibration(string filename)
 
 vector<RArUcoTag3> RPiCamera::getClosestTags(bool &valid)
 {
-    Mat frame;
+    cv::Mat frame;
     read(frame);
 
     std::vector<int> ids;
@@ -30,7 +30,7 @@ vector<RArUcoTag3> RPiCamera::getClosestTags(bool &valid)
 
     // Step 1: Detect markers in the frame
     
-    m_reader.getTags(frame, corners, ids);
+    m_reader._getTags(frame, corners, ids);
 
     // If no markers detected, return a large number (indicating no markers in the frame)
     if (ids.empty()) {
@@ -81,7 +81,7 @@ bool RPiCamera::getDistanceClosestTag(float &distance)
     return valid;
 }
 
-bool RPiCamera::getTranslationClosestTag(Vec3d &trans)
+bool RPiCamera::getTranslationClosestTag(cv::Vec3d &trans)
 {
     bool valid = false;
     vector<RArUcoTag3> tags = getClosestTags(valid);

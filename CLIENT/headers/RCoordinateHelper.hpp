@@ -16,7 +16,6 @@
 
 #include "../../shared/headers/ForkliftConstants.h"
 
-using namespace cv;
 using namespace std;
 
 /**
@@ -45,7 +44,7 @@ using namespace std;
 class RCoordinateHelper : public CClient
 {
     private:
-    Mat m_currentFrame; ///< Represents the current working frame that is being evaluated
+    cv::Mat m_currentFrame; ///< Represents the current working frame that is being evaluated
 
     bool m_flagRobotFound = false; ///< If the robot was found the last time its position was updated
     RArUcoReader m_aruco; ///< The tag representing the robot's location on the map
@@ -101,7 +100,7 @@ class RCoordinateHelper : public CClient
      * @return true if the frame isn't empty,
      * @return false otherwise
      */
-    bool getFrame(Mat &im);
+    bool getFrame(cv::Mat &im);
 
     /**
      * @brief Returns the robot's angle and position as an RPointVect object
@@ -131,7 +130,7 @@ class RCoordinateHelper : public CClient
      * @param destination The point that the angle is made with
      * @return float The angle made by the line in radians
      */
-    float getPointAngle_r(Point2i destination);
+    float getPointAngle_r(cv::Point2i destination);
 
     /**
      * @brief Gets the angle of the robot relative to the camera
@@ -146,14 +145,14 @@ class RCoordinateHelper : public CClient
      * @param destination The point that the angle is made with
      * @return float The angle made by the line in degrees
      */
-    float getPointAngle_d(Point2i destination);
+    float getPointAngle_d(cv::Point2i destination);
 
     /**
      * @brief Gets robot's coordinates on the arena
      * 
      * @return Point2i 
      */
-    Point2i getRobotCoords();
+    cv::Point2i getRobotCoords();
 
     /**
      * @brief Gets the coordinate of an RArUcoTag3 seen by the front camera is terms of the arena's coordinate system
@@ -161,5 +160,5 @@ class RCoordinateHelper : public CClient
      * @param tag The tag to find on the plane
      * @return Point2i The location of the tag in the planar space
      */
-    Point2i getTagCoords(RArUcoTag3 tag);
+    cv::Point2i getTagCoords(RArUcoTag3 tag);
 };

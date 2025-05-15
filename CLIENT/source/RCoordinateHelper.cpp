@@ -47,7 +47,7 @@ void RCoordinateHelper::getFrame_t()
     }
 }
 
-bool RCoordinateHelper::getFrame(Mat &im)
+bool RCoordinateHelper::getFrame(cv::Mat &im)
 {
     m_mutexCurrentFrame->lock();
     im = m_currentFrame.clone();
@@ -59,7 +59,7 @@ bool RCoordinateHelper::getFrame(Mat &im)
 void RCoordinateHelper::refreshRobot()
 {
     m_mutexCurrentFrame->lock();
-    Mat frame = m_currentFrame.clone();
+    cv::Mat frame = m_currentFrame.clone();
     m_mutexCurrentFrame->unlock();
 
     if(!frame.empty())
@@ -100,7 +100,7 @@ float RCoordinateHelper::getRobotAngle_r()
     return m_robot.angle;
 }
 
-float RCoordinateHelper::getPointAngle_r(Point2i destination)
+float RCoordinateHelper::getPointAngle_r(cv::Point2i destination)
 {
     if(m_flagRefresh) refreshRobot();
     //get slope of line between robot and destination
@@ -115,26 +115,26 @@ float RCoordinateHelper::getRobotAngle_d()
     return m_robot.angle * 180.0f / CV_PI;
 }
 
-float RCoordinateHelper::getPointAngle_d(Point2i destination)
+float RCoordinateHelper::getPointAngle_d(cv::Point2i destination)
 {
     return getPointAngle_r(destination) * 180.0f / CV_PI;
 }
 
-Point2i RCoordinateHelper::getRobotCoords()
+cv::Point2i RCoordinateHelper::getRobotCoords()
 {
     if(m_flagRefresh) refreshRobot();
-    return Point2i(m_robot.coord.x, m_robot.coord.y);
+    return cv::Point2i(m_robot.coord.x, m_robot.coord.y);
 }
 
-Point2i RCoordinateHelper::getTagCoords(RArUcoTag3 tag)
+cv::Point2i RCoordinateHelper::getTagCoords(RArUcoTag3 tag)
 {
     if(m_flagRefresh) refreshRobot();
-    const Size2i frameSize = m_currentFrame.size();
+    const cv::Size2i frameSize = m_currentFrame.size();
 
     const float widthFactor = frameSize.width / ARENA_WIDTH; 
     const float heightFactor = frameSize.height / ARENA_HEIGHT;
 
-    const Vec3d tagTrans = tag.getTrans();
+    const cv::Vec3d tagTrans = tag.getTrans();
     const float cam_cx = tagTrans[0];
     const float cam_cz = tagTrans[2];
 
@@ -147,5 +147,5 @@ Point2i RCoordinateHelper::getTagCoords(RArUcoTag3 tag)
     x0 *= widthFactor;
     y0 *= heightFactor;
 
-    return Point2i(x0, y0);
+    return cv::Point2i(x0, y0);
 }
