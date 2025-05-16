@@ -44,8 +44,8 @@
 
 #define SERVER_PORT 5080
 
-#define SERVER_TX_REQ "REQ E4699FMK1\n"
-#define SERVER_RX_ACK "ACK MK1FE4699\n"
+#define SERVER_TX_REQ "G 2 0 E4699FMK2"
+#define SERVER_RX_ACK "A 2 0 E4699FMK2"
 
 #define CAMERA_CALIBRATION "./calibration.yaml"
 

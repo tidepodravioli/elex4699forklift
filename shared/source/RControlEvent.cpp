@@ -48,6 +48,11 @@ EVENT_DATA_TYPE RControlEvent::getType()
     return m_type;
 }
 
+void RControlEvent::setCom(EVENT_COMMAND_TYPE type)
+{
+    m_com = type;
+}
+
 int RControlEvent::getOrigin()
 {
     return m_origin;
@@ -76,6 +81,11 @@ vector<string> RControlEvent::getValues()
 string RControlEvent::asCommand(bool newline)
 {
     return commandBuilder(m_com, m_type, m_origin, m_data, newline);
+}
+
+RControlEvent RControlEvent::copy()
+{
+    return RControlEvent(m_com, m_type, m_origin, m_data);
 }
 
 string RControlEvent::commandBuilder(EVENT_COMMAND_TYPE command, EVENT_DATA_TYPE datatype, int channel, vector<string> vals, bool addEndl)
@@ -134,7 +144,7 @@ RControlEvent RControlEvent::parse(string command)
 
         if(parts.size() > 3)
         {
-            data.insert(data.begin(), parts.begin() + 2, parts.end());
+            data.insert(data.begin(), parts.begin() + 3, parts.end());
         }
 
         return RControlEvent(com, typ, origin, data);
