@@ -135,6 +135,18 @@ bool RDraw::drawUI()
         m_auto = !m_auto; // Toggle mode state
     }
 
+    if(m_auto)
+    {
+        std::string mode_label = m_start ? "Stop" : "Start";
+        m_settings_position += cv::Point(90, 0);
+        if (cvui::button(m_settings, m_settings_position.x, m_settings_position.y, 80, 30, mode_label)) {
+            m_start = !m_start; // Toggle mode state
+        }
+
+        m_settings_position -= cv::Point(90, 0);
+    }
+    else m_start = false;
+    
     // --- Speed ---
     m_settings_position += cv::Point(0, 40);
     cvui::text(m_settings, m_settings_position.x, m_settings_position.y, "Speed");

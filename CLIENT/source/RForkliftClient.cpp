@@ -183,6 +183,8 @@ void RForkliftClient::proc_auto()
     // 3. Drive to drop-off point
 
     // 4. Drop off package
+
+    //For now though, we're testing the driving lol
 }
 
 void RForkliftClient::cli_IOTest()

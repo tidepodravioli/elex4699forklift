@@ -11,6 +11,7 @@
 
 #include "RNetClient.hpp"
 #include "RVidReceiver.hpp"
+#include "RCoordinateHelper.hpp"
 #include "RDraw.hpp"
 
 #define E4618_IPADDR_REGEX "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)(\\.(?!$)|$)){4}$"

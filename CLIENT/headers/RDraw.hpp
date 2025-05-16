@@ -31,6 +31,7 @@ class RDraw
         int m_spacing = 30; // Spacing between UI elements
         bool m_auto = false; // Auto mode toggle
         bool m_fast = false; // Fast mode toggle
+        bool m_start = false;
 
         //Path
         std::vector<std::vector<bool>> m_path;

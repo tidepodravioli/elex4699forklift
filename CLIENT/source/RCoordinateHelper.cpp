@@ -60,9 +60,11 @@ bool RCoordinateHelper::getFrame(cv::Mat &im)
 
 void RCoordinateHelper::refreshRobot()
 {
-    m_mutexCurrentFrame->lock();
-    cv::Mat frame = m_currentFrame.clone();
-    m_mutexCurrentFrame->unlock();
+    cv::Mat frame;
+
+    tx_str(m_commandGet); // ask for the next frame
+    this_thread::sleep_for(chrono::milliseconds(1)); // wait a little bit for the response
+    rx_im(frame); // receive the frame
 
     if(!frame.empty())
     {
