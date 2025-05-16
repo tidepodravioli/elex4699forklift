@@ -31,44 +31,40 @@ std::vector<RArUcoTag3> RPiCamera::getClosestTags(bool &valid)
     std::vector<std::vector<cv::Point2f>> corners;
 
     // Step 1: Detect markers in the frame
-    
     m_reader._getTags(frame, corners, ids);
 
-    // If no markers detected, return a large number (indicating no markers in the frame)
     if (ids.empty()) {
         valid = false;
         return {};
     }
 
-    // Step 2: Estimate pose for each detected marker
+    // Step 2: Estimate pose
     std::vector<cv::Vec3d> rvecs, tvecs;
-    cv::aruco::estimatePoseSingleMarkers(corners, ARUCO_TAG_SIZE, m_cameraMatrix, m_distCoeffs, rvecs, tvecs); // Assuming marker length of 0.1 meters (adjust if needed)
+    cv::aruco::estimatePoseSingleMarkers(corners, ARUCO_TAG_SIZE, m_cameraMatrix, m_distCoeffs, rvecs, tvecs);
 
-    vector<RArUcoTag3> tags;
+    std::vector<RArUcoTag3> tags;
 
     for (int i = 0; i < tvecs.size(); ++i) {
-        // Compute the Euclidean distance to the marker from the camera
-        double distance = cv::norm(tvecs[i]);  // Euclidean distance from the camera to the marker
-        
-        for(int j = 0; j < tags.size(); j++)
-        {
-            RArUcoTag3 tag(ids[i], corners[i], tvecs[i], rvecs[i]);
-            if(distance <= tags[j].getDistanceFromCamera())
-            {
-                tags.insert(tags.begin() + j, tag);
+        double distance = cv::norm(tvecs[i]);
+        RArUcoTag3 tag(ids[i], corners[i], tvecs[i], rvecs[i]);
+
+        bool inserted = false;
+        for (auto it = tags.begin(); it != tags.end(); ++it) {
+            if (distance <= it->getDistanceFromCamera()) {
+                tags.insert(it, tag);
+                inserted = true;
                 break;
             }
-            else
-            {
-                tags.push_back(tag);
-                break;
-            }
+        }
+        if (!inserted) {
+            tags.push_back(tag); // Append at end if no closer one found
         }
     }
 
     valid = true;
     return tags;
 }
+
 
 bool RPiCamera::getDistanceClosestTag(float &distance)
 {
