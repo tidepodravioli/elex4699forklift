@@ -30,4 +30,9 @@ namespace raf_cin
 
     bool get_line(std::string * result); //a wrapper for cin.getline() that returns the inverse of the cin.fail() flag
     bool get_data(std::string * result, std::regex data); //gets a line of user input and checks it against a regex
+
+    bool prompt(std::string message, int &result, std::string errMessage, int maxRetry = 0);
+    bool prompt(std::string message, float &result, std::string errMessage, int maxRetry = 0);
+    bool prompt(std::string message, std::string &result, std::string errMessage, int maxRetry = 0);
+    bool prompt(std::string message, std::string &result, std::regex expression, std::string errMessage, int maxRetry);
 }

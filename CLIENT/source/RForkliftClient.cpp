@@ -160,13 +160,8 @@ void RForkliftClient::gui_startClient()
 }
 void RForkliftClient::gui_IOTest()
 {  
-   cout << "Enter serial port number : ";
-
-   int serialport;
-   while(!get_int(&serialport))
-   {
-        cout << "Please enter a number : ";
-   }
+    int serialport;
+    prompt("Enter serial port number : ", serialport, "Please enter a number : ", -1);
 
    cout << "Connecting..." << endl;
    m_serial.init_com(serialport);

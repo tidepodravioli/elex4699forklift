@@ -72,3 +72,48 @@ bool raf_cin::get_data(std::string * result, std::regex data)
     }
     else return false;
 }
+
+bool raf_cin::prompt(std::string message, int &result, std::string errMessage, int maxRetry)
+{
+    std::cout << message;
+
+    int attempts = 0;
+    while(!get_int(&result))
+    {
+        attempts++;
+        if(attempts == maxRetry) return false;
+        std::cout << errMessage;
+    }
+
+    return true;
+}
+
+bool raf_cin::prompt(std::string message, float &result, std::string errMessage, int maxRetry)
+{
+    std::cout << message;
+
+    int attempts = 0;
+    while(!get_float(&result))
+    {
+        attempts++;
+        if(attempts == maxRetry) return false;
+        std::cout << errMessage;
+    }
+
+    return true;
+}
+
+bool raf_cin::prompt(std::string message, std::string &result, std::regex expression, std::string errMessage, int maxRetry)
+{
+    std::cout << message;
+
+    int attempts = 0;
+    while(!get_data(&result, expression))
+    {
+        attempts++;
+        if(attempts >= maxRetry) return false;
+        std::cout << errMessage;
+    }
+
+    return true;
+}
