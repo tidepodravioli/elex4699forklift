@@ -57,7 +57,7 @@ bool RForkliftManager::init()
         return true;
     }
 
-    cout << "Auto mode services initialized! Init pass!" << endl;
+    cout << "Front camera found!" << endl;
     return true;
 }
 
@@ -140,8 +140,8 @@ void RForkliftManager::update()
             {
                 if(origin == 0)
                 {
-                    vector<string> data = current.getValues();
-                    RControlEvent heartbeat(ECOMMAND_ACK, ETYPE_COMMAND, 0, data);
+                    RControlEvent heartbeat = current.copy();
+                    heartbeat.setCom(ECOMMAND_ACK);
                     m_server.sendCom(heartbeat.asCommand());
                 }
             }

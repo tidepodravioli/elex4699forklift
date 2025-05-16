@@ -9,7 +9,7 @@ void RVidReceiver::listen(int port)
 {
     const string pipeline = getPipeline(port);
 
-    m_camera = new cv::VideoCapture(pipeline, cv::CAP_GSTREAMER);
+    open(pipeline, cv::CAP_GSTREAMER);
 
     if(m_camera->isOpened())
     {

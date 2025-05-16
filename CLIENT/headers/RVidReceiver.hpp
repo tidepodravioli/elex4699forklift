@@ -4,14 +4,12 @@
 
 using namespace std;
 
-class RVidReceiver
+class RVidReceiver : public cv::VideoCapture
 {
     private:
     bool m_flagConnected = false;
 
     bool m_debug;
-
-    cv::VideoCapture * m_camera;
 
     string getPipeline(int port);
 
