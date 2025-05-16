@@ -1,25 +1,29 @@
 #include "../headers/RVidReceiver.hpp"
 
+using namespace std;
+
 RVidReceiver::RVidReceiver(bool debug)
 {
     m_debug = debug;
 }
 
-void RVidReceiver::listen(int port)
+bool RVidReceiver::listen(int port)
 {
     const string pipeline = getPipeline(port);
 
     open(pipeline, cv::CAP_GSTREAMER);
 
-    if(m_camera->isOpened())
+    if(isOpened())
     {
         m_flagConnected = true;
         if(m_debug) cout << "RVidReceiver : Receiving video" << endl;
+        return true;
     }
     else
     {
         m_flagConnected = false;
         if(m_debug) cout << "RVidReceiver : Connection failed" << endl;
+        return false;
     }
 }
 
@@ -37,7 +41,7 @@ bool RVidReceiver::getFrame(cv::Mat &im)
 {
     if(m_flagConnected)
     {
-        m_camera->read(im);
+        read(im);
         return !im.empty();
     }
     else return false;

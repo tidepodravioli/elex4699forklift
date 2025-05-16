@@ -1,5 +1,7 @@
 #include "../headers/RAutoFork.hpp"
 
+using namespace std;
+
 RAutoFork::RAutoFork(RPiCamera &camera, RCoordinateHelper &helper) {
     m_camera = &camera;
     m_helper = &helper;

@@ -6,7 +6,6 @@
 
 #include "RArUcoTag.hpp"
 
-using namespace std;
 
 #ifdef NEW_OPENCV_CONF
 #pragma message("NEW_OPENCV will be used for RArUcoReader")
@@ -36,7 +35,7 @@ class RArUcoReader
     cv::VideoCapture * m_vid = nullptr;
     cv::Mat * m_frame = nullptr;
 
-    vector<RArUcoTag> m_tags;
+    std::vector<RArUcoTag> m_tags;
 
     #ifdef NEW_OPENCV_CONF
     cv::aruco::DetectorParameters m_detectorParams;
@@ -74,7 +73,7 @@ class RArUcoReader
      * 
      * @return vector<RArUcoTag> The tags in the frame
      */
-    vector<RArUcoTag> grabFromFrame();
+    std::vector<RArUcoTag> grabFromFrame();
 
     /**
      * @brief Reads tags from the given Mat frame
@@ -82,9 +81,9 @@ class RArUcoReader
      * @param im The image to read the tags from
      * @return vector<RArUcoTag> The tags read from the frame
      */
-    vector<RArUcoTag> getTags(cv::Mat &im);
+    std::vector<RArUcoTag> getTags(cv::Mat &im);
 
-    void _getTags(cv::Mat &im, vector<vector<cv::Point2f>> &corners, vector<int> &ids);
+    void _getTags(cv::Mat &im, std::vector<std::vector<cv::Point2f>> &corners, std::vector<int> &ids);
 
     /**
      * @brief Extracts the data from a collection of tags
@@ -93,7 +92,7 @@ class RArUcoReader
      * @param ids The ids of each tag
      * @param corners The locations of the corners of each tag
      */
-    static void extract(vector<RArUcoTag> tags, vector<int> &ids, vector<vector<cv::Point2f>> &corners);
+    static void extract(std::vector<RArUcoTag> tags, std::vector<int> &ids, std::vector<std::vector<cv::Point2f>> &corners);
     
     /**
      * @brief Draws the given tags on an image
@@ -101,7 +100,7 @@ class RArUcoReader
      * @param im The image to draw the tags on
      * @param tags The tags to draw on the image
      */
-    static void drawTags(cv::Mat &im, vector<RArUcoTag> tags);
+    static void drawTags(cv::Mat &im, std::vector<RArUcoTag> tags);
 
     /**
      * @brief Draws arrows showing which way a collection of tags is pointing
@@ -109,5 +108,5 @@ class RArUcoReader
      * @param im The image to draw the arrows on
      * @param tags The tags to draw the arrows for
      */
-    static void drawArrows(cv::Mat &im, vector<RArUcoTag> tags);
+    static void drawArrows(cv::Mat &im, std::vector<RArUcoTag> tags);
 };

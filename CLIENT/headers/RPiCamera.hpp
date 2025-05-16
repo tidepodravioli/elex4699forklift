@@ -11,7 +11,6 @@
 #include "RArUcoReader.hpp"
 #include "RArUcoTag3.hpp"
 
-using namespace std;
 
 /**
  * @brief Provides an interface to the Raspberry Pi camera, with depth detection
@@ -43,7 +42,7 @@ class RPiCamera : public cv::VideoCapture
      * @return true if the import was successful
      * @return false if the import failed or the file wasn't found
      */
-    bool importCalibration(string filename = CAMERA_CALIBRATION);
+    bool importCalibration(std::string filename = CAMERA_CALIBRATION);
 
     /**
      * @brief Gets a vector of the detected tags in the next frame, ordered from closest to farthest
@@ -51,7 +50,7 @@ class RPiCamera : public cv::VideoCapture
      * @param valid if tags were found in the image
      * @return vector<RArUcoTag3> The detected tags in the image, ordered from closest to farthest
      */
-    vector<RArUcoTag3> getClosestTags(bool &valid);
+    std::vector<RArUcoTag3> getClosestTags(bool &valid);
 
     /**
      * @brief Get the distance from the closest tag in the image
