@@ -11,6 +11,8 @@
 
 #include "../../headers/ext/getstuff.h"
 
+using namespace std;
+
 bool raf_cin::get_int(int * result)
 {
     std::string input;
@@ -116,4 +118,24 @@ bool raf_cin::prompt(std::string message, std::string &result, std::regex expres
     }
 
     return true;
+}
+
+vector<string> raf_cin::delimitString(std::string input, char delimiter)
+{
+    vector<string> parts;
+    string builder = "";
+    for(int charPosition = 0; charPosition < input.size(); charPosition++)
+    {
+      if(charPosition == input.size() - 1)
+        builder += input.at(charPosition); 
+
+      if(input.at(charPosition) == delimiter || charPosition == input.size() - 1) 
+      {
+        parts.push_back(builder);
+        builder = "";
+      }
+      else builder += input.at(charPosition);
+    }
+
+    return parts;
 }

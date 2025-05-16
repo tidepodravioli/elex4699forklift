@@ -18,42 +18,11 @@ RCoordinateHelper::~RCoordinateHelper()
     close_socket();
 }
 
-void RCoordinateHelper::startFrameGetter()
-{
-    if(!m_flagGetFrame)
-    {
-        m_flagGetFrame = true;
-        m_mutexCurrentFrame = new std::mutex();
-    
-        std::thread frameget_t(&RCoordinateHelper::getFrame_t, this);
-        frameget_t.detach();
-    }
-}
-
-void RCoordinateHelper::stopFrameGetter()
-{
-    m_flagGetFrame = false;
-}
-
-void RCoordinateHelper::getFrame_t()
-{
-    while(m_flagGetFrame)
-    {
-        tx_str(m_commandGet);
-        
-        m_mutexCurrentFrame->lock();
-        rx_im(m_currentFrame);
-        m_mutexCurrentFrame->unlock();
-
-        this_thread::sleep_for(chrono::milliseconds(FRAME_GETTER_TIMEOUT_MS));
-    }
-}
-
 bool RCoordinateHelper::getFrame(cv::Mat &im)
 {
-    m_mutexCurrentFrame->lock();
-    im = m_currentFrame.clone();
-    m_mutexCurrentFrame->unlock();
+    tx_str(m_commandGet); // ask for the next frame
+    this_thread::sleep_for(chrono::milliseconds(1)); // wait a little bit for the response
+    rx_im(im); // receive the frame
 
     return !im.empty();
 }

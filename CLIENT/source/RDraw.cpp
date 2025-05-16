@@ -183,3 +183,61 @@ bool RDraw::drawUI()
 
     return true;
 }
+
+vector<cv::Point2i> RDraw::getPathAsPoints()
+{
+    vector<vector<bool>> boolpoints = getPath();
+    std::vector<cv::Point2i> points;
+
+    int rows = boolpoints.size();
+    if (rows == 0) return points;
+
+    int cols = boolpoints[0].size();
+
+    // Size of each cell in pixels
+    float cellWidth = static_cast<float>(m_arena_width) / cols;
+    float cellHeight = static_cast<float>(m_arena_height) / rows;
+
+    // Loop over the grid
+    for (int y = 0; y < rows; ++y) {
+        for (int x = 0; x < cols; ++x) {
+            if (boolpoints[y][x]) {
+                // Map grid (x, y) to window pixel coordinates
+                int px = static_cast<int>(x * cellWidth + cellWidth / 2);
+                int py = static_cast<int>(y * cellHeight + cellHeight / 2);
+                points.emplace_back(px, py);
+            }
+        }
+    }
+
+    return points;
+}
+
+vector<cv::Point2i> RDraw::getObstaclesAsPoints()
+{
+    vector<vector<bool>> boolpoints = getObstacles();
+    std::vector<cv::Point2i> points;
+
+    int rows = boolpoints.size();
+    if (rows == 0) return points;
+
+    int cols = boolpoints[0].size();
+
+    // Size of each cell in pixels
+    float cellWidth = static_cast<float>(m_arena_width) / cols;
+    float cellHeight = static_cast<float>(m_arena_height) / rows;
+
+    // Loop over the grid
+    for (int y = 0; y < rows; ++y) {
+        for (int x = 0; x < cols; ++x) {
+            if (boolpoints[y][x]) {
+                // Map grid (x, y) to window pixel coordinates
+                int px = static_cast<int>(x * cellWidth + cellWidth / 2);
+                int py = static_cast<int>(y * cellHeight + cellHeight / 2);
+                points.emplace_back(px, py);
+            }
+        }
+    }
+
+    return points;
+}

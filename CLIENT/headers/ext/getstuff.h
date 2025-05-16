@@ -14,6 +14,7 @@
 #include <iostream>
 #include <regex>
 #include <string>
+#include <vector>
 
 //default regex options for get_XXXXX() functions
 #define TO_LOWERCASE 32
@@ -35,4 +36,6 @@ namespace raf_cin
     bool prompt(std::string message, float &result, std::string errMessage, int maxRetry = -1);
     bool prompt(std::string message, std::string &result, std::string errMessage, int maxRetry = -1);
     bool prompt(std::string message, std::string &result, std::regex expression, std::string errMessage, int maxRetry = -1);
+
+    std::vector<std::string> delimitString(std::string input, char delimiter);
 }

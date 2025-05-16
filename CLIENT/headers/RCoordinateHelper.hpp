@@ -35,9 +35,9 @@
  * 
  * Example setup :
  * @code 
- * RCoordinateHelper helper(1, true);
+ * RCoordinateHelper helper(1, false);
  * helper.connect_socket("192.168.0.101", 5008);
- * helper.startFrameGetter();
+ * helper.refreshRobot();
  * @endcode
  */
 class RCoordinateHelper : public CClient
@@ -60,7 +60,7 @@ class RCoordinateHelper : public CClient
      * @brief Polls the network camera for frames. Runs in a separate thread.
      * 
      */
-    void getFrame_t();
+    void getFrame_t() = delete;
 
     bool m_flagRefresh; ///< Whether or not to refresh the robot whenever a function that requires or gets its position is called
 
@@ -78,13 +78,13 @@ class RCoordinateHelper : public CClient
      * @brief Starts getting live frames from the camera
      * 
      */
-    void startFrameGetter();
+    void startFrameGetter() = delete;
 
     /**
      * @brief Stops getting frames from the camera
      * 
      */
-    void stopFrameGetter();
+    void stopFrameGetter() = delete;
     
     /**
      * @brief Refreshes the position and angle of the robot on screen

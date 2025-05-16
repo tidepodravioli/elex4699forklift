@@ -47,7 +47,15 @@ class RDraw
         bool drawUI();
 
         std::vector<std::vector<bool>> getPath() {return m_path;};
+        std::vector<cv::Point2i> getPathAsPoints();
         std::vector<std::vector<bool>> getObstacles() {return m_obstacles;};
+        std::vector<cv::Point2i> getObstaclesAsPoints();
+
+        bool getAuto() {return m_auto;};
+        bool getFast() {return m_fast;};
+        bool getStart() {return m_start;};
+        void setStart(bool start) {m_start = start;};
+        
         void setPath(std::vector<std::vector<bool>> grid) {m_path = grid;};
         void setObstacles(std::vector<std::vector<bool>> obstacles) {m_obstacles = obstacles;};
 };
