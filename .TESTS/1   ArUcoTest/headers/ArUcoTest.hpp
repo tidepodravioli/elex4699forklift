@@ -3,9 +3,8 @@
 #include <vector>
 #include <iostream>
 
-#include "../../../headers/RArUcoReader.hpp"
-#include "../../../headers/RArUcoTag.hpp"
-#include "../../../headers/RPiCamera.hpp"
+#include "../../../CLIENT/headers/RArUcoReader.hpp"
+#include "../../../CLIENT/headers/RArUcoTag.hpp"
 
 
 using namespace std;

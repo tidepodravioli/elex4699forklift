@@ -9,7 +9,9 @@ void ArUcoTest::start()
 {
     cout << "ArUcoTest starting." << endl;
     
-    RPiCamera camera(0, CAP_DSHOW);
+    VideoCapture camera;
+    camera.open(0, CAP_DSHOW);
+
     RArUcoReader reader;
 
     if(camera.isOpened())
@@ -27,7 +29,7 @@ void ArUcoTest::start()
             }
             else cout << "Empty frame" << endl;
         }
-        while(waitKey(1) != 'q');
+        while(waitKey(20) != 'q');
     }
     else cout << "Error init camera" << endl;
 }
