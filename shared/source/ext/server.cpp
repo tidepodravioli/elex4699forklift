@@ -24,6 +24,7 @@ typedef int SOCKET;
 #include <netinet/in.h>
 #include <netdb.h>
 #include <thread>
+#include <arpa/inet.h>
 #endif
 
 #define RECV_BUFF_SIZE 256
@@ -142,6 +143,20 @@ void CServer::start(int port)
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
     clientsock = accept(serversock, (struct sockaddr *) &client_addr, &addressSize);
+
+    //CUSTOM CODE - RAFAEL BANALAN 2025/05/15
+    if (clientsock != INVALID_SOCKET)
+    {
+      char client_ip[INET_ADDRSTRLEN];
+      inet_ntop(AF_INET, &(client_addr.sin_addr), client_ip, INET_ADDRSTRLEN);
+      std::string ip_str = client_ip;
+
+      // Store IP if not already in the list
+      _ip_mutex.lock();
+      if (std::find(_connected_ips.begin(), _connected_ips.end(), ip_str) == _connected_ips.end())
+        _connected_ips.push_back(ip_str);
+      _ip_mutex.unlock();
+    }
 
     if (clientsock != INVALID_SOCKET)
     {
@@ -287,5 +302,13 @@ void CServer::send_string(std::string send_str)
   _tx_mutex.lock();
   _send_list.push_back(send_str);
   _tx_mutex.unlock();  
+}
+
+//CUSTOM CODE - RAFAEL BANALAN 2025/05/15
+void CServer::get_connected_ips(std::vector<std::string> &ips)
+{
+  _ip_mutex.lock();
+  ips = _connected_ips;
+  _ip_mutex.unlock();
 }
 

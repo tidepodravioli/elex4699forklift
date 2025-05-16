@@ -13,10 +13,10 @@ void RForkliftManager::start()
     {
         cout << "Starting server..." << endl;
     
-        m_server.startServer();
+        m_server.startServer(SERVER_PORT);
         m_flagRun = true;
 
-        cout << "Server started!" << endl;
+        cout << "Server started! Listening on port " << SERVER_PORT << endl;
         
         while(m_flagRun)
         {
@@ -56,11 +56,6 @@ bool RForkliftManager::init()
         m_flagAutoAvailable = false;
         return true;
     }
-    {
-        cout << "Could not find robot on the arena! Auto mode will be unavailable." << endl;
-        m_flagAutoAvailable = false;
-        return true;
-    }
 
     cout << "Auto mode services initialized! Init pass!" << endl;
     return true;
@@ -85,9 +80,59 @@ void RForkliftManager::update()
         const EVENT_DATA_TYPE type = current.getType();
         const int origin = current.getOrigin();
 
+        cout << current.asCommand() << endl;
+
         if(com == ECOMMAND_SET)
         {
+            if(type == ETYPE_DIGITAL)
+            {
+                if(origin == 1)
+                {
+                    cout << "FORK UP" << endl;
+                    m_forklift->write(45);
+                }
+                else if (origin == 2)
+                {
+                    cout << "FORK DOWN" << endl;
+                    m_forklift->write(20);
+                }
+                else if(origin == 5)
+                {
+                    cout << "SLOW MODE" << endl;
+                    m_driver->toggleSlow();
+                }
+            }
+            else if(type == ETYPE_ANALOG)
+            {
+                cout << "JOYSTICK EVENT" << endl;
+                RJoystickEvent jcurrent(current);
+                m_driver->joystickDrive(jcurrent.percentX(), jcurrent.percentY());
+            }
+            else if(type == ETYPE_COMMAND)
+            {
+                if (origin == 0)
+                {
 
+                }
+                else if (origin == 1)
+                {
+
+                }
+                else if (origin == 2)
+                {
+                    vector<string> data = current.getValues();
+
+                    vector<string> IPs;
+                    m_server.get_connected_ips(IPs);
+
+                    const string IPaddr = IPs[0];
+                    const int port = stoi(data[0]);
+
+                    m_stream = new RVidStream();
+                    m_stream->target(IPaddr, port);
+                    m_stream->stream(m_camera);
+                }
+            }
         }
         else if(com == ECOMMAND_GET)
         {
@@ -95,58 +140,13 @@ void RForkliftManager::update()
             {
                 if(origin == 0)
                 {
-                    RControlEvent 
+                    vector<string> data = current.getValues();
+                    RControlEvent heartbeat(ECOMMAND_ACK, ETYPE_COMMAND, 0, data);
+                    m_server.sendCom(heartbeat.asCommand());
                 }
             }
         }
-        if(type == ETYPE_DIGITAL)
-        {
-            if(origin == 1)
-            {
-                cout << "FORK UP" << endl;
-                m_forklift->write(45);
-            }
-            else if (origin == 2)
-            {
-                cout << "FORK DOWN" << endl;
-                m_forklift->write(20);
-            }
-            else if(origin == 5)
-            {
-                cout << "SLOW MODE" << endl;
-                m_driver->toggleSlow();
-            }
-        }
-        else if(type == ETYPE_ANALOG)
-        {
-            cout << "JOYSTICK EVENT" << endl;
-            RJoystickEvent jcurrent(current);
-            m_driver->joystickDrive(jcurrent.percentX(), jcurrent.percentY());
-        }
-        else if(type == ETYPE_COMMAND)
-        {
-            if (origin == 0)
-            {
-
-            }
-            else if (origin == 1)
-            {
-
-            }
-            else if (origin == 2)
-            {
-                vector<string> data = current.getValues();
-                
-                const string IPaddr = data[0];
-                const int port = stoi(data[1]);
-
-                m_stream = new RVidStream();
-                m_stream->target(IPaddr, port);
-                m_stream->stream(m_camera);
-            }
-
-        }
-
+        
         m_commandQueue.erase(m_commandQueue.begin());
     }
     else

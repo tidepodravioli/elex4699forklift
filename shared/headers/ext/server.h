@@ -34,6 +34,11 @@ private:
   std::mutex _tx_mutex;
   std::vector<std::string> _cmd_list;
   std::vector<std::string> _send_list;
+
+  //CUSTOM CODE - RAFAEL BANALAN 2025/05/15
+  std::vector<std::string> _connected_ips;
+  std::mutex _ip_mutex;
+
   
   bool setblocking(int fd, bool blocking);
 
@@ -53,6 +58,10 @@ public:
 
   // Send a response
   void send_string (std::string send_str);
+
+  //CUSTOM CODE - RAFAEL BANALAN 2025/05/15
+  //Gets a list of the connected IP's
+  void get_connected_ips(std::vector<std::string> &ips);
 };
 
 

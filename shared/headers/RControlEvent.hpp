@@ -63,6 +63,8 @@ class RControlEvent
      */
     EVENT_COMMAND_TYPE getCom();
 
+    void setCom(EVENT_COMMAND_TYPE type);
+
     /**
      * @brief Returns the type of data this packet contains
      * 
@@ -83,6 +85,8 @@ class RControlEvent
      * @return int The first value as an integer, -1 if invalid
      */
     int getValue();
+
+    RControlEvent copy();
 
     /**
      * @brief Returns the full, raw data of the packet as a vector of delimited strings
