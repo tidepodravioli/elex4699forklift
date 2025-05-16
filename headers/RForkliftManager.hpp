@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <chrono>
+#include <ncurses.h>
 
 #include "../shared/headers/RControlEvent.hpp"
 #include "../shared/headers/RJoystickEvent.hpp"
@@ -42,6 +43,9 @@ class RForkliftManager
 
     bool m_flagRun = false;
     bool m_flagAutoAvailable = true;
+
+    void init_kbhit();
+    void end_kbhit();
 
     public:
     RForkliftManager();

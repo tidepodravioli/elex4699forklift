@@ -17,12 +17,13 @@ void RForkliftManager::start()
         m_flagRun = true;
 
         cout << "Server started! Listening on port " << SERVER_PORT << endl;
-        
+        init_kbhit();
         while(m_flagRun)
         {
             getCom();
             update();
         }
+        end_kbhit();
     }
 
     cout << "Closing server..." << endl;
@@ -67,6 +68,13 @@ void RForkliftManager::getCom()
     if(m_server.getCom(newCommands))
     {
         m_commandQueue.insert(m_commandQueue.end(), newCommands.begin(), newCommands.end());
+    }
+
+    int getchar = getch();
+    if(ch == 'q')
+    {
+        refresh();
+        m_flagRun = false;
     }
 }
 
@@ -158,4 +166,19 @@ void RForkliftManager::update()
 void RForkliftManager::automode()
 {
     
+}
+
+void RForkliftManager::init_kbhit()
+{
+    //ncurses init (from ChatGPT)
+    initscr();
+    noecho();
+    cbreak();
+    nodelay(stdscr, TRUE);
+    keypad(stdscr, TRUE);
+}
+
+void RForkliftManager::end_kbhit()
+{
+    endwin();
 }

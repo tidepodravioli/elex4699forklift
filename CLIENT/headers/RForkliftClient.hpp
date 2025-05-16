@@ -51,6 +51,7 @@ private:
     bool m_flagSlowMode = false;
     bool m_flagRun = false;
 
+    
     void cli_getSocket();
     void cli_getCControl();
     void cli_startClient();

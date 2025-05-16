@@ -1,3 +1,4 @@
+#pragma once
 #include "RNetClient.hpp"
 
 class RMotorWriter : private RNetClient

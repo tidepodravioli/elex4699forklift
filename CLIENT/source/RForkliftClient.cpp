@@ -193,6 +193,14 @@ void RForkliftClient::cli_startClient()
             m_helper.connect_socket(ARENA_CAMERA_IP, ARENA_CAMERA_PORT);
             this_thread::sleep_for(chrono::milliseconds(500));
             m_helper.refreshRobot();
+            Mat testframe;
+            m_helper.getFrame(testframe);
+
+            if(!testframe.empty())
+            {
+                imshow("TESTFRAME", testframe);
+                waitKey(1);
+            }
             if(m_helper.robotFound())
             {
                 cout << "Robot was found on the playfield at " << m_helper.getRobotCoords() << endl

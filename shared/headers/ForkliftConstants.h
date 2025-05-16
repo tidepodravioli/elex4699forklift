@@ -49,5 +49,5 @@
 
 #define CAMERA_CALIBRATION "./calibration.yaml"
 
-#define ARENA_CAMERA_IP "192.168.0.101"
+#define ARENA_CAMERA_IP "192.168.0.100"
 #define ARENA_CAMERA_PORT 5008
