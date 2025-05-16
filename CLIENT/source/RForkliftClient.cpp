@@ -4,7 +4,7 @@ void RForkliftClient::start()
 {
     while(true)
     {
-        gui_showMenu();
+        cli_showMenu();
 
         char option;
         get_char(&option);
@@ -12,17 +12,21 @@ void RForkliftClient::start()
         switch(option)
         {
             case '1':
-                gui_getSocket();
+                cli_getSocket();
 
                 if(m_flagConnected)
-                    gui_startClient();
+                    cli_startClient();
             break;
 
             case '2':
-                gui_IOTest();
+                cli_IOTest();
             break;
 
             case '3':
+                cli_streamTest();
+            break;
+
+            case '4':
                 gui_UITest();
             break;
 
@@ -37,7 +41,7 @@ void RForkliftClient::start()
     }
 }
 
-void RForkliftClient::gui_showMenu()
+void RForkliftClient::cli_showMenu()
 {
     cout << endl << endl;
     cout << setw(50) << setfill('=')  << "=" << endl;
@@ -50,13 +54,14 @@ void RForkliftClient::gui_showMenu()
 
     cout << "Select an option:" << endl
     << "(1) Connect to forklift server" << endl 
-    << "(2) Serial IO test." << endl
-    << "(3) UI test." << endl << endl
+    << "(2) Serial IO test" << endl
+    << "(3) PI Video Stream test" << endl
+    << "(4) UI test" << endl << endl
     << "(q) Quit" << endl
     << "> ";
 }
 
-void RForkliftClient::gui_getSocket()
+void RForkliftClient::cli_getSocket()
 {
     cout << endl << "CONNECTION TO FORKLIFT SERVER" << endl;
     cout << "Enter server IP address : ";
@@ -83,7 +88,7 @@ void RForkliftClient::gui_getSocket()
     
 }
 
-void RForkliftClient::gui_startClient()
+void RForkliftClient::cli_startClient()
 {   
     cout << endl << endl << "CONNECTION TO SERIAL CONTROLLER" << endl;
     cout << "Enter serial port number : ";
@@ -158,7 +163,7 @@ void RForkliftClient::gui_startClient()
    }
     
 }
-void RForkliftClient::gui_IOTest()
+void RForkliftClient::cli_IOTest()
 {  
     int serialport;
     prompt("Enter serial port number : ", serialport, "Please enter a number : ", -1);
@@ -214,4 +219,30 @@ void RForkliftClient::gui_UITest()
     cout << "Keypress detected. Returning to menu..." << endl;
     m_ui.~RDraw();
     m_ui = RDraw();
+}
+
+void RForkliftClient::cli_streamTest()
+{
+    cli_getSocket();
+    if(m_flagConnected)
+    {
+        RControlEvent camerareq(ECOMMAND_SET, ETYPE_COMMAND, 2, 5808);
+        m_network.sendEvent(camerareq);
+
+        RVidReceiver recv;
+        recv.listen(5808);
+
+        this_thread::sleep_for(chrono::seconds(5));
+
+        do
+        {
+            cv::Mat frame;
+            if(recv.getFrame(frame))
+            {
+                cv::imshow("TEST", frame);
+            }
+        } 
+        while (cv::waitKey(20) != 'q');
+        
+    }
 }

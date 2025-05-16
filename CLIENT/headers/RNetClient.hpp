@@ -9,11 +9,8 @@
 #include "../../shared/headers/RControlEvent.hpp"
 #include "../../shared/headers/RJoystickEvent.hpp"
 
-#define CLIENT_TX_REQ "REQ E4699FMK1\n"
-#define CLIENT_RX_ACK "ACK MK1FE4699\n"
-
-#define CLIENT_EXPECTED_HEARTBEAT "HEART MK1FE4699\n"
-#define CLIENT_PERIOD_HEARTBEAT_SEC 15
+#define CLIENT_TX_REQ "G 2 0 E4699FMK2"
+#define CLIENT_RX_ACK "A 2 0 E4699FMK2"
 
 using namespace std;
 

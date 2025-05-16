@@ -10,6 +10,7 @@
 #include "ext/CControl.h"
 
 #include "RNetClient.hpp"
+#include "RVidReceiver.hpp"
 #include "RDraw.hpp"
 
 #define E4618_IPADDR_REGEX "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)(\\.(?!$)|$)){4}$"
@@ -28,13 +29,15 @@ private:
 
     bool m_flagConnected = false;
 
-    void gui_getSocket();
-    void gui_startClient();
+    void cli_getSocket();
+    void cli_startClient();
 
-    void gui_IOTest();
+    void cli_IOTest();
     void gui_UITest();
+    void cli_streamTest();
+    
 
-    void gui_showMenu();
+    void cli_showMenu();
 
 public:
     RForkliftClient() {}
