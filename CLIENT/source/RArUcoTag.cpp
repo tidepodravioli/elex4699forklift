@@ -1,5 +1,7 @@
 #include "../headers/RArUcoTag.hpp"
 
+using namespace std;
+
 RArUcoTag::RArUcoTag(int tagID, vector<cv::Point2f> corners)
 {
     m_tagID = tagID;

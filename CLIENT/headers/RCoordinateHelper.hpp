@@ -16,7 +16,6 @@
 
 #include "../../shared/headers/ForkliftConstants.h"
 
-using namespace std;
 
 /**
  * @brief Interface to the overhead bird's eye view camera that
@@ -52,10 +51,10 @@ class RCoordinateHelper : public CClient
 
     int m_channel; ///< The channel the camera is on
 
-    string m_commandGet = ""; ///< The command to be sent over TCP to get the frames of the camera
+    std::string m_commandGet = ""; ///< The command to be sent over TCP to get the frames of the camera
 
     bool m_flagGetFrame = false; ///< If the frame getter should be running or not
-    mutex * m_mutexCurrentFrame; ///< Mutex that protexts m_currentFrame
+    std::mutex * m_mutexCurrentFrame; ///< Mutex that protexts m_currentFrame
 
     /**
      * @brief Polls the network camera for frames. Runs in a separate thread.

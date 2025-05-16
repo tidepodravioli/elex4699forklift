@@ -1,5 +1,7 @@
 #include "../headers/RCoordinateHelper.hpp"
 
+using namespace std; 
+
 RCoordinateHelper::RCoordinateHelper(int cameraChannel, bool refresh) : CClient()
 {
     m_channel = cameraChannel;
@@ -21,9 +23,9 @@ void RCoordinateHelper::startFrameGetter()
     if(!m_flagGetFrame)
     {
         m_flagGetFrame = true;
-        m_mutexCurrentFrame = new mutex();
+        m_mutexCurrentFrame = new std::mutex();
     
-        thread frameget_t(&RCoordinateHelper::getFrame_t, this);
+        std::thread frameget_t(&RCoordinateHelper::getFrame_t, this);
         frameget_t.detach();
     }
 }
@@ -64,7 +66,7 @@ void RCoordinateHelper::refreshRobot()
 
     if(!frame.empty())
     {
-        vector<RArUcoTag> tags = m_aruco.getTags(frame);
+        std::vector<RArUcoTag> tags = m_aruco.getTags(frame);
         for(RArUcoTag tag : tags)
         {
             if(tag.getID() == ROBOT_ARUCO_ID)

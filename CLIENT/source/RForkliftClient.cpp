@@ -1,5 +1,8 @@
 #include "../headers/RForkliftClient.hpp"
 
+using namespace std;
+using namespace raf_cin;
+
 void RForkliftClient::start()
 {
     while(true)

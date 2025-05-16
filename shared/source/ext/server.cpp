@@ -9,6 +9,7 @@
 #ifdef WIN4618
 #include "Winsock2.h"
 #pragma comment(lib, "ws2_32.lib")
+#include <Ws2tcpip.h>
 #endif
 
 #ifdef PI4618

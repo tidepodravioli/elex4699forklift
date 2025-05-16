@@ -1,8 +1,6 @@
 #include <vector>
 #include <opencv2/opencv.hpp>
 
-using namespace std;
-
 class RDraw
 {
     private:
@@ -35,10 +33,10 @@ class RDraw
         bool m_fast = false; // Fast mode toggle
 
         //Path
-        vector<vector<bool>> m_path;
+        std::vector<std::vector<bool>> m_path;
 
         //Obstacles
-        vector<vector<bool>> m_obstacles;
+        std::vector<std::vector<bool>> m_obstacles;
 
     public:
         RDraw();
@@ -47,8 +45,8 @@ class RDraw
         bool drawArena();
         bool drawUI();
 
-        vector<vector<bool>> getPath() {return m_path;};
-        vector<vector<bool>> getObstacles() {return m_obstacles;};
-        void setPath(vector<vector<bool>> grid) {m_path = grid;};
-        void setObstacles(vector<vector<bool>> obstacles) {m_obstacles = obstacles;};
+        std::vector<std::vector<bool>> getPath() {return m_path;};
+        std::vector<std::vector<bool>> getObstacles() {return m_obstacles;};
+        void setPath(std::vector<std::vector<bool>> grid) {m_path = grid;};
+        void setObstacles(std::vector<std::vector<bool>> obstacles) {m_obstacles = obstacles;};
 };

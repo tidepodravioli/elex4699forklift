@@ -2,6 +2,9 @@
 #include "cvui.h"
 #include "../headers/RDraw.hpp"
 
+using namespace std;
+
+
 RDraw::RDraw()
 {
     cvui::init("Arena");

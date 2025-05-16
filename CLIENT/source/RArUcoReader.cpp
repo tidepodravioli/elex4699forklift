@@ -1,5 +1,7 @@
 #include "../headers/RArUcoReader.hpp"
 
+using namespace std;
+
 vector<RArUcoTag> RArUcoReader::getTags(cv::Mat &im)
 {
     vector<int> ids;

@@ -1,5 +1,8 @@
 #include "../headers/RNetClient.hpp"
 
+using namespace std;
+
+
 bool RNetClient::connect(string IPaddr, int port)
 {
     consoleout("Attempting connection...");

@@ -2,7 +2,6 @@
 #include <string>
 #include <sstream>
 
-using namespace std;
 
 class RVidReceiver : public cv::VideoCapture
 {
@@ -11,7 +10,7 @@ class RVidReceiver : public cv::VideoCapture
 
     bool m_debug;
 
-    string getPipeline(int port);
+    std::string getPipeline(int port);
 
     public:
     RVidReceiver(bool debug = true);

@@ -1,5 +1,7 @@
 #include "../headers/RPiCamera.hpp"
 
+using namespace std;
+
 RPiCamera::RPiCamera(int index, int apiPreference) : VideoCapture(index, apiPreference)
 {
 
@@ -20,7 +22,7 @@ bool RPiCamera::importCalibration(string filename)
     return true;
 }
 
-vector<RArUcoTag3> RPiCamera::getClosestTags(bool &valid)
+std::vector<RArUcoTag3> RPiCamera::getClosestTags(bool &valid)
 {
     cv::Mat frame;
     read(frame);

@@ -6,7 +6,7 @@
 
 #include "RPiCamera.hpp"
 #include "RCoordinateHelper.hpp"
-#include "ForkliftConstants.h"
+#include "../../shared/headers/ForkliftConstants.h"
 
 class RAutoFork
 {

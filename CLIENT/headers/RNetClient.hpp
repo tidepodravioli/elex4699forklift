@@ -12,18 +12,17 @@
 #define CLIENT_TX_REQ "G 2 0 E4699FMK2"
 #define CLIENT_RX_ACK "A 2 0 E4699FMK2"
 
-using namespace std;
 
 class RNetClient : private CClient
 {
 private:
     bool m_flagConnected = false;
-    void consoleout(const string message);
+    void consoleout(const std::string message);
     
 public:
     RNetClient() {}
 
-    bool connect(string IPaddr, int port);
+    bool connect(std::string IPaddr, int port);
 
     void disconnect();
 
