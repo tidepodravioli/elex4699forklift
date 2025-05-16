@@ -7,6 +7,7 @@ class AutoForkTest
     private:
     RPiCamera m_camera;
     RCoordinateHelper m_helper;
+    RAutoFork m_fork;
 
     public:
     AutoForkTest();

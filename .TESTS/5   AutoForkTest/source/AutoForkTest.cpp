@@ -1,18 +1,19 @@
 #include "../headers/AutoForkTest.hpp"
 
-AutoForkTest::AutoForkTest()
-{   
-
+AutoForkTest::AutoForkTest() : m_camera(0, cv::CAP_DSHOW), m_helper(1, true), m_fork(m_camera, m_helper)
+{
+    m_camera.importCalibration("./calibration.yaml");
 }
 
 void AutoForkTest::start()
 {
-    RPiCamera m_camera(0, CAP_DSHOW);
-    RCoordinateHelper m_helper(1, true);
+    cv::Mat frame;
 
-    RAutoFork m_fork(m_camera, m_helper);
     while(true)
     {
+        m_camera >> frame;
         m_fork.dock();
+        cv::imshow("AutoForkTest", frame);
+        cv::waitKey(1);
     }
 }

@@ -15,7 +15,7 @@ link_directories(${OpenCV_LIB_DIR})
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_executable(autoforktest "./main.cpp" "./source/AutoForkTest.cpp" "../../client/source/RAutoFork.cpp" "../../client/source/RPiCamera.cpp" "../../client/source/RCoordinateHelper.cpp" "../../client/source/ext/getstuff.cpp" "../../shared/source/ext/Client.cpp") 
+add_executable(autoforktest "./main.cpp" "./source/AutoForkTest.cpp" "../../client/source/RAutoFork.cpp" "../../client/source/RPiCamera.cpp" "../../client/source/RArucoReader.cpp" "../../client/source/RArucoTag.cpp" "../../client/source/RArucoTag3.cpp" "../../client/source/RCoordinateHelper.cpp" "../../client/source/ext/getstuff.cpp" "../../shared/source/ext/Client.cpp") 
 
 target_link_libraries(autoforktest PRIVATE ${OpenCV_LIBS})
 target_include_directories(autoforktest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${OpenCV_INCLUDE_DIRS})
