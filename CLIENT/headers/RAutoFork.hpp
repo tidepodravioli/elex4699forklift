@@ -17,6 +17,7 @@ class RAutoFork
     double m_closest_tag_angle;
     std::chrono::seconds m_backupTime = std::chrono::seconds(FORKLIFT_BACKUP_TIME);
     bool valid;
+    float m_distance;
 
     public:
     RAutoFork(RPiCamera &camera, RCoordinateHelper &helper);
