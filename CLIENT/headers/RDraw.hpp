@@ -41,7 +41,7 @@ class RDraw
     public:
         RDraw();
         ~RDraw();
-
+    
         bool drawArena();
         bool drawUI();
 

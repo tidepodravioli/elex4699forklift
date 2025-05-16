@@ -15,10 +15,7 @@ void RForkliftClient::start()
         switch(option)
         {
             case '1':
-                cli_getSocket();
-
-                if(m_flagConnected)
-                    cli_startClient();
+                cli_startClient();
             break;
 
             case '2':
@@ -67,12 +64,9 @@ void RForkliftClient::cli_showMenu()
 void RForkliftClient::cli_getSocket()
 {
     cout << endl << "CONNECTION TO FORKLIFT SERVER" << endl;
-    cout << "Enter server IP address : ";
+    
     string IPaddr;
-    while(!get_data(&IPaddr,regex(E4618_IPADDR_REGEX)))
-    {
-        cout << "Please enter formatted IPv4 address : ";
-    }
+    prompt("Enter server IP address : ", IPaddr, regex(E4618_IPADDR_REGEX), "Please enter formatted IPv4 address : ");
 
     cout << "Enter target port : ";
     int port;
@@ -91,16 +85,12 @@ void RForkliftClient::cli_getSocket()
     
 }
 
-void RForkliftClient::cli_startClient()
-{   
+void RForkliftClient::cli_getCControl()
+{
     cout << endl << endl << "CONNECTION TO SERIAL CONTROLLER" << endl;
-    cout << "Enter serial port number : ";
 
    int serialport;
-   while(!get_int(&serialport))
-   {
-        cout << "Please enter a number : ";
-   }
+   prompt("Enter serial port number : ", serialport, "Please enter a valid number : ");
 
    cout << "Connecting..." << endl;
    m_serial.init_com(serialport);
@@ -108,68 +98,97 @@ void RForkliftClient::cli_startClient()
    cout << "Checking connection..." << endl;
    if(m_serial.checkPort())
    {
-    cout << "Connected!" << endl;
-    cout << "Press any key on the keyboard to break the connection and return to the menu" << endl;
-    cout << setw(50) << setfill('-') << "-" << endl;
-
-    while(!_kbhit())
-    {
-        //draw UI
-        m_ui.drawArena();
-        //m_ui.drawUI();
-
-        bool joypass = false;
-        CJoystickPosition analog = m_serial.get_analog(joypass);
-        if(joypass)
-        {
-            if(analog.get_simple_direction() != JOYSTICK_DIRECTION_CENTER)
-                cout << "JOYSTICK x= " << analog.getX() << ", y= " << analog.getY() << endl;
-            RJoystickEvent joystickEvent(analog);
-                m_network.sendEvent(joystickEvent);
-        }
-
-
-        bool button1 = m_serial.get_button(0);
-        bool button2 = m_serial.get_button(1);
-        bool buttonj1 = m_serial.get_button(5);
-
-        if(button1)
-        { 
-            cout << "BUTTON1 PRESSED" << endl;
-            RControlEvent buttonEvent(ECOMMAND_SET, ETYPE_DIGITAL, 1, 1);
-            m_network.sendEvent(buttonEvent);
-        }
-
-        if(button2) 
-        {
-            cout << "BUTTON2 PRESSED" << endl;
-            RControlEvent buttonEvent(ECOMMAND_SET, ETYPE_DIGITAL, 2, 1);
-            m_network.sendEvent(buttonEvent);
-        }
-
-        if(buttonj1)
-        {
-            cout << "BUTTONJ1 PRESSED" << endl;
-            RControlEvent buttonEvent(ECOMMAND_SET, ETYPE_DIGITAL, 5, 1);
-            m_network.sendEvent(buttonEvent);
-        }
-    }   
-    cout << "Keypress detected. Disconnecting from server." << endl;
-    m_network.disconnect();
-    m_flagConnected = false;
-
-    }
+        m_flagSerialConnected = true;
+        cout << "Connected to COM" << serialport << "!" << endl;
+   }
    else
    {
-    cout << "Invalid response from serial port." << endl;
-    return;
+        m_flagSerialConnected = false;
+        cout << "Invalid response from serial port." << endl;
+        return;
    }
-    
 }
+
+void RForkliftClient::cli_startClient()
+{   
+    cli_getSocket();
+    if(m_flagConnected) cli_getCControl();
+
+    if(m_flagConnected && m_flagSerialConnected)
+    {
+        cout << "Press any key on the keyboard to break the connection and return to the menu" << endl;
+        cout << setw(50) << setfill('-') << "-" << endl;
+
+        while(!_kbhit())
+        {
+            //draw UI
+            m_ui.drawArena();
+            //m_ui.drawUI();
+
+            // Runs the processing for auto/manual mode
+            if(m_flagAutoMode) proc_auto();
+            else proc_manual();
+        }   
+        cout << "Keypress detected. Disconnecting from server." << endl;
+        m_network.disconnect();
+        m_flagConnected = false;
+    }    
+}
+
+void RForkliftClient::proc_manual()
+{
+    bool joypass = false;
+    CJoystickPosition analog = m_serial.get_analog(joypass);
+    if(joypass)
+    {
+        if(analog.get_simple_direction() != JOYSTICK_DIRECTION_CENTER)
+            cout << "JOYSTICK x= " << analog.getX() << ", y= " << analog.getY() << endl;
+        RJoystickEvent joystickEvent(analog);
+            m_network.sendEvent(joystickEvent);
+    }
+
+
+    bool button1 = m_serial.get_button(0);
+    bool button2 = m_serial.get_button(1);
+    bool buttonj1 = m_serial.get_button(5);
+
+    if(button1)
+    { 
+        cout << "BUTTON1 PRESSED" << endl;
+        RControlEvent buttonEvent(ECOMMAND_SET, ETYPE_DIGITAL, 1, 1);
+        m_network.sendEvent(buttonEvent);
+    }
+
+    if(button2) 
+    {
+        cout << "BUTTON2 PRESSED" << endl;
+        RControlEvent buttonEvent(ECOMMAND_SET, ETYPE_DIGITAL, 2, 1);
+        m_network.sendEvent(buttonEvent);
+    }
+
+    if(buttonj1)
+    {
+        cout << "BUTTONJ1 PRESSED" << endl;
+        RControlEvent buttonEvent(ECOMMAND_SET, ETYPE_DIGITAL, 5, 1);
+        m_network.sendEvent(buttonEvent);
+    }
+}
+
+void RForkliftClient::proc_auto()
+{
+    // 1. Navigate to pickup point
+
+    // 2. Pick-up package
+
+    // 3. Drive to drop-off point
+
+    // 4. Drop off package
+}
+
 void RForkliftClient::cli_IOTest()
 {  
     int serialport;
-    prompt("Enter serial port number : ", serialport, "Please enter a number : ", -1);
+    prompt("Enter serial port number : ", serialport, "Please enter a number : ");
 
    cout << "Connecting..." << endl;
    m_serial.init_com(serialport);

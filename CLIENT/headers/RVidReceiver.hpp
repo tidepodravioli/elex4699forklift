@@ -15,7 +15,7 @@ class RVidReceiver : public cv::VideoCapture
     public:
     RVidReceiver(bool debug = true);
 
-    void listen(int port);
+    bool listen(int port);
 
     bool getFrame(cv::Mat &im);
 };

@@ -7,7 +7,7 @@ RVidReceiver::RVidReceiver(bool debug)
     m_debug = debug;
 }
 
-void RVidReceiver::listen(int port)
+bool RVidReceiver::listen(int port)
 {
     const string pipeline = getPipeline(port);
 
@@ -17,11 +17,13 @@ void RVidReceiver::listen(int port)
     {
         m_flagConnected = true;
         if(m_debug) cout << "RVidReceiver : Receiving video" << endl;
+        return true;
     }
     else
     {
         m_flagConnected = false;
         if(m_debug) cout << "RVidReceiver : Connection failed" << endl;
+        return false;
     }
 }
 
