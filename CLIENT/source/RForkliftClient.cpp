@@ -192,15 +192,9 @@ void RForkliftClient::cli_startClient()
             m_helper = RCoordinateHelper();
             m_helper.connect_socket(ARENA_CAMERA_IP, ARENA_CAMERA_PORT);
             this_thread::sleep_for(chrono::milliseconds(500));
+            
             m_helper.refreshRobot();
-            Mat testframe;
-            m_helper.getFrame(testframe);
 
-            if(!testframe.empty())
-            {
-                imshow("TESTFRAME", testframe);
-                waitKey(1);
-            }
             if(m_helper.robotFound())
             {
                 cout << "Robot was found on the playfield at " << m_helper.getRobotCoords() << endl
@@ -234,7 +228,7 @@ void RForkliftClient::proc_client()
     {
         //draw UI
         m_ui.drawArena();
-        //m_ui.drawUI();
+        m_ui.drawUI();
 
         m_flagAutoMode = m_ui.getAuto();
         m_flagSlowMode = !m_ui.getFast();
@@ -307,14 +301,13 @@ void RForkliftClient::proc_auto()
     //For now though, we're testing the driving lol
 
     vector<Point2i> path;
-    while(!m_flagRun && m_flagAutoMode)
-    {
-        path = m_ui.getPathAsPoints();
-    }
 
     if(m_flagRun && m_flagAutoMode)
     {
+        path = m_ui.getPathAsPoints();
+        cout << "Driving given path... (" << path.size() << " node(s))" << endl;
         m_autopilot->drivePath(path);
+        cout << "Destination reached!" << endl;
         m_ui.setStart(false);
     }
 }

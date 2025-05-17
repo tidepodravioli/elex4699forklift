@@ -31,26 +31,30 @@ void RCoordinateHelper::refreshRobot()
 {
     cv::Mat frame;
 
-    tx_str(m_commandGet); // ask for the next frame
-    this_thread::sleep_for(chrono::milliseconds(1)); // wait a little bit for the response
-    rx_im(frame); // receive the frame
+    do
+    {    
+        tx_str(m_commandGet); // ask for the next frame
+        this_thread::sleep_for(chrono::milliseconds(20)); // wait a little bit for the response
+        rx_im(frame); // receive the frame
 
-    if(!frame.empty())
-    {
-        std::vector<RArUcoTag> tags = m_aruco.getTags(frame);
-        for(RArUcoTag tag : tags)
+        if(!frame.empty())
         {
-            if(tag.getID() == ROBOT_ARUCO_ID)
+            std::vector<RArUcoTag> tags = m_aruco.getTags(frame);
+            for(RArUcoTag tag : tags)
             {
-                m_robot.coord = tag.getCenter();
-                m_robot.angle = tag.getAngle_r();
-                m_flagRobotFound = true;
-                return;
+                if(tag.getID() == ROBOT_ARUCO_ID)
+                {
+                    m_robot.coord = tag.getCenter();
+                    m_robot.angle = tag.getAngle_r();
+                    m_flagRobotFound = true;
+                    return;
+                }
+                else m_flagRobotFound = false;
             }
-            else m_flagRobotFound = false;
         }
+        else m_flagRobotFound = false;
     }
-    else m_flagRobotFound = false;
+    while(frame.empty());
 }
 
     
