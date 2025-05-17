@@ -27,6 +27,7 @@ void RForkliftManager::start()
     }
 
     cout << "Closing server..." << endl;
+    m_server.stop();
 }
 
 bool RForkliftManager::init()
@@ -71,7 +72,7 @@ void RForkliftManager::getCom()
     }
 
     int getchar = getch();
-    if(ch == 'q')
+    if(getchar == 'q')
     {
         refresh();
         m_flagRun = false;
