@@ -1,5 +1,8 @@
 #include "../headers/RForkliftManager.hpp"
 
+using namespace std;
+using namespace cv;
+
 RForkliftManager::RForkliftManager()
 {
     gpioInitialise();
@@ -113,9 +116,7 @@ void RForkliftManager::update()
             }
             else if(type == ETYPE_ANALOG)
             {
-                cout << "JOYSTICK EVENT" << endl;
-                RJoystickEvent jcurrent(current);
-                m_driver->joystickDrive(jcurrent.percentX(), jcurrent.percentY());
+                
             }
             else if(type == ETYPE_COMMAND)
             {
@@ -131,15 +132,7 @@ void RForkliftManager::update()
                 {
                     vector<string> data = current.getValues();
 
-                    vector<string> IPs;
-                    m_server.get_connected_ips(IPs);
-
-                    const string IPaddr = IPs[0];
-                    const int port = stoi(data[0]);
-
-                    m_stream = new RVidStream();
-                    m_stream->target(IPaddr, port);
-                    m_stream->stream(m_camera);
+                    
                 }
             }
         }
@@ -149,9 +142,7 @@ void RForkliftManager::update()
             {
                 if(origin == 0)
                 {
-                    RControlEvent heartbeat = current.copy();
-                    heartbeat.setCom(ECOMMAND_ACK);
-                    m_server.sendCom(heartbeat.asCommand());
+                    
                 }
             }
         }
@@ -183,3 +174,4 @@ void RForkliftManager::end_kbhit()
 {
     endwin();
 }
+

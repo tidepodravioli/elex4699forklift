@@ -80,11 +80,14 @@ class RControlEvent
     int getOrigin();
 
     /**
-     * @brief Returns the first value of the packet as an integer
+     * @brief Gets the data at the specified index as an integer (first by default).
+     * If the parse is bad, returns a safe value (0 by default).
      * 
-     * @return int The first value as an integer, -1 if invalid
+     * @param index The index to get the data from
+     * @param safeval The value to return if the parse fails
+     * @return int
      */
-    int getValue();
+    int getValue(int index = 0, int safeval = 0);
 
     RControlEvent copy();
 
@@ -94,6 +97,13 @@ class RControlEvent
      * @return vector<string> 
      */
     vector<string> getValues();
+
+    /**
+     * @brief Parses the raw string data and returns the values as a vector of ints.
+     * 
+     * @return vector<int> 
+     */
+    vector<int> getIntValues();
 
     /**
      * @brief Returns the packet as a sendable command for transmission

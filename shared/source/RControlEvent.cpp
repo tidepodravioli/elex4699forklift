@@ -58,17 +58,16 @@ int RControlEvent::getOrigin()
     return m_origin;
 }
 
-int RControlEvent::getValue()
+int RControlEvent::getValue(int index, int safeval)
 {
-    int result = -1;
     try
     {
-        result = stoi(m_data[0]);
+        const int result = stoi(m_data[index]);
         return result;
     }
     catch(const std::exception& e)
     {
-        return result;
+        return safeval;
     }
         
 }
@@ -154,6 +153,25 @@ RControlEvent RControlEvent::parse(string command)
         return RControlEvent();
     }
     
+}
+
+vector<int> RControlEvent::getIntValues()
+{
+    vector<int> ints;
+    for(string dat : m_data)
+    {
+        try 
+        {
+            ints.push_back(stoi(dat));
+        }
+        catch(const std::exception& e)
+        {
+            ints.push_back(0);
+        }
+        
+    }
+
+    return ints;
 }
 
 vector<string> RControlEvent::delimitString(std::string input, char delimiter)
