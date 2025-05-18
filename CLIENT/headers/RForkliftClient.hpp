@@ -5,6 +5,7 @@
 #include <regex>
 #include <string>
 #include <conio.h>
+#include <thread>
 #include <opencv2/opencv.hpp>
 
 #include "ext/getstuff.h"
@@ -27,7 +28,7 @@ class RForkliftClient
 private:
     CControl m_serial;
     RNetClient m_network;
-    RDraw m_ui;
+    RDraw * m_ui;
     RPiCamera m_camstream;
     RMotorWriter * m_writer;
     RAutoPilot * m_autopilot;
@@ -51,6 +52,9 @@ private:
     bool m_flagSlowMode = false;
     bool m_flagRun = false;
 
+    //UI flags
+    bool m_flagThreadedUIrefresh = false;
+
     
     void cli_getSocket();
     void cli_getCControl();
@@ -68,6 +72,7 @@ private:
     void cli_IOTest();
     void gui_UITest();
     void cli_streamTest();
+    void cli_antirafTest();
     
     void cli_showMenu();
     void cli_settings();
@@ -75,6 +80,7 @@ private:
     void start_front_cam();
 
     void t_showFrontCam();
+    void t_refreshUI();
 public:
     RForkliftClient() {}
 

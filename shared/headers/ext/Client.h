@@ -8,11 +8,11 @@
 
 // SET MACROS AND COMPILE USING CMAKELISTS!!
 #if defined(WIN4618)
-#pragma comment("Using WIN4618 for CClient")
+#pragma message("Using WIN4618 for CClient")
 #elif defined(PI4618)
-#pragma comment("Using PI4618 for CClient")
+#pragma message("Using PI4618 for CClient")
 #else
-#pragma comment("MAKE SURE TO DEFINE EITHER WIN4618 OR PI4618! COMPILE WILL FAIL!")
+#pragma message("MAKE SURE TO DEFINE EITHER WIN4618 OR PI4618! COMPILE WILL FAIL!")
 #endif
 
 //#define WIN4618

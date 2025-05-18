@@ -11,7 +11,7 @@
 #include "RMotorWriter.hpp"
 
 #define MAX_AUTO_SPEED 150.0f
-#define ANGLE_GAIN 80.0f
+#define ANGLE_GAIN 100.0f
 #define POINT_DISTANCE_THRESHOLD 100.0f
 #define DRIVE_CORRECTION_COOLDOWN 20
 

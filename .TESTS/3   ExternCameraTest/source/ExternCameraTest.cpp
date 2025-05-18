@@ -1,5 +1,8 @@
 #include "../headers/ExternCameraTest.hpp"
 
+using namespace std;
+using namespace cv;
+
 ExternCameraTest::ExternCameraTest()
 {
 
@@ -7,24 +10,7 @@ ExternCameraTest::ExternCameraTest()
 
 void ExternCameraTest::start()
 {
-    //do not use
-    RExternCamera camera;
-    camera.connect("192.168.0.101", 4008, 0);
-
-    std::this_thread::sleep_for(std::chrono::seconds(3));
-
-    Mat frame;
-    do
-    {
-        camera.ping();
-        camera.getFrame(frame);
-
-        if (!frame.empty())
-        {
-            cv::imshow("EXTERN CAMERA TEST", frame);
-        }
-        
-    } while (cv::waitKey(1) != 'q');
+    
 }
 
 void ExternCameraTest::startalt()
@@ -38,7 +24,7 @@ void ExternCameraTest::startalt()
     do
     {
         frame_m->lock();
-        Mat copy = frame.clone();
+        cv::Mat copy = frame.clone();
         frame_m->unlock();
 
         if(!copy.empty())
@@ -59,7 +45,7 @@ void ExternCameraTest::startalt()
 void ExternCameraTest::frame_t()
 {
     CClient client;
-    client.connect_socket("192.168.0.101", 4008);
+    client.connect_socket("192.168.0.100", 4008);
 
     while(!flagExit)
     {

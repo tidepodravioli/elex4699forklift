@@ -4,9 +4,8 @@
 #include <mutex>
 #include <vector>
 
-#include "../../../headers/RExternCamera.hpp"
 #include "../../../shared/headers/ext/Client.h"
-#include "../../../headers/RArUcoReader.hpp"
+#include "../../../CLIENT/headers/RArUcoReader.hpp"
 
 class ExternCameraTest
 {

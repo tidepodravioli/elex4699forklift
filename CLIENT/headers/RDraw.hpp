@@ -7,7 +7,7 @@ class RDraw
         //Parameters
         int m_arena_height, m_arena_width;
         int m_cell_height, m_cell_width;
-        cv::Mat m_arena, m_grid, m_settings;
+        cv::Mat m_arena, m_arena_orig, m_grid, m_settings;
 
         //Grid Configuration
         int m_grid_rows = 25;
@@ -41,9 +41,11 @@ class RDraw
 
     public:
         RDraw();
+        RDraw(cv::Mat &arena);
         ~RDraw();
     
         bool drawArena();
+        bool drawArena(cv::Mat &arena);
         bool drawUI();
 
         std::vector<std::vector<bool>> getPath() {return m_path;};

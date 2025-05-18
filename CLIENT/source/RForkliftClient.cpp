@@ -31,6 +31,10 @@ void RForkliftClient::start()
                 gui_UITest();
             break;
 
+            case '5':
+                cli_antirafTest();
+            break;
+
             case 's':
                 cli_settings();
             break;
@@ -201,6 +205,9 @@ void RForkliftClient::cli_startClient()
                 << "Overhead camera connection successful!" << endl;
                 
                 m_flagArenaCamConnected = true;
+                Mat frame;
+                m_helper.getFrame(frame);
+                m_ui = new RDraw(frame);
             }
             else
             {
@@ -227,12 +234,12 @@ void RForkliftClient::proc_client()
     while(!_kbhit())
     {
         //draw UI
-        m_ui.drawArena();
-        m_ui.drawUI();
+        m_ui->drawArena();
+        m_ui->drawUI();
 
-        m_flagAutoMode = m_ui.getAuto();
-        m_flagSlowMode = !m_ui.getFast();
-        m_flagRun = m_ui.getStart();
+        m_flagAutoMode = m_ui->getAuto();
+        m_flagSlowMode = !m_ui->getFast();
+        m_flagRun = m_ui->getStart();
 
         // Runs the processing for auto/manual mode
         if(m_flagAutoMode) proc_auto();
@@ -247,6 +254,8 @@ void RForkliftClient::proc_client()
     m_flagFrontCamConnected = false;
     m_flagSerialConnected = false;
     m_flagConnected = false;
+
+    m_ui->~RDraw();
 }
 
 void RForkliftClient::proc_manual()
@@ -304,11 +313,18 @@ void RForkliftClient::proc_auto()
 
     if(m_flagRun && m_flagAutoMode)
     {
-        path = m_ui.getPathAsPoints();
+        m_flagThreadedUIrefresh = true;
+        //thread ui_t(&RForkliftClient::t_refreshUI, this);
+        //ui_t.detach();
+
+        path = m_ui->getPathAsPoints();
         cout << "Driving given path... (" << path.size() << " node(s))" << endl;
         m_autopilot->drivePath(path);
         cout << "Destination reached!" << endl;
-        m_ui.setStart(false);
+        m_ui->setStart(false);
+
+        m_flagThreadedUIrefresh = false;
+        //ui_t.join();
     }
 }
 
@@ -342,18 +358,19 @@ void RForkliftClient::cli_IOTest()
 
    
 }
+
 void RForkliftClient::gui_UITest()
 {
+    m_ui = new RDraw();
     while(!_kbhit())
     {
         //draw UI
-        m_ui.drawArena();
-        m_ui.drawUI();
+        m_ui->drawArena();
+        m_ui->drawUI();
     }
 
     cout << "Keypress detected. Returning to menu..." << endl;
-    m_ui.~RDraw();
-    m_ui = RDraw();
+    m_ui->~RDraw();
 }
 
 void RForkliftClient::cli_streamTest()
@@ -388,4 +405,36 @@ void RForkliftClient::start_front_cam()
 void RForkliftClient::t_showFrontCam()
 {
 
+}
+
+void RForkliftClient::t_refreshUI()
+{
+    while(m_flagThreadedUIrefresh)
+    {
+        Mat frame;
+        if(m_helper.getFrame(frame))
+        {
+            m_ui->drawArena(frame);
+            m_ui->drawUI();
+        }
+    }
+}
+
+void RForkliftClient::cli_antirafTest()
+{
+    cli_getSocket();
+
+    if(m_flagConnected)
+    {
+        while(true)
+        {
+            int spx = 255, spy = 255;
+            string command;
+            prompt("Enter speeds : ", command, regex("^\\d+ \\d+$"), "Enter speeds delimited by space : ");
+            
+            vector<string> parts = delimitString(command, ' ');
+            RControlEvent speedtest(ECOMMAND_SET, ETYPE_ANALOG, 1, parts);
+            m_network.sendEvent(speedtest);
+        }
+    }
 }

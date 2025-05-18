@@ -8,6 +8,7 @@ RAutoPilot::RAutoPilot(RMotorWriter &driver, RCoordinateHelper &helper) : RMotor
 void RAutoPilot::driveToPoint(cv::Point2i point)
 {
     while (true) {
+        m_helper->refreshRobot();
         //Get robot's current position and angle
         cv::Point2i pos = m_helper->getRobotCoords();
         float heading = m_helper->getRobotAngle_r(); // In radians

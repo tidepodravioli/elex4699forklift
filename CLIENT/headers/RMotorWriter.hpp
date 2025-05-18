@@ -1,9 +1,10 @@
 #pragma once
 #include "RNetClient.hpp"
 
-class RMotorWriter : private RNetClient
+class RMotorWriter
 {
     private:
+    RNetClient m_client;
 
     public:
     RMotorWriter(RNetClient &client);

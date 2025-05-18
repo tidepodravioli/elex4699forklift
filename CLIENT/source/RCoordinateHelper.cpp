@@ -20,26 +20,22 @@ RCoordinateHelper::~RCoordinateHelper()
 
 bool RCoordinateHelper::getFrame(cv::Mat &im)
 {
-    tx_str(m_commandGet); // ask for the next frame
-    this_thread::sleep_for(chrono::milliseconds(1)); // wait a little bit for the response
-    rx_im(im); // receive the frame
+    im = m_currentFrame;
 
     return !im.empty();
 }
 
 void RCoordinateHelper::refreshRobot()
 {
-    cv::Mat frame;
-
     do
     {    
         tx_str(m_commandGet); // ask for the next frame
-        this_thread::sleep_for(chrono::milliseconds(20)); // wait a little bit for the response
-        rx_im(frame); // receive the frame
+        this_thread::sleep_for(chrono::milliseconds(30)); // wait a little bit for the response
+        rx_im(m_currentFrame); // receive the frame
 
-        if(!frame.empty())
+        if(!m_currentFrame.empty())
         {
-            std::vector<RArUcoTag> tags = m_aruco.getTags(frame);
+            std::vector<RArUcoTag> tags = m_aruco.getTags(m_currentFrame);
             for(RArUcoTag tag : tags)
             {
                 if(tag.getID() == ROBOT_ARUCO_ID)
@@ -54,7 +50,7 @@ void RCoordinateHelper::refreshRobot()
         }
         else m_flagRobotFound = false;
     }
-    while(frame.empty());
+    while(m_currentFrame.empty());
 }
 
     
