@@ -9,7 +9,7 @@ RPiForklift::RPiForklift(int gpioPin) : RPiServo(gpioPin)
 }
 
 
-void RPiForklift::writePosition(LIFT_POSITION position);
+void RPiForklift::writePosition(LIFT_POSITION position)
 {
     auto pos = m_servoPositions.find(position);
     if(pos != m_servoPositions.end())
@@ -18,4 +18,14 @@ void RPiForklift::writePosition(LIFT_POSITION position);
     }
     
     //if no match in dictionary, do nothing
+}
+
+void RPiForklift::forkUp()
+{
+
+}
+
+void RPiForklift::forkDown()
+{
+
 }
