@@ -54,9 +54,13 @@ bool raf_cin::get_char(char * result)
 {
     std::string input;
     if(get_data(&input, std::regex(CHAR_REGEX)))
-    {
-        * result = input[0];
-        return true;
+    {   
+        if(input.size() == 1) 
+        {
+            * result = input[0];
+            return true;
+        }
+        else return false;
     }
     return false;
 }
@@ -105,6 +109,21 @@ bool raf_cin::prompt(std::string message, float &result, std::string errMessage,
     return true;
 }
 
+bool raf_cin::prompt(std::string message, std::string &result, std::string errMessage, int maxRetry)
+{
+    std::cout << message;
+
+    int attempts = 0;
+    while(!get_line(&result))
+    {
+        attempts++;
+        if(attempts >= maxRetry) return false;
+        std::cout << errMessage;
+    }
+
+    return true;
+}
+
 bool raf_cin::prompt(std::string message, std::string &result, std::regex expression, std::string errMessage, int maxRetry)
 {
     std::cout << message;
@@ -118,6 +137,20 @@ bool raf_cin::prompt(std::string message, std::string &result, std::regex expres
     }
 
     return true;
+}
+
+bool raf_cin::prompt_yn(std::string message, std::string errMessage)
+{
+    std::cout << message << " (y/n) : ";
+
+    std::string response;
+    while(!get_data(&response, std::regex("^(Y|y|N|n)$")))
+    {
+        std::cout << ((errMessage == "") ? message : errMessage) << " (y/n) : ";
+    }
+
+    if(response == "y" || response == "Y") return true;
+    else return false;
 }
 
 vector<string> raf_cin::delimitString(std::string input, char delimiter)
