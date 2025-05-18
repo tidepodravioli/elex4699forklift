@@ -16,7 +16,7 @@ link_directories(${OpenCV_LIB_DIR})
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-file(GLOB SOURCES "./source/*.cpp" "./source/ext/*.cpp" "../shared/source/*.cpp" "../shared/source/ext/*.cpp")
+file(GLOB SOURCES "./source/*.cpp" "./source/RForkliftClient/*.cpp" "./source/ext/*.cpp" "../shared/source/*.cpp" "../shared/source/ext/*.cpp")
 add_executable(elex4699forklift_client ${SOURCES} "./main.cpp") 
 
 target_link_libraries(elex4699forklift_client PRIVATE ${OpenCV_LIBS})

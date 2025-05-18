@@ -35,6 +35,7 @@ private:
     RCoordinateHelper m_helper;
 
     std::chrono::steady_clock::time_point m_lastEvent;
+    cv::Mat m_currentFrame;
 
     // Connection state flags
     bool m_flagConnected = false;
@@ -78,6 +79,8 @@ private:
     void cli_settings();
 
     void start_front_cam();
+    void start_ui(cv::Mat &init_arena);
+    void stop_ui();
 
     void t_showFrontCam();
     void t_refreshUI();
