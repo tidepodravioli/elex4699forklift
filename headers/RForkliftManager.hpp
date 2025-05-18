@@ -3,10 +3,13 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 #include <pigpio.h>
+#include <iostream>
+#include <termios.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <chrono>
-#include <ncurses.h>
 #include <functional>
 #include <map>
 #include <utility>
@@ -24,9 +27,7 @@
 
 #include "ForkliftConstants.h"
 
-// For command handling
-using CommandKey = std::pair<EVENT_COMMAND_TYPE, EVENT_DATA_TYPE>;
-using CommandHandler = std::function<void(const RControlEvent &)>;
+
 
 /**
  * @brief Main object class for the Forklift project
@@ -43,6 +44,11 @@ class RForkliftManager
 
     RNetServer m_server;
 
+    
+    // For command handling
+    using CommandKey = std::pair<EVENT_COMMAND_TYPE, EVENT_DATA_TYPE>;
+    using CommandHandler = std::function<void(RForkliftManager *, RControlEvent &)>;
+    
     std::vector<RControlEvent> m_commandQueue;
     std::map<CommandKey, CommandHandler> m_commandHandlers;
 
@@ -52,11 +58,11 @@ class RForkliftManager
     std::string m_frontCamIP;
     int m_frontCamPort;
 
-    void init_kbhit();
-    void end_kbhit();
+    void setNonBlocking(bool enable);
+    void setRawMode(bool enable);
 
     void registerCommands();
-    void handleCommand(const RControlEvent &cmd);
+    void handleCommand(RControlEvent &cmd);
 
     void com_setAnalog(int origin, std::vector<int> values);
     void com_setCommand(int origin, std::vector<std::string> values);

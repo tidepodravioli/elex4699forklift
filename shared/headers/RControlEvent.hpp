@@ -41,8 +41,7 @@ class RControlEvent
     string commandBuilder(EVENT_COMMAND_TYPE command, EVENT_DATA_TYPE datatype, int channel, vector<string> vals = {}, bool addEndl = true);
 
     static vector<string> delimitString(string input, char delimiter);
-    static EVENT_COMMAND_TYPE str_to_com(char com);
-    static EVENT_DATA_TYPE str_to_type(string type);
+    
 
     protected:
     EVENT_COMMAND_TYPE m_com;
@@ -113,4 +112,6 @@ class RControlEvent
     string asCommand(bool newline = false);
 
     static RControlEvent parse(string command);
+    static EVENT_COMMAND_TYPE str_to_com(char com);
+    static EVENT_DATA_TYPE str_to_type(string type);
 };

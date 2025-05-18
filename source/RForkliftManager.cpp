@@ -6,10 +6,14 @@ using namespace cv;
 RForkliftManager::RForkliftManager()
 {
     gpioInitialise();
+    registerCommands();
 }
 
 void RForkliftManager::start()
 {
+    setNonBlocking(true);
+    setRawMode(true);
+
     m_flagRun = init();
 
     if(m_flagRun)
@@ -20,17 +24,17 @@ void RForkliftManager::start()
         m_flagRun = true;
 
         cout << "Server started! Listening on port " << SERVER_PORT << endl;
-        init_kbhit();
         while(m_flagRun)
         {
             getCom();
             update();
         }
-        end_kbhit();
     }
 
     cout << "Closing server..." << endl;
     m_server.stop();
+    setNonBlocking(false);
+    setRawMode(false);
 }
 
 bool RForkliftManager::init()
@@ -73,12 +77,11 @@ void RForkliftManager::getCom()
     {
         m_commandQueue.insert(m_commandQueue.end(), newCommands.begin(), newCommands.end());
     }
-
-    int getchar = getch();
-    if(getchar == 'q')
-    {
-        refresh();
-        m_flagRun = false;
+    
+    char ch;
+    ssize_t n = read(STDIN_FILENO, &ch, 1);
+    if (n > 0) {
+        if (ch == 'q') m_flagRun = false;
     }
 }
 
@@ -94,59 +97,8 @@ void RForkliftManager::update()
 
         cout << current.asCommand() << endl;
 
-        if(com == ECOMMAND_SET)
-        {
-            if(type == ETYPE_DIGITAL)
-            {
-                if(origin == 1)
-                {
-                    cout << "FORK UP" << endl;
-                    m_forklift->write(45);
-                }
-                else if (origin == 2)
-                {
-                    cout << "FORK DOWN" << endl;
-                    m_forklift->write(20);
-                }
-                else if(origin == 5)
-                {
-                    cout << "SLOW MODE" << endl;
-                    m_driver->toggleSlow();
-                }
-            }
-            else if(type == ETYPE_ANALOG)
-            {
-                
-            }
-            else if(type == ETYPE_COMMAND)
-            {
-                if (origin == 0)
-                {
+        handleCommand(current);
 
-                }
-                else if (origin == 1)
-                {
-
-                }
-                else if (origin == 2)
-                {
-                    vector<string> data = current.getValues();
-
-                    
-                }
-            }
-        }
-        else if(com == ECOMMAND_GET)
-        {
-            if(type == ETYPE_COMMAND)
-            {
-                if(origin == 0)
-                {
-                    
-                }
-            }
-        }
-        
         m_commandQueue.erase(m_commandQueue.begin());
     }
     else
@@ -160,18 +112,27 @@ void RForkliftManager::automode()
     
 }
 
-void RForkliftManager::init_kbhit()
-{
-    //ncurses init (from ChatGPT)
-    initscr();
-    noecho();
-    cbreak();
-    nodelay(stdscr, TRUE);
-    keypad(stdscr, TRUE);
+void RForkliftManager::setNonBlocking(bool enable) {
+    int flags = fcntl(STDIN_FILENO, F_GETFL, 0);
+    if (enable)
+        fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
+    else
+        fcntl(STDIN_FILENO, F_SETFL, flags & ~O_NONBLOCK);
 }
 
-void RForkliftManager::end_kbhit()
-{
-    endwin();
+void RForkliftManager::setRawMode(bool enable) {
+    static termios oldt;
+    static bool saved = false;
+
+    if (enable) {
+        termios newt;
+        tcgetattr(STDIN_FILENO, &oldt);
+        newt = oldt;
+        newt.c_lflag &= ~(ICANON | ECHO);  // raw mode
+        tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+        saved = true;
+    } else if (saved) {
+        tcsetattr(STDIN_FILENO, TCSANOW, &oldt);  // restore
+    }
 }
 
