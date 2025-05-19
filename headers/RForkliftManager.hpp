@@ -27,8 +27,6 @@
 
 #include "ForkliftConstants.h"
 
-
-
 /**
  * @brief Main object class for the Forklift project
  * 
@@ -43,7 +41,6 @@ class RForkliftManager
     RVidStream * m_stream;
 
     RNetServer m_server;
-
     
     // For command handling
     using CommandKey = std::pair<EVENT_COMMAND_TYPE, EVENT_DATA_TYPE>;
@@ -94,13 +91,5 @@ class RForkliftManager
      * @brief Interprets the first command in the queue
      * 
      */
-    void update();
-
-    /**
-     * @brief Based on the command, do something
-     * 
-     */
-    void automode();
-
-    
+    void update();    
 };

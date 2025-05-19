@@ -49,24 +49,26 @@ bool RForkliftManager::init()
     }
     cout << "Running as sudo, initializing GPIO..." << endl;
 
-    cout << "Initializing motor driver..." << endl;
+    cout << "Initializing motor driver...";
     m_driver = new RMotorDriver(MOTOR_L1, MOTOR_L2, MOTOR_R1, MOTOR_R2);
-    
-    cout << "Initializing forklift servo..." << endl;
+    cout << " done." << endl;
+
+    cout << "Initializing forklift servo...";
     m_forklift = new RPiForklift(FORKLIFT_SERVO);
+    cout << " done." << endl;
 
     cout << "Manual mode services initialized! Checking automatic services..." << endl;
-    cout << "Checking front camera..." << endl;
+    cout << "Checking front camera...";
     
     m_camera = VideoCapture(0, CAP_V4L2);
     if(!m_camera.isOpened())
     {
-        cout << "Error opening front camera! Auto mode will be unavailable." << endl;
+        cout << " ERROR!" << endl;
         m_flagAutoAvailable = false;
-        return true;
     }
+    else cout << " found." << endl;
 
-    cout << "Front camera found!" << endl;
+    cout << "Init complete!" << endl;
     return true;
 }
 
@@ -78,10 +80,11 @@ void RForkliftManager::getCom()
         m_commandQueue.insert(m_commandQueue.end(), newCommands.begin(), newCommands.end());
     }
     
+    // catch q button press for quit
     char ch;
     ssize_t n = read(STDIN_FILENO, &ch, 1);
     if (n > 0) {
-        if (ch == 'q') m_flagRun = false;
+        if (ch == 'q' | ch == 'Q') m_flagRun = false;
     }
 }
 
@@ -91,48 +94,13 @@ void RForkliftManager::update()
     {
         RControlEvent current = m_commandQueue[0];
 
-        const EVENT_COMMAND_TYPE com = current.getCom();
-        const EVENT_DATA_TYPE type = current.getType();
-        const int origin = current.getOrigin();
-
         cout << current.asCommand() << endl;
 
         handleCommand(current);
 
         m_commandQueue.erase(m_commandQueue.begin());
     }
-    else
-    {
-        
-    }
 }
 
-void RForkliftManager::automode()
-{
-    
-}
 
-void RForkliftManager::setNonBlocking(bool enable) {
-    int flags = fcntl(STDIN_FILENO, F_GETFL, 0);
-    if (enable)
-        fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
-    else
-        fcntl(STDIN_FILENO, F_SETFL, flags & ~O_NONBLOCK);
-}
-
-void RForkliftManager::setRawMode(bool enable) {
-    static termios oldt;
-    static bool saved = false;
-
-    if (enable) {
-        termios newt;
-        tcgetattr(STDIN_FILENO, &oldt);
-        newt = oldt;
-        newt.c_lflag &= ~(ICANON | ECHO);  // raw mode
-        tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-        saved = true;
-    } else if (saved) {
-        tcsetattr(STDIN_FILENO, TCSANOW, &oldt);  // restore
-    }
-}
 
