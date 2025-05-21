@@ -39,7 +39,8 @@ void RForkliftManager::start()
 
 bool RForkliftManager::init()
 {
-    cout << "RFORKLIFTMANAGER" << endl << "(C) R. BANALAN & R. CHAN 2025" << endl << endl;
+    cout << "RFORKLIFTMANAGER" << endl << "(C) R. BANALAN & R. CHAN 2025" << endl <<
+    "BUILD " << BUILD_DATE << " " << BUILD_TIME << endl << endl;
     
     cout << "Checking GPIO privileges..." << endl;
     if(geteuid() != 0)

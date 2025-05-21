@@ -7,3 +7,6 @@
 # Ignore all Doxygen output directories at any level
 **/html/
 **/latex/
+
+# Ignore configure specific files
+**/build_info.hpp

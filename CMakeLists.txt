@@ -14,6 +14,12 @@ find_package(OpenCV REQUIRED)
 find_library(PIGPIO_LIB NAMES pigpio REQUIRED)
 find_library(PIGPIOD_IF2_LIB NAMES pigpiod_if2 REQUIRED)
 find_package(Curses REQUIRED)
+
+string(TIMESTAMP BUILD_DATE "%Y-%m-%d")
+string(TIMESTAMP BUILD_TIME "%H:%M:%S")
+
+configure_file("./headers/build_info.hpp.in" ${CMAKE_CURRENT_SOURCE_DIR}/headers/build_info.hpp)
+
 include_directories(${CURSES_INCLUDE_DIR})
 
 include_directories(${OpenCV_INCLUDE_DIRS} "./headers" "./headers/ext" "./shared/headers" "./shared/headers/ext")

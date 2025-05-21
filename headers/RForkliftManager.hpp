@@ -26,6 +26,8 @@
 
 
 #include "ForkliftConstants.h"
+#include "build_info.hpp"
+
 
 /**
  * @brief Main object class for the Forklift project
