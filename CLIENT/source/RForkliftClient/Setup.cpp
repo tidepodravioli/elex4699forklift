@@ -41,21 +41,38 @@ void RForkliftClient::cli_settings()
 void RForkliftClient::cli_getSocket()
 {
     cout << endl << "CONNECTION TO FORKLIFT SERVER" << endl;
-    
+
+    bool useLast = false;
+    if(m_lastPort != -1) useLast = prompt_yn("Would you like to connect using the last connected socket settings?");
+
     string IPaddr;
-    prompt("Enter server IP address : ", IPaddr, regex(E4618_IPADDR_REGEX), "Please enter formatted IPv4 address : ");
-
-    cout << "Enter target port : ";
     int port;
-    bool valid = false;
-    while(!valid)
-    {
-        valid = get_int(&port);
-        valid &= port >= 0 && port <= 65535;
 
-        if(valid) break;
-        cout << "Please enter valid port : ";
+    if(useLast)
+    {
+        IPaddr = m_lastIP;
+        port = m_lastPort;
     }
+    else
+    {
+        prompt("Enter server IP address : ", IPaddr, regex(E4618_IPADDR_REGEX), "Please enter formatted IPv4 address : ");
+
+        cout << "Enter target port : ";
+        bool valid = false;
+        while(!valid)
+        {
+            valid = get_int(&port);
+            valid &= port >= 0 && port <= 65535;
+
+            if(valid) break;
+            cout << "Please enter valid port : ";
+        }
+
+        m_lastIP = IPaddr;
+        m_lastPort = port;
+    }
+    
+    
 
     cout << "Connecting..." << endl;
     m_flagConnected = m_network.connect(IPaddr, port);

@@ -6,6 +6,8 @@ using namespace raf_cin;
 
 void RForkliftClient::start()
 {
+    cli_loadSettingsOnOpen();
+
     while(true)
     {
         cli_showMenu();
@@ -33,6 +35,14 @@ void RForkliftClient::start()
 
             case '5':
                 cli_antirafTest();
+            break;
+
+            case 'a':
+                cli_saveSettings();
+            break;
+
+            case 'l':
+                cli_loadSettings();
             break;
 
             case 's':
@@ -65,9 +75,77 @@ void RForkliftClient::cli_showMenu()
     << "(1) Connect to forklift server" << endl 
     << "(2) Serial IO test" << endl
     << "(3) PI Video Stream test" << endl
-    << "(4) UI test" << endl << endl
-    << "(a) Save last connection parameters (with debug settings)"
+    << "(4) UI test" << endl
+    << "(5) Motor write test" << endl << endl
+    << "(a) Save last connection parameters (with debug settings)" << endl
+    << "(l) Load last settings" << endl
     << "(s) Settings" << endl
     << "(q) Quit" << endl
     << "> ";
+}
+
+void RForkliftClient::cli_saveSettings()
+{
+    if(prompt_yn("Would you like to save your current settings?"))
+    {
+        bool loadOnStart = prompt_yn("Would you like your settings to load on start?");
+
+        FileStorage saveFile("settings.yaml", FileStorage::WRITE);
+        saveFile << "load-on-start" << loadOnStart;
+        saveFile << "ip-address" << m_lastIP;
+        saveFile << "port" << m_lastPort;
+        saveFile << "require-ccontrol" << m_flagManualAvailable;
+        saveFile << "require-frontcam" << m_flagFrontCamNeeded;
+        saveFile << "require-overheadcam"<< m_flagArenaCamNeeded;
+        
+        saveFile.release();
+
+        cout << "Settings saved!" << endl << endl;
+    }
+}
+
+void RForkliftClient::cli_loadSettings()
+{
+    FileStorage loadFile("settings.yaml", FileStorage::READ);
+
+    if(loadFile.isOpened())
+    {
+        loadFile["ip-address"] >> m_lastIP;
+        loadFile["port"] >> m_lastPort;
+        loadFile["require-ccontrol"] >> m_flagManualAvailable;
+        loadFile["require-frontcam"] >> m_flagFrontCamNeeded;
+        loadFile["require-overheadcam"] >> m_flagArenaCamNeeded;
+
+        loadFile.release();
+
+        cout << "Settings have been loaded!" << endl << endl;
+    }
+    else
+    {
+        cout << "Settings could not be loaded. No changes have been made." << endl << endl;
+    }
+}
+
+void RForkliftClient::cli_loadSettingsOnOpen()
+{
+    FileStorage loadFile("settings.yaml", FileStorage::READ);
+
+    if(loadFile.isOpened())
+    {
+        bool loadOnStart = false;
+        loadFile["load-on-start"] >> loadOnStart;
+
+        if(loadOnStart)
+        {
+            loadFile["ip-address"] >> m_lastIP;
+            loadFile["port"] >> m_lastPort;
+            loadFile["require-ccontrol"] >> m_flagManualAvailable;
+            loadFile["require-frontcam"] >> m_flagFrontCamNeeded;
+            loadFile["require-overheadcam"] >> m_flagArenaCamNeeded;
+
+            loadFile.release();
+
+            cout << "Settings have been loaded!" << endl << endl;
+        }
+    }
 }

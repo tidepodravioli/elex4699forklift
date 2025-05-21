@@ -12,6 +12,7 @@
 #include "RArUcoTag3.hpp"
 
 
+
 /**
  * @brief Provides an interface to the Raspberry Pi camera, with depth detection
  * @details RPiCamera inherits from cv::VideoCapture to provide classic Mat frame

@@ -1,5 +1,9 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/aruco.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+
+#include <string>
 
 #define SQUARES_X 5
 #define SQUARES_Y 4

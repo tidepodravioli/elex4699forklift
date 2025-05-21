@@ -56,6 +56,10 @@ private:
     //UI flags
     bool m_flagThreadedUIrefresh = false;
 
+    // Last socket
+    std::string m_lastIP;
+    int m_lastPort = -1;
+
     
     void cli_getSocket();
     void cli_getCControl();
@@ -76,6 +80,9 @@ private:
     void cli_antirafTest();
     
     void cli_showMenu();
+    void cli_saveSettings();
+    void cli_loadSettings();
+    void cli_loadSettingsOnOpen();
     void cli_settings();
 
     void start_front_cam();

@@ -8,7 +8,7 @@
 #define ARENA_WIDTH 1.6383f
 #define ARENA_HEIGHT 1.6383f
 
-#define ARUCO_TAG_SIZE 0.04f
+#define ARUCO_TAG_SIZE 0.065f
 #define ARUCO_TAG_CAMERA 24
 #define ARUCO_TAG_PKG1 5
 #define ARUCO_TAG_PKG2 6

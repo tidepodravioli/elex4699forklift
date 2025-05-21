@@ -66,7 +66,11 @@ void RForkliftClient::cli_startClient()
                 m_flagArenaCamConnected = false;
             }
         }
-        else cout << "Arena camera will NOT be initialized" << endl;
+        else
+        {
+            cout << "Arena camera will NOT be initialized" << endl;
+            m_ui = new RDraw();
+        }
 
         cout << "Establishing auto pilot..." << endl;
         m_autopilot = new RAutoPilot(*m_writer, m_helper);

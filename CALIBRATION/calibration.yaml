@@ -1,0 +1,16 @@
+%YAML:1.0
+---
+camera_matrix: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 4.3271286487244103, 0., 319.49988073318377, 0.,
+       119.56922419191307, 239.4993934026391, 0., 0., 1. ]
+dist_coeffs: !!opencv-matrix
+   rows: 1
+   cols: 5
+   dt: d
+   data: [ 0.023125214475481451, -0.0003591920713488669,
+       0.0063254482601424484, 0.014670503477268566,
+       1.0031148506513972e-06 ]
+note: "Generated on 2025-05-20@4:15PM for my surface laptop 4 camera"

@@ -21,10 +21,10 @@
 #define SERVO_PORT0 19
 
 // protocol CHANNEL integer indexes into array to select to the A? pin
-#define DIGITAL_PINS 6
+#define DIGITAL_PINS 8
 #define ANALOG_PINS 5
 #define SERVO_PINS 1
-int D_PIN [] = {SWITCH_S1, SWITCH_S2, RGBLED_RED_PIN, RGBLED_GRN_PIN, RGBLED_BLU_PIN, SWITCH_J1};
+int D_PIN [] = {SWITCH_S1, SWITCH_S2, RGBLED_RED_PIN, RGBLED_GRN_PIN, RGBLED_BLU_PIN, SWITCH_J1, 9, 10};
 int A_PIN [] = {JOYSTICK_X, JOYSTICK_Y, RGBLED_RED_PIN, RGBLED_GRN_PIN, RGBLED_BLU_PIN};
 int S_PIN [] = {SERVO_PORT0};
 
@@ -70,6 +70,9 @@ void setup()
 
   // initialize servo pins to output
   pinMode(SERVO_PORT0, OUTPUT);
+
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
 
   // Attach servo pins to the servo objects
   myservo[0].attach(SERVO_PORT0);

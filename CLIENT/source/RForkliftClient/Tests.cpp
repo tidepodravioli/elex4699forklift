@@ -78,7 +78,7 @@ void RForkliftClient::cli_antirafTest()
         {
             int spx = 255, spy = 255;
             string command;
-            prompt("Enter speeds : ", command, regex("^\\d+ \\d+$"), "Enter speeds delimited by space : ");
+            prompt("Enter speeds : ", command, regex("^(|-)\\d+ (|-)\\d+$"), "Enter speeds delimited by space : ");
             
             vector<string> parts = delimitString(command, ' ');
             RControlEvent speedtest(ECOMMAND_SET, ETYPE_ANALOG, 1, parts);
