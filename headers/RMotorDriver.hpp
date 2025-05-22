@@ -22,7 +22,7 @@ using namespace std;
  */
 class RMotorDriver
 {
-    private:
+    protected:
     RPiHMotor * m_leftMotor;
     RPiHMotor * m_rightMotor;
     
@@ -103,17 +103,17 @@ class RMotorDriver
      * @brief Drives both motors at a given speed
      * 
      * @param speed The speed to run the motors at
+     * @param useOffset Whether or not to use an offset for the speed
      */
-    void drive(int speed);
+    void drive(int speed, bool useOffset = false);
 
     /**
      * @brief Writes a speed to each motor individually, with an optional offset
      * 
      * @param leftSpeed Speed to run the left motor at
      * @param rightSpeed Speed to run the right motor at
-     * @param useOffset Whether or not to use an offset for the speed
      */
-    void write(int leftSpeed, int rightSpeed, bool useOffset = false);
+    void write(int leftSpeed, int rightSpeed);
 
     /**
      * @brief Drives the motors such that it matches the input of a joystick

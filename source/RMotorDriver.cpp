@@ -12,18 +12,10 @@ RMotorDriver::RMotorDriver(int left1, int left2, int right1, int right2)
     m_rightMotor = new RPiHMotor(right1, right2);
 }
 
-void RMotorDriver::write(int leftSpeed, int rightSpeed, bool useOffset)
+void RMotorDriver::write(int leftSpeed, int rightSpeed)
 {
-    if(useOffset)
-    {
-        m_leftMotor->motorWrite(leftSpeed + LEFT_MOTOR_SPEED_OFFSET);
-        m_rightMotor->motorWrite(rightSpeed + RIGHT_MOTOR_SPEED_OFFSET);
-    }
-    else
-    {
-        m_leftMotor->motorWrite(leftSpeed);
-        m_rightMotor->motorWrite(rightSpeed);
-    }
+    m_leftMotor->motorWrite(leftSpeed);
+    m_rightMotor->motorWrite(rightSpeed);
 }
 
 void RMotorDriver::joystickDrive(int pX, int pY)
@@ -34,9 +26,12 @@ void RMotorDriver::joystickDrive(int pX, int pY)
     cout << spX << setw(10) << spY << endl;
 }
 
-void RMotorDriver::drive(int speed)
+void RMotorDriver::drive(int speed, bool useOffset)
 {
-    write(speed, speed);
+    const int leftSpeed = speed + useOffset? LEFT_MOTOR_SPEED_OFFSET : 0;
+    const int rightSpeed = speed + useOffset? RIGHT_MOTOR_SPEED_OFFSET : 0;
+
+    write(leftSpeed, rightSpeed);
 }
 
 void RMotorDriver::slowMode()
