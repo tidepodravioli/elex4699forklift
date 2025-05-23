@@ -51,6 +51,25 @@ bool RNetClient::checkAlive()
   return ack.compare(CLIENT_RX_ACK) >= 0;
 }
 
+RControlEvent RNetClient::waitAck(int timeout_ms)
+{
+  string ack;
+
+  chrono::system_clock::time_point start = chrono::system_clock::now();
+
+  bool timeout = false;
+  
+  do
+  {
+    rx_str(ack);
+    if(timeout_ms > 0)
+      timeout = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now() - start).count() > timeout_ms - 1000;
+  }
+  while(ack == "" && !timeout);
+
+  return RControlEvent::parse(ack);
+}
+
 bool RNetClient::connected()
 {
   return m_flagConnected;

@@ -31,6 +31,9 @@ void RForkliftClient::cli_startClient()
                     cout << "Calibration successful!" << endl;
                     else cout << "Could not read calibration file...";
                 m_flagFrontCamConnected = true;
+
+                thread cam_t(&RForkliftClient::t_showFrontCam, this);
+                cam_t.detach();
             }
             else
             {
@@ -96,6 +99,17 @@ void RForkliftClient::proc_client()
         m_flagSlowMode = !m_ui->getFast();
         m_flagRun = m_ui->getStart();
 
+        if(m_ui->getCamShow() && !m_flagArenaCamShow)
+        {
+            m_flagArenaCamShow = true;
+            thread arenacam_t(&RForkliftClient::t_showArenaCam, this);
+            arenacam_t.detach();
+        }
+        else if(!m_ui->getCamShow() && m_flagArenaCamShow)
+        {
+            m_flagArenaCamShow = false;
+        }
+
         // Runs the processing for auto/manual mode
         if(m_flagAutoMode) proc_auto();
         else if(m_flagManualAvailable) proc_manual();
@@ -107,6 +121,7 @@ void RForkliftClient::proc_client()
 
     m_flagArenaCamConnected = false;
     m_flagFrontCamConnected = false;
+    m_flagArenaCamShow = false;
     m_flagSerialConnected = false;
     m_flagConnected = false;
 

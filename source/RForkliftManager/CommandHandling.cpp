@@ -63,6 +63,11 @@ bool RForkliftManager::com_setAnalog(int origin, vector<int> values)
             m_driver->write(values[0], values[1]);
             break;
         }
+        case 2:
+        {
+            m_forklift->write(values[0]);
+            break;
+        }
 
         case 10:
         {

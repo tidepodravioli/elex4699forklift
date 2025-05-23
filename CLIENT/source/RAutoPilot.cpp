@@ -29,29 +29,27 @@ void RAutoPilot::driveToPoint(cv::Point2i point)
     const int dx = abs(toTarget.x) * ARENA_WIDTH / ARENA_PXX;
     const int dy = abs(toTarget.y) * ARENA_HEIGHT / ARENA_PYY;
 
-    const float distance = norm(cv::Point2f(dx, dy));
+    const float distancem = norm(cv::Point2f(dx, dy));
 
-    drivef(255, distance);
-    
+    drivef(255, distancem);
+
+    cout << "Destination reached" << endl;
+    stop(); //the destination can be considered to have been reached
 }
 
 void RAutoPilot::orientRobot_r(float angle)
 {
-    while(true)
+
+    float heading = m_helper->getRobotAngle_r();
+    float angleError = angle - heading;
+
+    while (angleError > M_PI) angleError -= 2 * M_PI;
+    while (angleError < -M_PI) angleError += 2 * M_PI;
+    if(std::abs(angleError) > 0.15f)
     {
-        float heading = m_helper->getRobotAngle_r();
-        float angleError = angle - heading;
-
-        while (angleError > M_PI) angleError -= 2 * M_PI;
-        while (angleError < -M_PI) angleError += 2 * M_PI;
-
-        if(std::abs(angleError) > 0.15f)
-        {
-            float turnSpeed = std::clamp(angleError * ANGLE_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-            write(turnSpeed, -turnSpeed);
-        }
-        else return;
+        turn_r(angleError);
     }
+    else return;
 }
 
 void RAutoPilot::orientRobot_d(float angle)

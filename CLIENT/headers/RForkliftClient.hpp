@@ -55,6 +55,7 @@ private:
 
     //UI flags
     bool m_flagThreadedUIrefresh = false;
+    bool m_flagArenaCamShow = false;
 
     // Last socket
     std::string m_lastIP;

@@ -148,6 +148,14 @@ bool RDraw::drawUI()
         m_settings_position -= cv::Point(90, 0);
     }
     else m_start = false;
+
+    // ARENA CAM SHOW BUTTON
+    std::string cam_show_label = m_showcam ? "Hide arena" : "Show arena";
+    m_settings_position += cv::Point(0, 40);
+    if(cvui::button(m_settings, m_settings_position.x, m_settings_position.y, 100, 30, cam_show_label))
+    {
+        m_showcam = !m_showcam;
+    }
     
     // --- Speed ---
     m_settings_position += cv::Point(0, 40);

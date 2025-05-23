@@ -41,7 +41,7 @@ bool RCoordinateHelper::refreshRobot()
                 m_robot.coord = tag.getCenter();
                 m_robot.angle = tag.getAngle_r();
                 m_flagRobotFound = true;
-                return;
+                return false;
             }
             else m_flagRobotFound = false;
         }

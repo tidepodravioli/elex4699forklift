@@ -30,6 +30,8 @@ public:
 
     void sendEvent(RControlEvent event);
 
+    RControlEvent waitAck(int timeout_ms = -1);
+
     bool checkAlive();
 
     bool connected();

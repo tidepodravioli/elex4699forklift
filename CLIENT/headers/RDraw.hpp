@@ -26,12 +26,13 @@ class RDraw
 
         //UI
         int m_settings_width = 200; // Width of the UI panel
-        int m_settings_height = 300; // Height of the UI panel
+        int m_settings_height = 350; // Height of the UI panel
         int m_padding = 10; // Padding around UI elements
         int m_spacing = 30; // Spacing between UI elements
         bool m_auto = false; // Auto mode toggle
         bool m_fast = false; // Fast mode toggle
         bool m_start = false;
+        bool m_showcam = false;
 
         //Path
         std::vector<std::vector<bool>> m_path;
@@ -55,6 +56,7 @@ class RDraw
         bool getFast() {return m_fast;};
         bool getStart() {return m_start;};
         void setStart(bool start) {m_start = start;};
+        bool getCamShow() {return m_showcam;};
         
         void setPath(std::vector<std::vector<bool>> grid) {m_path = grid;};
         void setObstacles(std::vector<std::vector<bool>> obstacles) {m_obstacles = obstacles;};
