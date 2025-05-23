@@ -80,6 +80,7 @@ private:
     void cli_streamTest();
     void cli_antirafTest();
     void cli_directCommandTest();
+    void cli_navToPickupTest();
     
     void cli_showMenu();
     void cli_saveSettings();

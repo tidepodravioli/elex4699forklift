@@ -60,10 +60,17 @@ void RForkliftClient::cli_streamTest()
         do
         {
             cv::Mat frame;
-            m_camstream.read(frame);
+            m_camstream >> frame;
+
+            m_camstream.importCalibration(CAMERA_CALIBRATION);
+            Vec3d trans;
+            m_camstream.getTranslationClosestTag(trans);
+            putText(frame, format("ANGLE: %0.5f", atan2(trans[0], trans[2])), Point(10, 30), FONT_HERSHEY_SIMPLEX, 0.6, Scalar(0, 0, 0), 1);
+            putText(frame, format("DIST: %0.5f", norm(trans)), Point(10, 60), FONT_HERSHEY_SIMPLEX, 0.6, Scalar(0, 0, 0), 1);
+
             if(!frame.empty()) cv::imshow("TEST", frame);
         } 
-        while (cv::waitKey(20) != 'q');
+        while (cv::waitKey(1) != 'q');
         
     }
 }
@@ -107,5 +114,43 @@ void RForkliftClient::cli_directCommandTest()
         }
 
         m_network.disconnect();
+    }
+}
+
+void RForkliftClient::cli_navToPickupTest()
+{
+    cli_getSocket();
+
+    if(m_flagConnected)
+    {
+        start_front_cam();
+
+        if(m_camstream.importCalibration(CAMERA_CALIBRATION))
+        {
+            cout << "Initializing motor writer..." << endl;
+            m_writer = new RMotorWriter(m_network);
+
+            while(true)
+            {
+                if(prompt_yn("Start test?"))
+                {
+                    Vec3d tagtranslation;
+                    if(m_camstream.getTranslationClosestTag(tagtranslation))
+                    {
+                        Point2f dest(tagtranslation[0], tagtranslation[2]);
+                        float angleErr = atan2(dest.x, dest.y);
+                        cout << "ANGLE ERR : " << angleErr << endl;
+                        m_writer->turn_r(angleErr);
+                    }                    
+                }
+            }
+        }
+        else
+        {
+            cout << "Calibration failed. Exiting test..." << endl;
+            return;
+        }
+
+        m_network.tx_str("S 2 1 0");
     }
 }

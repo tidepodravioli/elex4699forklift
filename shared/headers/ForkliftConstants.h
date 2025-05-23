@@ -11,7 +11,7 @@
 #define FRAME_GETTER_TIMEOUT_MS 30
 
 // ARUCO TAG CONSTANTS
-#define ARUCO_TAG_SIZE 0.065f
+#define ARUCO_TAG_SIZE 0.0355f
 #define ARUCO_TAG_CAMERA 24
 #define ARUCO_TAG_PKG1 5
 #define ARUCO_TAG_PKG2 6
@@ -61,7 +61,7 @@
 #define RMOTORDRIVER_MAX_OUTPUT 255.0f   // Max motor speed
 
 // RPICAMERA CALIBRATION FILE
-#define CAMERA_CALIBRATION "./calibration.yaml"
+#define CAMERA_CALIBRATION "../../calibration.yaml"
 
 // NETWORKING CONSTANTS
 #define SERVER_PORT 5080 // Server port

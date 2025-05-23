@@ -41,6 +41,10 @@ void RForkliftClient::start()
                 cli_antirafTest();
             break;
 
+            case '6':
+                cli_navToPickupTest();
+            break;
+
             case 'a':
                 cli_saveSettings();
             break;
@@ -81,6 +85,7 @@ void RForkliftClient::cli_showMenu()
     << "(3) PI Video Stream test" << endl
     << "(4) UI test" << endl
     << "(5) Motor write test" << endl
+    << "(6) Aruco nav test" << endl
     << "(0) Direct server command line" << endl << endl
     << "(a) Save last connection parameters (with debug settings)" << endl
     << "(l) Load last settings" << endl

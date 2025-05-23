@@ -67,7 +67,6 @@ void RMotorDriverF::drivef(int speed, float distance)
 
         write(speedA, speedB);
         usleep(1000); // let encoder ISR update
-        std::cout << "COUNT : " << countL << ", " << countR << endl;
     }
 
 

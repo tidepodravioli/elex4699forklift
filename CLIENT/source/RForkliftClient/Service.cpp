@@ -27,7 +27,7 @@ void RForkliftClient::cli_startClient()
             {
                 cout << "Front camera stream established!" << endl;
                 cout << "Loading calibration..." << endl;
-                if(m_camstream.importCalibration("../../calibration.yaml"))
+                if(m_camstream.importCalibration(CAMERA_CALIBRATION))
                     cout << "Calibration successful!" << endl;
                     else cout << "Could not read calibration file...";
                 m_flagFrontCamConnected = true;
@@ -184,7 +184,7 @@ void RForkliftClient::proc_auto()
 
     if(m_flagRun && m_flagAutoMode)
     {
-        m_flagThreadedUIrefresh = true;
+        /* m_flagThreadedUIrefresh = true;
         //thread ui_t(&RForkliftClient::t_refreshUI, this);
         //ui_t.detach();
 
@@ -195,6 +195,24 @@ void RForkliftClient::proc_auto()
         m_ui->setStart(false);
 
         m_flagThreadedUIrefresh = false;
-        //ui_t.join();
+        //ui_t.join(); */
+
+        m_autopilot->driveToPoint(Point2i(60, 246));
+        m_autopilot->driveToPoint(Point2i(167, 482));
+
+        m_autopilot->orientRobot_d(-90);
+
+        m_writer->forkDown();
+        m_autopilot->drivef(255, 0.1f);
+        m_writer->forkUp();
+        m_autopilot->drivef(-255, 0.1f);
+
+        m_autopilot->orientRobot_d(90);
+
+        m_autopilot->driveToPoint(Point2i(167 ,98));
+        m_writer->drivef(255, 0.1f);
+        m_writer->forkDown();
+        m_writer->drivef(-255, 0.2f);
+        m_ui->setStart(false);
     }
 }
