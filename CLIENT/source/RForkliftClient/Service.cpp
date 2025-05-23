@@ -115,6 +115,7 @@ void RForkliftClient::proc_client()
         else if(m_flagManualAvailable) proc_manual();
     }   
     cout << "Keypress detected. Disconnecting from server." << endl;
+    m_network.tx_str("S 2 1 0");
     m_network.disconnect();
     m_camstream.release();
     m_helper.close_socket();
@@ -134,9 +135,11 @@ void RForkliftClient::proc_manual()
     CJoystickPosition analog = m_serial.get_analog(joypass);
     if(joypass)
     {
+        const int px = clamp(analog.percentX(), 10, 90);
+
         if(analog.get_simple_direction() != JOYSTICK_DIRECTION_CENTER)
             cout << "JOYSTICK x= " << analog.getX() << ", y= " << analog.getY() << endl;
-        RControlEvent joystick(ECOMMAND_SET, ETYPE_ANALOG, 0, {analog.percentX(), analog.percentY()});
+        RControlEvent joystick(ECOMMAND_SET, ETYPE_ANALOG, 0, {px, analog.percentY()});
         m_network.sendEvent(joystick);
     }
 

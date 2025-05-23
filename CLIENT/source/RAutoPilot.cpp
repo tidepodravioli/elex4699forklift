@@ -7,33 +7,37 @@ RAutoPilot::RAutoPilot(RMotorWriter &driver, RCoordinateHelper &helper) : RMotor
 
 void RAutoPilot::driveToPoint(cv::Point2i point)
 {
-    while(m_helper->refreshRobot() && m_helper->robotFound());
-    cv::Point2i pos = m_helper->getRobotCoords();
-    float heading = m_helper->getRobotAngle_r();
+    while(true)
+    {
+        while(!m_helper->refreshRobot() && !m_helper->robotFound());
+        cv::Point2i pos = m_helper->getRobotCoords();
+        float heading = m_helper->getRobotAngle_r();
 
-    cv::Point2i toTarget = point - pos; //vector from current position to the destination
-    float distance = std::sqrt(toTarget.x * toTarget.x + toTarget.y * toTarget.y); // sqrt(x^2 + y^2)
+        cv::Point2i toTarget = point - pos; //vector from current position to the destination
+        float distance = std::sqrt(toTarget.x * toTarget.x + toTarget.y * toTarget.y); // sqrt(x^2 + y^2)
+        cout << "TARGET : " << point << "\tPOSITION : " << pos << "\tDISTANCE : " << distance << endl;
 
-    //if the robot's distance from the point is within this threshold
-    if (distance < POINT_DISTANCE_THRESHOLD) {
-        cout << "Destination reached" << endl;
-        stop(); //the destination can be considered to have been reached
-        return;
+        //if the robot's distance from the point is within this threshold
+        if (distance < POINT_DISTANCE_THRESHOLD) {
+            cout << "Already at destination" << endl;
+            stop(); //the destination can be considered to have been reached
+            return;
+        }
+
+        float desiredAngle = m_helper->getPointAngle_r(point);
+        float angleError = desiredAngle - heading;
+
+        //correcting angle error
+        turn_r(angleError);
+
+        const float dx = abs(toTarget.x) * ARENA_WIDTH / ARENA_PXX;
+        const float dy = abs(toTarget.y) * ARENA_HEIGHT / ARENA_PYY;
+
+        const float distancem = std::sqrt(dx * dx + dy * dy) - 0.2f;
+        cout << "REAL WORLD DISTANCE : " << distancem << endl; 
+
+        drivef(255, distancem);
     }
-
-    float desiredAngle = m_helper->getPointAngle_r(point);
-    float angleError = desiredAngle - heading;
-
-    turn_r(angleError);
-
-    const int dx = abs(toTarget.x) * ARENA_WIDTH / ARENA_PXX;
-    const int dy = abs(toTarget.y) * ARENA_HEIGHT / ARENA_PYY;
-
-    const float distancem = norm(cv::Point2f(dx, dy));
-
-    drivef(255, distancem);
-
-    cout << "Destination reached" << endl;
     stop(); //the destination can be considered to have been reached
 }
 

@@ -17,16 +17,16 @@ void RMotorWriter::drivef(int speed, float distance)
     RControlEvent event = RControlEvent(ECOMMAND_SET, ETYPE_ANALOG, 10, {speed, comdistance});
     m_client.sendEvent(event);
 
-    m_client.waitAck();
+    m_client.waitAck(10000);
 }
 
 void RMotorWriter::turn_r(float angle)
 {
     const int comangle = static_cast<int>(angle * 1000.0f);
-    RControlEvent event = RControlEvent(ECOMMAND_SET, ETYPE_ANALOG, 12, angle);
+    RControlEvent event = RControlEvent(ECOMMAND_SET, ETYPE_ANALOG, 12, comangle);
     m_client.sendEvent(event);
 
-    m_client.waitAck();
+    m_client.waitAck(10000);
 }
 
 void RMotorWriter::stop()

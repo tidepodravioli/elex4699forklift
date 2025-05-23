@@ -8,7 +8,7 @@ using namespace std;
 RDraw::RDraw()
 {
     cvui::init("Arena");
-    m_arena = cv::imread("../../test_arena.jpg");
+    m_arena = cv::imread("../../test_arena.png");
     m_arena_orig = m_arena.clone();
 
     m_arena_height = m_arena.rows;
