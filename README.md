@@ -38,5 +38,5 @@ Below is a summary of commands that are sent from the client to the server, and 
 
 ## COMMAND CHANNELS (INDEX 2)
 0 - Handshake  
-1 - (unused)  
+1 - Camera stream kill  
 2 - Camera setup  

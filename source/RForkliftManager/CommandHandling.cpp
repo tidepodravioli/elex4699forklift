@@ -41,6 +41,7 @@ void RForkliftManager::handleCommand(RControlEvent& cmd) {
             RControlEvent ack = cmd.copy();
             ack.setCom(ECOMMAND_ACK);
             m_server.sendCom(ack);
+            cout << ack.asCommand() << endl;
         }
     } else {
         std::cerr << "Unhandled command combination: " << cmd.getCom() << " " << cmd.getType() << '\n';
@@ -73,6 +74,10 @@ bool RForkliftManager::com_setAnalog(int origin, vector<int> values)
         {
             float distance = values[1] / 1000.0f;
             m_driver->drivef(values[0], distance);
+            RControlEvent ack(ECOMMAND_ACK, ETYPE_ANALOG, origin, values);
+            ack.setCom(ECOMMAND_ACK);
+            m_server.sendCom(ack);
+            cout << ack.asCommand() << endl;
             return true;
             break;
         }
@@ -81,6 +86,10 @@ bool RForkliftManager::com_setAnalog(int origin, vector<int> values)
         {
             const float angle = values[0];
             m_driver->turn_d(angle);
+            RControlEvent ack(ECOMMAND_ACK, ETYPE_ANALOG, origin, values);
+            ack.setCom(ECOMMAND_ACK);
+            m_server.sendCom(ack);
+            cout << ack.asCommand() << endl;
             return true;
             break;
         }
@@ -89,6 +98,11 @@ bool RForkliftManager::com_setAnalog(int origin, vector<int> values)
         {
             const float angle = values[0] / 1000.0f;
             m_driver->turn_r(angle);
+            RControlEvent ack(ECOMMAND_ACK, ETYPE_ANALOG, origin, values);
+            ack.setCom(ECOMMAND_ACK);
+            m_server.sendCom(ack);
+            cout << ack.asCommand() << endl;
+            return true;
             break;
         }
 
@@ -125,6 +139,15 @@ bool RForkliftManager::com_setCommand(int origin, vector<string> values)
 {
     switch(origin)
     {
+        case 1:
+        {
+            if(m_stream != nullptr)
+            {
+                m_stream->~RVidStream();
+                m_stream = nullptr;
+            }
+            break;
+        }
         case 2: // CAMERA SETUP
         {
             vector<string> IPs;
