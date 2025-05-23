@@ -1,7 +1,11 @@
+#pragma once
 #include <thread>
+#include <unistd.h>
 
 #include "RMotorDriver.hpp"
 #include "RPiEncoder.hpp"
+
+
 
 class RMotorDriverF : public RMotorDriver
 {
@@ -11,6 +15,10 @@ class RMotorDriverF : public RMotorDriver
 
     bool m_flagDispose = false;
     bool m_flagRun = false;
+
+    float m_kp = RMOTORDRIVERF_KP;
+    float m_ki = RMOTORDRIVERF_KI;
+    float m_kd = RMOTORDRIVERF_KD;
 
     public:
     RMotorDriverF(int hL1, int hL2, int hR1, int hR2, int encL1, int encL2, int encR1, int encR2);
@@ -37,5 +45,7 @@ class RMotorDriverF : public RMotorDriver
      */
     void turn_d(float angle);
 
-    
+    void setkp(float val) { m_kp = val; }
+    void setki(float val) { m_ki = val; }
+    void setkd(float val) { m_kd = val; }
 };

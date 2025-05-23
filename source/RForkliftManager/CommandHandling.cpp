@@ -75,7 +75,7 @@ bool RForkliftManager::com_setAnalog(int origin, vector<int> values)
         case 11:
         {
             const float angle = values[0];
-            m_driver->turn_r(angle);
+            m_driver->turn_d(angle);
             return true;
             break;
         }
@@ -83,7 +83,28 @@ bool RForkliftManager::com_setAnalog(int origin, vector<int> values)
         case 12:
         {
             const float angle = values[0] / 1000.0f;
-            m_driver->turn_d(angle);
+            m_driver->turn_r(angle);
+            break;
+        }
+
+        case 110:
+        {
+            const float kp = values[0] / 1000.0f;
+            m_driver->setkp(kp);
+            break;
+        }
+
+        case 111:
+        {
+            const float ki = values[0] / 1000.0f;
+            m_driver->setki(ki);
+            break;
+        }
+
+        case 112:
+        {
+            const float kd = values[0] / 1000.0f;
+            m_driver->setkd(kd);
             break;
         }
 
