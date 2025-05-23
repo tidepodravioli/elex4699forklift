@@ -14,6 +14,7 @@ void RForkliftClient::t_showFrontCam()
 
         if(!frame.empty())
         {
+            putText(frame, format("FORK POSITION: %d", m_writer->forkIndex()), Point(10, 30), FONT_HERSHEY_SIMPLEX, 0.6, Scalar(0, 0, 0), 1);
             imshow("Onboard camera", frame);
             waitKey(1);
         }

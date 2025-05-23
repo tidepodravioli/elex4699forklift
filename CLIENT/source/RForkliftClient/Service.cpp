@@ -148,15 +148,13 @@ void RForkliftClient::proc_manual()
     if(button1)
     { 
         cout << "BUTTON1 PRESSED" << endl;
-        RControlEvent buttonEvent(ECOMMAND_SET, ETYPE_DIGITAL, 0, 1);
-        m_network.sendEvent(buttonEvent);
+        m_writer->forkUp();
     }
 
     if(button2) 
     {
         cout << "BUTTON2 PRESSED" << endl;
-        RControlEvent buttonEvent(ECOMMAND_SET, ETYPE_DIGITAL, 1, 1);
-        m_network.sendEvent(buttonEvent);
+        m_writer->forkDown();
     }
 
     if(buttonj1)
