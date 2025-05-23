@@ -22,6 +22,8 @@ private:
 public:
     RNetClient() {}
 
+    using CClient::tx_str;
+
     bool connect(std::string IPaddr, int port);
 
     void disconnect();

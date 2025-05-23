@@ -78,6 +78,7 @@ private:
     void gui_UITest();
     void cli_streamTest();
     void cli_antirafTest();
+    void cli_directCommandTest();
     
     void cli_showMenu();
     void cli_saveSettings();
@@ -90,6 +91,7 @@ private:
     void stop_ui();
 
     void t_showFrontCam();
+    void t_showArenaCam();
     void t_refreshUI();
 public:
     RForkliftClient() {}

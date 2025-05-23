@@ -90,7 +90,7 @@ class RCoordinateHelper : public CClient
      * @brief Refreshes the position and angle of the robot on screen
      * 
      */
-    void refreshRobot();
+    bool refreshRobot();
 
     /**
      * @brief Gets a frame of the overhead camera for evaluation

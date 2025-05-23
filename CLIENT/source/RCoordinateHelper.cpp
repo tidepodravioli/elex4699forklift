@@ -25,32 +25,30 @@ bool RCoordinateHelper::getFrame(cv::Mat &im)
     return !im.empty();
 }
 
-void RCoordinateHelper::refreshRobot()
+bool RCoordinateHelper::refreshRobot()
 {
-    do
-    {    
-        tx_str(m_commandGet); // ask for the next frame
-        this_thread::sleep_for(chrono::milliseconds(30)); // wait a little bit for the response
-        rx_im(m_currentFrame); // receive the frame
+    tx_str(m_commandGet); // ask for the next frame
+    this_thread::sleep_for(chrono::milliseconds(30)); // wait a little bit for the response
+    rx_im(m_currentFrame); // receive the frame
 
-        if(!m_currentFrame.empty())
+    if(!m_currentFrame.empty())
+    {
+        std::vector<RArUcoTag> tags = m_aruco.getTags(m_currentFrame);
+        for(RArUcoTag tag : tags)
         {
-            std::vector<RArUcoTag> tags = m_aruco.getTags(m_currentFrame);
-            for(RArUcoTag tag : tags)
+            if(tag.getID() == ROBOT_ARUCO_ID)
             {
-                if(tag.getID() == ROBOT_ARUCO_ID)
-                {
-                    m_robot.coord = tag.getCenter();
-                    m_robot.angle = tag.getAngle_r();
-                    m_flagRobotFound = true;
-                    return;
-                }
-                else m_flagRobotFound = false;
+                m_robot.coord = tag.getCenter();
+                m_robot.angle = tag.getAngle_r();
+                m_flagRobotFound = true;
+                return;
             }
+            else m_flagRobotFound = false;
         }
-        else m_flagRobotFound = false;
     }
-    while(m_currentFrame.empty());
+    else m_flagRobotFound = false;
+
+    return !m_currentFrame.empty();
 }
 
     

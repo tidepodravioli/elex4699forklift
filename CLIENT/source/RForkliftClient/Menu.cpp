@@ -17,6 +17,10 @@ void RForkliftClient::start()
 
         switch(option)
         {
+            case '0':
+                cli_directCommandTest();
+            break;
+
             case '1':
                 cli_startClient();
             break;
@@ -76,7 +80,8 @@ void RForkliftClient::cli_showMenu()
     << "(2) Serial IO test" << endl
     << "(3) PI Video Stream test" << endl
     << "(4) UI test" << endl
-    << "(5) Motor write test" << endl << endl
+    << "(5) Motor write test" << endl
+    << "(0) Direct server command line" << endl << endl
     << "(a) Save last connection parameters (with debug settings)" << endl
     << "(l) Load last settings" << endl
     << "(s) Settings" << endl

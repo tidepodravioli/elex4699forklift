@@ -48,7 +48,7 @@ void RForkliftClient::cli_startClient()
             m_helper.connect_socket(ARENA_CAMERA_IP, ARENA_CAMERA_PORT);
             this_thread::sleep_for(chrono::milliseconds(500));
             
-            m_helper.refreshRobot();
+            while(!m_helper.refreshRobot());
 
             if(m_helper.robotFound())
             {
@@ -58,7 +58,6 @@ void RForkliftClient::cli_startClient()
                 m_flagArenaCamConnected = true;
                 Mat frame;
                 m_helper.getFrame(frame);
-                m_ui = new RDraw(frame);
             }
             else
             {
@@ -69,12 +68,13 @@ void RForkliftClient::cli_startClient()
         else
         {
             cout << "Arena camera will NOT be initialized" << endl;
-            m_ui = new RDraw();
         }
 
         cout << "Establishing auto pilot..." << endl;
         m_autopilot = new RAutoPilot(*m_writer, m_helper);
         
+        cout << "Launching UI..." << endl;
+        m_ui = new RDraw();
 
         if(!m_flagManualAvailable) cout << "Manual mode will be unavailable. If manual mode is needed, please enable it in the settings." << endl;
         cout << "Press any key on the keyboard to break the connection and return to the menu" << endl;
@@ -121,8 +121,8 @@ void RForkliftClient::proc_manual()
     {
         if(analog.get_simple_direction() != JOYSTICK_DIRECTION_CENTER)
             cout << "JOYSTICK x= " << analog.getX() << ", y= " << analog.getY() << endl;
-        RJoystickEvent joystickEvent(analog);
-            m_network.sendEvent(joystickEvent);
+        RControlEvent joystick(ECOMMAND_SET, ETYPE_ANALOG, 0, {analog.percentX(), analog.percentY()});
+        m_network.sendEvent(joystick);
     }
 
 
@@ -133,21 +133,21 @@ void RForkliftClient::proc_manual()
     if(button1)
     { 
         cout << "BUTTON1 PRESSED" << endl;
-        RControlEvent buttonEvent(ECOMMAND_SET, ETYPE_DIGITAL, 1, 1);
+        RControlEvent buttonEvent(ECOMMAND_SET, ETYPE_DIGITAL, 0, 1);
         m_network.sendEvent(buttonEvent);
     }
 
     if(button2) 
     {
         cout << "BUTTON2 PRESSED" << endl;
-        RControlEvent buttonEvent(ECOMMAND_SET, ETYPE_DIGITAL, 2, 1);
+        RControlEvent buttonEvent(ECOMMAND_SET, ETYPE_DIGITAL, 1, 1);
         m_network.sendEvent(buttonEvent);
     }
 
     if(buttonj1)
     {
         cout << "BUTTONJ1 PRESSED" << endl;
-        RControlEvent buttonEvent(ECOMMAND_SET, ETYPE_DIGITAL, 5, 1);
+        RControlEvent buttonEvent(ECOMMAND_SET, ETYPE_DIGITAL, 2, 1);
         m_network.sendEvent(buttonEvent);
     }
 }

@@ -41,11 +41,9 @@ class RDraw
 
     public:
         RDraw();
-        RDraw(cv::Mat &arena);
         ~RDraw();
     
         bool drawArena();
-        bool drawArena(cv::Mat &arena);
         bool drawUI();
 
         std::vector<std::vector<bool>> getPath() {return m_path;};

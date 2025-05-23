@@ -11,5 +11,9 @@ class RMotorWriter
 
     void write(int leftSpeed, int rightSpeed);
 
+    void drivef(int speed, float distance);
+
+    void turn_r(float angle);
+
     void stop();
 };

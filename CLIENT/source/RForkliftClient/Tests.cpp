@@ -86,3 +86,26 @@ void RForkliftClient::cli_antirafTest()
         }
     }
 }
+
+void RForkliftClient::cli_directCommandTest()
+{
+    cli_getSocket();
+
+    if(m_flagConnected)
+    {
+        cout << "THIS TEST SENDS RAW UNFILTERED TEXT OVER THE NETWORK TO THE SERVER!!!" << endl
+        << "PROCEED WITH CAUTION!!!" << endl;
+        cout << setw(50) << setfill('-') << "-" << endl;
+
+        while(true)
+        {
+            string command;
+            get_line(&command);
+
+            if(command == "q" || command == "Q") break;
+            else m_network.tx_str(command);
+        }
+
+        m_network.disconnect();
+    }
+}
