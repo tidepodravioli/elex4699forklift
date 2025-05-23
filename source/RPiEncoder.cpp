@@ -1,18 +1,15 @@
 #include "../headers/RPiEncoder.hpp"
-#include <iostream>
+#include <atomic>
 
 RPiEncoder* RPiEncoder::instanceMap[32] = {nullptr};
 
-RPiEncoder::RPiEncoder(int pinA, int pinB) : _pinA(pinA), _pinB(pinB), _count(0) {
+RPiEncoder::RPiEncoder(int pinA, int pinB) : _pinA(pinA), _count(0) {
     gpioSetMode(_pinA, PI_INPUT);
-    gpioSetMode(_pinB, PI_INPUT);
-
     gpioSetPullUpDown(_pinA, PI_PUD_UP);
-    gpioSetPullUpDown(_pinB, PI_PUD_UP);
 
     instanceMap[_pinA] = this;
 
-    gpioSetAlertFunc(_pinA, gpioCallback);
+    gpioSetAlertFuncEx(_pinA, gpioCallback, this);
 }
 
 RPiEncoder::~RPiEncoder() {
@@ -20,20 +17,16 @@ RPiEncoder::~RPiEncoder() {
     instanceMap[_pinA] = nullptr;
 }
 
-void RPiEncoder::gpioCallback(int gpio, int level, uint32_t tick) {
-    if (level != 1) return; // Only handle rising edge
-    RPiEncoder* instance = instanceMap[gpio];
+void RPiEncoder::gpioCallback(int gpio, int level, uint32_t tick, void* userData) {
+    if (level != 1) return;  // Only rising edges
+    RPiEncoder* instance = static_cast<RPiEncoder*>(userData);
     if (instance) {
-        instance->handleInterrupt(level);
+        instance->handleInterrupt();
     }
 }
 
-void RPiEncoder::handleInterrupt(int level) {
-    int b = gpioRead(_pinB);
-    if (b)
-        _count++;
-    else
-        _count--;
+void RPiEncoder::handleInterrupt() {
+    _count++;
 }
 
 long RPiEncoder::getCount() const {
