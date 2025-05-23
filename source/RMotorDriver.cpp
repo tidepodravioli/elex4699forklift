@@ -57,26 +57,28 @@ bool RMotorDriver::toggleSlow()
 
 void RMotorDriver::forward()
 {
-   m_leftMotor->motorRun();
-   m_rightMotor->motorRun();
+   drive(255, true);
 }
 
 void RMotorDriver::backward()
 {
-    m_leftMotor->motorRun(false);
-    m_rightMotor->motorRun(false);
+   drive(-255, true);
 }
 
 void RMotorDriver::left()
 {
-    m_leftMotor->motorRun(false);
-    m_rightMotor->motorRun();
+    const int leftSpeed = 255 + LEFT_MOTOR_SPEED_OFFSET;
+    const int rightSpeed = 255 + RIGHT_MOTOR_SPEED_OFFSET;
+
+    write(-leftSpeed, rightSpeed);
 }
 
 void RMotorDriver::right()
 {
-    m_leftMotor->motorRun();
-    m_rightMotor->motorRun(false);
+    const int leftSpeed = 255 + LEFT_MOTOR_SPEED_OFFSET;
+    const int rightSpeed = 255 + RIGHT_MOTOR_SPEED_OFFSET;
+
+    write(leftSpeed, -rightSpeed);
 }
 
 void RMotorDriver::stop()
@@ -88,7 +90,10 @@ void RMotorDriver::turnLeft(int speed)
 {
     if(speed > 0)
     {
-        write(-1 * speed, speed);
+        const int leftSpeed = speed + LEFT_MOTOR_SPEED_OFFSET;
+        const int rightSpeed = speed + RIGHT_MOTOR_SPEED_OFFSET;
+
+        write(-leftSpeed, rightSpeed);
     }
 }
 
@@ -96,7 +101,10 @@ void RMotorDriver::turnRight(int speed)
 {
     if(speed > 0)
     {
-        write(speed, -1 * speed);
+        const int leftSpeed = speed + LEFT_MOTOR_SPEED_OFFSET;
+        const int rightSpeed = speed + RIGHT_MOTOR_SPEED_OFFSET;
+
+        write(leftSpeed, -rightSpeed);
     }
 }
 

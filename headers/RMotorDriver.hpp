@@ -105,7 +105,7 @@ class RMotorDriver
      * @param speed The speed to run the motors at
      * @param useOffset Whether or not to use an offset for the speed
      */
-    void drive(int speed, bool useOffset = false);
+    void drive(int speed,  bool useOffset = false);
 
     /**
      * @brief Writes a speed to each motor individually, with an optional offset

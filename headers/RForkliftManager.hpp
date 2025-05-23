@@ -19,7 +19,7 @@
 
 
 #include "RPiForklift.hpp"
-#include "RMotorDriver.hpp"
+#include "RMotorDriverF.hpp"
 #include "RPiServo.hpp"
 #include "RNetServer.hpp"
 #include "RVidStream.hpp"
@@ -36,7 +36,7 @@
 class RForkliftManager
 {
     private:
-    RMotorDriver * m_driver;
+    RMotorDriverF * m_driver;
     RPiForklift * m_forklift;
 
     cv::VideoCapture m_camera;
@@ -46,7 +46,7 @@ class RForkliftManager
     
     // For command handling
     using CommandKey = std::pair<EVENT_COMMAND_TYPE, EVENT_DATA_TYPE>;
-    using CommandHandler = std::function<void(RForkliftManager *, RControlEvent &)>;
+    using CommandHandler = std::function<bool(RForkliftManager *, RControlEvent &)>;
     
     std::vector<RControlEvent> m_commandQueue;
     std::map<CommandKey, CommandHandler> m_commandHandlers;
@@ -63,10 +63,10 @@ class RForkliftManager
     void registerCommands();
     void handleCommand(RControlEvent &cmd);
 
-    void com_setAnalog(int origin, std::vector<int> values);
-    void com_setCommand(int origin, std::vector<std::string> values);
-    void com_getCommand(int origin, std::vector<std::string> values);
-    void com_setDigital(int origin, std::vector<bool> values);
+    bool com_setAnalog(int origin, std::vector<int> values);
+    bool com_setCommand(int origin, std::vector<std::string> values);
+    bool com_getCommand(int origin, std::vector<std::string> values);
+    bool com_setDigital(int origin, std::vector<bool> values);
 
     public:
     RForkliftManager();

@@ -28,7 +28,7 @@ class RMotorDriverF : public RMotorDriver
      * 
      * @param angle The angular displacement to turn (negative to the left, positive to the right)
      */
-    void turn_r(int angle);
+    void turn_r(float angle);
 
     /**
      * @brief BLOCKING! : Turns the robot in place the specified number of degrees
@@ -36,4 +36,6 @@ class RMotorDriverF : public RMotorDriver
      * @param angle The angular displacement to turn (negative to the left, positive to the right)
      */
     void turn_d(float angle);
+
+    
 };

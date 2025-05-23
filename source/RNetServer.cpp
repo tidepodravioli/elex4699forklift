@@ -56,3 +56,8 @@ void RNetServer::sendCom(string command)
 {
     send_string(command);
 }
+
+void RNetServer::sendCom(RControlEvent event)
+{
+    send_string(event.asCommand());
+}

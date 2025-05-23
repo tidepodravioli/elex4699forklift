@@ -43,33 +43,39 @@ void RMotorDriverF::drivef(int speed, float distance)
 
 void RMotorDriverF::turn_r(float angle) 
 {
-    float robot_wheel_base_cm = 20.0; // distance between wheels
-    float arc_length = (deg / 360.0) * (robot_wheel_base_cm * 3.1416);
-    long target_counts = (arc_length / wheel_circumference_cm) * counts_per_rev;
+    float arc_length = abs(angle) * MOTOR_BASE_WIDTH / 2;
+    long target_counts = (arc_length / MOTOR_WHEEL_DIAMETER) * MOTOR_CLICKS_PER_REV;
 
-    countA = 0; countB = 0;
+    const long startcntL = m_encL->getCount();
+    const long startcntR = m_encR->getCount();
+
+    int error, integral, prev_error;
     error = integral = prev_error = 0;
 
-    while (abs(countA) < target_counts || abs(countB) < target_counts) {
-    // In turning, one count is negative
-    error = (countA + countB);
+    long countL = 0, countR = 0;
+    while (abs(countL) < target_counts || abs(countR) < target_counts) {
+        countL = m_encL->getCount() - startcntL;
+        countR = m_encR->getCount() - startcntR;
 
-    integral += error;
-    float derivative = error - prev_error;
-    float correction = Kp * error + Ki * integral + Kd * derivative;
-    prev_error = error;
+        // In turning, one count is negative
+        error = (countL + countR);
 
-    int speedA = constrain(base_speed - correction, 0, 255);
-    int speedB = constrain(base_speed + correction, 0, 255);
+        integral += error;
+        float derivative = error - prev_error;
+        float correction = RMOTORDRIVERF_KP * error + RMOTORDRIVERF_KI * integral + RMOTORDRIVERF_KD * derivative;
+        prev_error = error;
 
-    // Left wheel backward
-    analogWrite(ENA, speedA);
-    digitalWrite(IN1, LOW); digitalWrite(IN2, HIGH);
+        int speedA = clamp(255 - correction, 0.0f, 255.0f);
+        int speedB = clamp(255 + correction, 0.0f, 255.0f);
 
-    // Right wheel forward
-    analogWrite(ENB, speedB);
-    digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);
+        if(angle > 0) write(speedA, -speedB);
+        else write(-speedA, speedB);
     }
 
-    stopMotors();
+    stop();
+}
+
+void RMotorDriverF::turn_d(float angle) 
+{
+    float deg = angle * M_PI / 180.0f;    
 }

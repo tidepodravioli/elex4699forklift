@@ -12,22 +12,22 @@ void RForkliftManager::registerCommands()
             else bvecs.push_back(false);
         }
 
-        manager->com_setDigital(cmd.getOrigin(), bvecs);
+        return manager->com_setDigital(cmd.getOrigin(), bvecs);
     };
 
     m_commandHandlers[{ECOMMAND_SET, ETYPE_ANALOG}] = [](RForkliftManager * manager, RControlEvent &cmd)
     {
-        manager->com_setAnalog(cmd.getOrigin(), cmd.getIntValues());
+        return manager->com_setAnalog(cmd.getOrigin(), cmd.getIntValues());
     };
 
     m_commandHandlers[{ECOMMAND_SET, ETYPE_COMMAND}] = [](RForkliftManager * manager, RControlEvent &cmd)
     {
-        manager->com_setCommand(cmd.getOrigin(), cmd.getValues());
+        return manager->com_setCommand(cmd.getOrigin(), cmd.getValues());
     };
 
     m_commandHandlers[{ECOMMAND_GET, ETYPE_COMMAND}] = [](RForkliftManager * manager, RControlEvent &cmd)
     {
-        manager->com_getCommand(cmd.getOrigin(), cmd.getValues());
+        return manager->com_getCommand(cmd.getOrigin(), cmd.getValues());
     };
 }
 
@@ -35,13 +35,19 @@ void RForkliftManager::handleCommand(RControlEvent& cmd) {
     CommandKey key = { cmd.getCom(), cmd.getType() };
     auto it = m_commandHandlers.find(key);
     if (it != m_commandHandlers.end()) {
-        it->second(this, cmd);
+        bool sendAck = it->second(this, cmd);
+        if(sendAck)
+        {
+            RControlEvent ack = cmd.copy();
+            ack.setCom(ECOMMAND_ACK);
+            m_server.sendCom(ack);
+        }
     } else {
         std::cerr << "Unhandled command combination: " << cmd.getCom() << " " << cmd.getType() << '\n';
     }
 }
 
-void RForkliftManager::com_setAnalog(int origin, vector<int> values)
+bool RForkliftManager::com_setAnalog(int origin, vector<int> values)
 {
     switch(origin)
     {
@@ -58,13 +64,38 @@ void RForkliftManager::com_setAnalog(int origin, vector<int> values)
             break;
         }
 
+        case 10:
+        {
+            float distance = values[1] / 1000.0f;
+            m_driver->drivef(values[0], distance);
+            return true;
+            break;
+        }
+
+        case 11:
+        {
+            const float angle = values[0];
+            m_driver->turn_r(angle);
+            return true;
+            break;
+        }
+
+        case 12:
+        {
+            const float angle = values[0] / 1000.0f;
+            m_driver->turn_d(angle);
+            break;
+        }
+
         default:
         cout << "Unrecognized channel..." << endl;
         break;
     }
+
+    return false;
 }
 
-void RForkliftManager::com_setCommand(int origin, vector<string> values)
+bool RForkliftManager::com_setCommand(int origin, vector<string> values)
 {
     switch(origin)
     {
@@ -89,9 +120,11 @@ void RForkliftManager::com_setCommand(int origin, vector<string> values)
         cout << "Unrecognized channel..." << endl;
         break;
     }
+
+    return false;
 }
 
-void RForkliftManager::com_getCommand(int origin, vector<string> values)
+bool RForkliftManager::com_getCommand(int origin, vector<string> values)
 {
     switch(origin)
     {
@@ -112,9 +145,11 @@ void RForkliftManager::com_getCommand(int origin, vector<string> values)
         cout << "Unrecognized channel..." << endl;
         break;
     }
+
+    return false;
 }
 
-void RForkliftManager::com_setDigital(int origin, vector<bool> values)
+bool RForkliftManager::com_setDigital(int origin, vector<bool> values)
 {
     switch(origin)
     {
@@ -134,4 +169,6 @@ void RForkliftManager::com_setDigital(int origin, vector<bool> values)
         cout << "Unrecognized channel..." << endl;
         break;
     }
+
+    return false;
 }

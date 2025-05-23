@@ -40,7 +40,7 @@ void RForkliftManager::start()
 bool RForkliftManager::init()
 {
     cout << "RFORKLIFTMANAGER" << endl << "(C) R. BANALAN & R. CHAN 2025" << endl <<
-    "BUILD " << BUILD_DATE << " " << BUILD_TIME << endl << endl;
+    "BUILT ON " << BUILD_DATE << " " << BUILD_TIME << endl << endl;
     
     cout << "Checking GPIO privileges..." << endl;
     if(geteuid() != 0)
@@ -51,7 +51,7 @@ bool RForkliftManager::init()
     cout << "Running as sudo, initializing GPIO..." << endl;
 
     cout << "Initializing motor driver...";
-    m_driver = new RMotorDriver(MOTOR_L1, MOTOR_L2, MOTOR_R1, MOTOR_R2);
+    m_driver = new RMotorDriverF(MOTOR_L1, MOTOR_L2, MOTOR_R1, MOTOR_R2, MOTOR_ENCL1, MOTOR_ENCL2, MOTOR_ENCR1, MOTOR_ENCR2);
     cout << " done." << endl;
 
     cout << "Initializing forklift servo...";
