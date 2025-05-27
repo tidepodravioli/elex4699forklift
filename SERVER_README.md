@@ -18,7 +18,7 @@ Below is a glossary of all the available channels for writing to on the server. 
 | 12  |                                 | [Turn, in radians](#12---turn-in-radians) [-π - π] × 1000       |                                               |
 | 110 |                                 | [PID K_p](#110---pid-k_p) [0.0+] × 1000                         |                                               |
 | 111 |                                 | [PID K_i](#111---pid_k_i) [0.0+] × 1000                         |                                               |
-| 112 |                                 | [PID K_d](#112---pid-k_p) [0.0+] × 1000                         |                                               |
+| 112 |                                 | [PID K_d](#112---pid-k_d) [0.0+] × 1000                         |                                               |
 
 ### Toggle channels
 The toggle channels are channels that toggle flags (modes) on the server. They only require a 1 to be written to them to toggle or activate their state. If the state of the given channel is needed, it
