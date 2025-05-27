@@ -33,7 +33,7 @@ Moves the fork down one preset level
 #### 2 - Slow mode
 Toggles the slow mode, which limits the maximum speed that is written via PWM
 
-## Analog channels
+### Analog channels
 The analog channels allow the client to write directly to the server's interfaces. 
 
 #### 0 - Joystick drive
