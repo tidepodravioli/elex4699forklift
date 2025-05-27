@@ -13,9 +13,9 @@ Below is a glossary of all the available channels for writing to on the server. 
 | 0   | Fork up [1]   | [Joystick drive](#0---joystick-drive) [0 - 100, 0 - 100]        | Handshake          |
 | 1   | Fork down [1] | [Motor speeds](#1---motor-speeds) [-255 - 255, -255 - 255]      | Camera stream kill |
 | 2   | Slow mode [1] | [Forklift servo](#2---forklift-servo) [0 - 180]                 | Camera setup       |
-| 10  |               | [Drive distance](#10---drive-distance-in-mm in mm [-255 - 255]  |                    |
-| 11  |               | [Turn, in degrees](#11---turn,-in-degrees) [-180 - 180]         |                    |
-| 12  |               | [Turn, in radians](#12---turn,-in-radians) [-π - π] × 1000      |                    |
+| 10  |               | [Drive distance](#10---drive-distance-in-mm) in mm [-255 - 255] |                    |
+| 11  |               | [Turn, in degrees](#11---turn-in-degrees) [-180 - 180]          |                    |
+| 12  |               | [Turn, in radians](#12---turn-in-radians) [-π - π] × 1000       |                    |
 | 110 |               | [PID K_p](#110---pid-k_p) [0.0+] × 1000                         |                    |
 | 111 |               | [PID K_i](#111---pid_k_i) [0.0+] × 1000                         |                    |
 | 112 |               | [PID K_d](#112---pid-k_p) [0.0+] × 1000                         |                    |
