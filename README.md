@@ -1,6 +1,8 @@
 # ELEX 4699 Forklift
 
-This repository is dedicated to the ELEX 4699 Forklift project for the four week term of May 2025. This project was designed, coded, and built by both me and Rodriguez Chan. It is not intended for use by anyone else in the class as that is cheating and is a no-no, per BCIT :(
+This repository is dedicated to the ELEX 4699 Forklift project for the four week term of May 2025. This project was designed, coded, and built by both me and Rodriguez Chan. It is not intended for use by anyone else in the class as that is cheating and is a no-no, per BCIT :(   
+
+If you are trying to read the server-specific README file, access it [here](SERVER_README.md)
 
 If you are using this code for evaluation, note that all PIGPIO related code assumes that gpioInitialize() has been run prior to instantiation. For projects looking to use this code, make sure that gpioInitialize() has been run and that the program is being run with root privileges.
 
