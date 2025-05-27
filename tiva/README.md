@@ -28,7 +28,7 @@ Which would mean that the microcontroller read a digital signal that was HIGH fr
 There are also three kinds of data that can be sent/requested: DIGITAL(0), ANALOG(1), and SERVO(2). These are differentiated from each other since each command takes different ranged values for the data. Digital signals only send/receive a 0 or 1, analog signals 0 to 255, and servo signals from 0 to 180. Commands expect that the following data argument is also formatted in the same way.
 
 ### Glossary of channels
-Channels are not commutable, in that channel 0 in digital may not be channel 1 in analog. This allows us to keep devices on different pins from receiving signals that may be outside of what they're expecting. Below is a glossary of each channel available for each data type:
+Channels are not commutable, meaning that channel 0 in digital may not be channel 0 in analog. This allows us to keep devices on different pins from receiving signals that may be outside of what they're expecting. Below is a glossary of each channel available for each data type:
 
 | # | Digital (0) | Analog (1) | Servo (2) |
 |---|-------------|------------|-----------|
