@@ -24,5 +24,43 @@ Below is a glossary of all the available channels for writing to on the server. 
 The toggle channels are channels that toggle flags (modes) on the server. They only require a 1 to be written to them to toggle or activate their state. If the state of the given channel is needed, it
 can be read using the GET command.
 
+#### 0 - Fork up
+Moves the fork up one preset level
+
+#### 1 - Fork down
+Moves the fork down one preset level
+
+#### 2 - Slow mode
+Toggles the slow mode, which limits the maximum speed that is written via PWM
+
 ## Analog channels
-The analog channels allow the client to write directly to the server's interfaces.
+The analog channels allow the client to write directly to the server's interfaces. 
+
+#### 0 - Joystick drive
+This channel allows the client to write scaled joystick input to the server. The class [RMotorDriver](headers/RMotorDriver.hpp) (or if with feedback, [RMotorDriverF](headers/RMotorDriverF.hpp) ) provides a method that translates this scaled input to the required PWM values for the motor for more natural driving.
+
+#### 1 - Motor speeds
+Directly writes to the motor's GPIO using PWM
+
+#### 2 - Forklift servo
+Directly writes to the servo controlling the forklift (in degrees)
+
+#### 10 - Drive distance in mm
+Drives straight for a given distance. Only possible with the encoded motors.
+
+#### 11 - Turn, in degrees
+Turns the robot in place with the given angular displacement (in degrees)
+
+#### 12 - Turn, in radians
+Turns the robot in place with the given angular displacement (in radians × 1000)
+
+#### 110 - PID K_p
+Sets the robot's PID K_p coefficient on the fly for debugging. (× 1000)
+
+#### 111 - PID K_i
+Sets the robot's PID K_i coefficient on the fly for debugging. (× 1000)
+
+#### 112 - PID K_d
+Sets the robot's PID K_d coefficient on the fly for debugging. (× 1000)
+
+
