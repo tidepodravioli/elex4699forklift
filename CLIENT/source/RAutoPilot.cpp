@@ -15,11 +15,9 @@ void RAutoPilot::driveToPoint(cv::Point2i point)
 
         cv::Point2i toTarget = point - pos; //vector from current position to the destination
         float distance = std::sqrt(toTarget.x * toTarget.x + toTarget.y * toTarget.y); // sqrt(x^2 + y^2)
-        cout << "TARGET : " << point << "\tPOSITION : " << pos << "\tDISTANCE : " << distance << endl;
 
         //if the robot's distance from the point is within this threshold
         if (distance < POINT_DISTANCE_THRESHOLD) {
-            cout << "Already at destination" << endl;
             stop(); //the destination can be considered to have been reached
             return;
         }
@@ -34,7 +32,6 @@ void RAutoPilot::driveToPoint(cv::Point2i point)
         const float dy = abs(toTarget.y) * ARENA_HEIGHT / ARENA_PYY;
 
         const float distancem = std::sqrt(dx * dx + dy * dy) - 0.2f;
-        cout << "REAL WORLD DISTANCE : " << distancem << endl; 
 
         drivef(255, distancem);
     }
@@ -43,12 +40,12 @@ void RAutoPilot::driveToPoint(cv::Point2i point)
 
 void RAutoPilot::orientRobot_r(float angle)
 {
-
     float heading = m_helper->getRobotAngle_r();
     float angleError = angle - heading;
 
     while (angleError > M_PI) angleError -= 2 * M_PI;
     while (angleError < -M_PI) angleError += 2 * M_PI;
+    
     if(std::abs(angleError) > 0.15f)
     {
         turn_r(angleError);
@@ -58,7 +55,7 @@ void RAutoPilot::orientRobot_r(float angle)
 
 void RAutoPilot::orientRobot_d(float angle)
 {
-    const float rad = M_PI / 180.0f;
+    const float rad = angle * M_PI / 180.0f;
     orientRobot_r(rad);
 }
 

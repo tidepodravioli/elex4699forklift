@@ -197,22 +197,36 @@ void RForkliftClient::proc_auto()
         m_flagThreadedUIrefresh = false;
         //ui_t.join(); */
 
+        cout << "DRIVE OUT OF START" << endl;
         m_autopilot->driveToPoint(Point2i(60, 246));
+        cout << "DRIVE TO PICKUP" << endl;
         m_autopilot->driveToPoint(Point2i(167, 482));
 
-        m_autopilot->orientRobot_d(-90);
+        cout << "ALIGN FOR PICKUP" << endl;
+        m_autopilot->orientRobot_d(-95);
 
+        cout << "FORK DOWN" << endl;
         m_writer->forkDown();
+        cout << "RAM" << endl;
         m_autopilot->drivef(255, 0.1f);
+        cout << "FORK UP" << endl;
         m_writer->forkUp();
+        cout << "REVERSE" << endl;
         m_autopilot->drivef(-255, 0.1f);
 
-        m_autopilot->orientRobot_d(90);
+        cout << "FACE TRUCK" << endl;
+        m_autopilot->orientRobot_d(95);
 
+        cout << "DRIVE TO TRUCK" << endl;
         m_autopilot->driveToPoint(Point2i(167 ,98));
+        m_autopilot->orientRobot_d(95);
+        cout << "RAM" << endl;
         m_writer->drivef(255, 0.1f);
+        cout << "FORK DOWN" << endl;
         m_writer->forkDown();
+        cout << "REVERSE" << endl;
         m_writer->drivef(-255, 0.2f);
+        cout << "DONE" << endl;
         m_ui->setStart(false);
     }
 }
