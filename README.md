@@ -18,7 +18,7 @@ Our robot was designed with autonomous mode in mind, but due to some issues with
 ## Proof of concept
 Below are some photos and videos of our project.  
 
-<img src=https://github.com/user-attachments/assets/1db6be52-bf9e-416c-8b23-49311a1f8f62 width=300/>
+<img src=https://github.com/user-attachments/assets/ff3aa4f2-a916-4d11-befd-203fc1571e42 width=300/>
 <img src=https://github.com/user-attachments/assets/2dfbdf6d-9fd3-46f8-a8b2-93fbc71595f1 height=400/>
 
 _Fig. 2 : Final design of our robot_
